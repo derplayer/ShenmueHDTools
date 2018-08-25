@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("ShenmueHDTools")]
+[assembly: AssemblyTitle("Shenmue HD ModTools")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ShenmueHDTools")]
+[assembly: AssemblyProduct("Shenmue_HD_Tools")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("d8a719cc-7b09-4487-9b5f-84e37bee258a")]
+[assembly: Guid("c6b11412-71a1-4d4d-8e0f-5102d408cff8")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //
