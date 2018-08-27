@@ -170,7 +170,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                 //Create .shdcache file (for fater loading)
                 try
                 {
-                    using (StreamWriter writer = new StreamWriter(new FileStream(directory + "\\" + Path.GetFileName(path) + ".shdcache", FileMode.Create)))
+                    using (StreamWriter writer = new StreamWriter(new FileStream(directory + "\\" + Path.GetFileName(path).Replace(".tad", "") + ".shdcache", FileMode.Create)))
                     {
                         BinaryFormatter bf = new BinaryFormatter();
                         using (var ms = new MemoryStream())
@@ -241,6 +241,8 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
         public void SaveVFS(string path)
         {
+            path = Path.ChangeExtension(path, ".tad"); // in case of shdcache import
+
             using (BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create)))
             {
                 var headerTmp = DataCollector.header;
