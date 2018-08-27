@@ -78,6 +78,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                 if (loadedVFS != null)
                 {
                     new Data().SaveVFS(loadedVFS);
+                    new Data().UpdateGUI();
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "VFS saved!";
                 }
                 else

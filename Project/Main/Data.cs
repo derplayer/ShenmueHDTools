@@ -357,7 +357,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
-        public static void UpdateGUI()
+        public void UpdateGUI()
         {
 
             foreach (var item in Program.MainWindowCore.listViewMain.Items)
