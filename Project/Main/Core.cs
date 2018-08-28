@@ -33,7 +33,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
                     List<DataEntry> readedFiles = new Data().LoadVFS(file, directory);
 
-                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ")";
+                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ", " + readedFiles.Count + " files)";
                     Program.MainWindowCore.listViewMain.Visible = true;
                 }
             }
@@ -61,7 +61,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
                     List<DataEntry> readedFiles = new Data().LoadCache(file, directory);
 
-                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ")";
+                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ", " + readedFiles.Count + " files)";
                     Program.MainWindowCore.listViewMain.Visible = true;
                 }
             }
@@ -78,6 +78,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                 if (loadedVFS != null)
                 {
                     new Data().SaveVFS(loadedVFS);
+                    new Data().UpdateGUI();
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "VFS saved!";
                 }
                 else
