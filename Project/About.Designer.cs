@@ -38,9 +38,9 @@
             this.labelAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelAbout.Location = new System.Drawing.Point(9, 9);
             this.labelAbout.Name = "labelAbout";
-            this.labelAbout.Size = new System.Drawing.Size(332, 33);
+            this.labelAbout.Size = new System.Drawing.Size(292, 33);
             this.labelAbout.TabIndex = 0;
-            this.labelAbout.Text = "Shenmue HD Tools v0.1";
+            this.labelAbout.Text = "Shenmue HD Tools v";
             // 
             // aboutLabel
             // 
@@ -69,8 +69,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label labelAbout;
         private System.Windows.Forms.Label aboutLabel;
+        public System.Windows.Forms.Label labelAbout;
     }
 }

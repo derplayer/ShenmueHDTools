@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Shenmue_HD_Tools
 
         private void About_Load(object sender, EventArgs e)
         {
-
+            this.labelAbout.Text += ShenmueHDTools.Version.actualVerison.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ShenmueHDTools
     public static class Version
     {
         //Version
-        public static double actualVerison = 1.0;
+        public static double actualVerison = 1.01;
         public static string urlversion = "https://goo.gl/pWe4jg"; //version.json for update messages
     }
 

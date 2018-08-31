@@ -88,14 +88,14 @@ namespace Shenmue_HD_Tools.ShenmueHD
                 headerTmp.Reserved2 = reader.ReadBytes(4);
                 headerTmp.RenderType = reader.ReadBytes(4);
                 headerTmp.Reserved3 = reader.ReadBytes(4);
-                headerTmp.Unknown4 = reader.ReadBytes(4);
+                headerTmp.Unknown4 = reader.ReadBytes(4); //Hash of the header
                 headerTmp.Reserved4 = reader.ReadBytes(4);
-                headerTmp.TacSize = reader.ReadBytes(4);
+                headerTmp.TacSize = reader.ReadBytes(4); //Uint32 tac legth
                 headerTmp.Reserved5 = reader.ReadBytes(4);
-                headerTmp.Unknown5 = reader.ReadBytes(4);
+                headerTmp.Unknown5 = reader.ReadBytes(4); //filecound in tac
                 headerTmp.Reserved6 = reader.ReadBytes(4);
-                headerTmp.Unknown6 = reader.ReadBytes(4);
-                headerTmp.Unknown7 = reader.ReadBytes(12);
+                headerTmp.Unknown6 = reader.ReadBytes(4); //filecound in tac (again?)
+                headerTmp.Unknown7 = reader.ReadBytes(12); //unknown? seems to be uninportant? shenmue still loads tac/d stuff :)
 
                 //if (headerTmp.RenderType != "dx11") return null; //tac identifier? TODO
                 DataCollector.header = headerTmp;
@@ -407,7 +407,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                 fileExt = ".wav";
 
             if (semiIdentifier4 == "DXBC")
-                fileExt = ".dxbc";
+                fileExt = ".hlsl";
 
             if (semiIdentifier4 == "PAKS") //IPAC Browser
                 fileExt = ".pks";
@@ -427,9 +427,9 @@ namespace Shenmue_HD_Tools.ShenmueHD
             //7B 0A 09
             if (dataArray.Length > 0)
             {
-                if ((dataArray[0] == 0x7B && dataArray[1] == 0x0A && dataArray[2] == 0x09)
-                    || (dataArray[0] == 0x7B && dataArray[1] == 0x0D && dataArray[2] == 0x0A)
-                    || (dataArray[0] == 0x7B && dataArray[1] == 0x09 && dataArray[2] == 0x0D))
+                if ((dataArray[0] == 0x7B && dataArray[1] == 0x0A)
+                    || (dataArray[0] == 0x7B && dataArray[1] == 0x0D)
+                    || (dataArray[0] == 0x7B && dataArray[1] == 0x09))
                     fileExt = ".json";
 
                 if (dataArray[0] == 0x12 && dataArray[1] == 0x98 && dataArray[2] == 0xEE && dataArray[3] == 0x51 && dataArray[4] == 0x40)

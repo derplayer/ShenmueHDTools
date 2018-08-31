@@ -24,7 +24,8 @@ namespace Shenmue_HD_Tools
             if (!System.Diagnostics.Debugger.IsAttached)
             {
                 WebClient w = new WebClient(); //TODO: Shorter Timeout Range?
-                w.Headers.Add("user-agent", "Mozilla/5.0 (Shenmue HD ModTools; Linux; rv:1.0) Gecko/20160408 ShenmueHD-Client/" + ShenmueHDTools.Version.actualVerison);
+                w.Headers.Add("user-agent", "Mozilla/5.0 (Shenmue HD ModTools v" + ShenmueHDTools.Version.actualVerison.ToString(CultureInfo.InvariantCulture) +
+                    "; Linux; rv:1.0) Gecko/20160408 ShenmueHD-Client/" + ShenmueHDTools.Version.actualVerison.ToString(CultureInfo.InvariantCulture));
                 Version_JSON actualVersion;
 
                 try
@@ -73,7 +74,7 @@ namespace Shenmue_HD_Tools
                 }
             }
 
-            base.Text += ShenmueHDTools.Version.actualVerison.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
+            base.Text += ShenmueHDTools.Version.actualVerison.ToString(System.Globalization.CultureInfo.InvariantCulture);
         }
 
         private void ExecuteButton_Click(object sender, EventArgs e)
