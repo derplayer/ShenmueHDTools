@@ -74,6 +74,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Main\Core.cs" />
+    <Compile Include="Main\DataLogic.cs" />
     <Compile Include="Main\Hash.cs" />
     <Compile Include="Main\Data.cs" />
     <Compile Include="Program.cs" />

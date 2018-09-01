@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.IO;
 using Microsoft.Win32;
 using System.IO.Compression;
+using ShenmueHDTools.Main;
 
 namespace Shenmue_HD_Tools.ShenmueHD
 {
@@ -31,7 +32,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     directory = Path.GetDirectoryName(file);
                     loadedVFS = file;
 
-                    List<DataEntry> readedFiles = new Data().LoadVFS(file, directory);
+                    List<DataEntry> readedFiles = new DataLogic().LoadVFS(file, directory);
 
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ", " + readedFiles.Count + " files)";
                     Program.MainWindowCore.listViewMain.Visible = true;
@@ -59,7 +60,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     directory = Path.GetDirectoryName(file);
                     loadedVFS = file;
 
-                    List<DataEntry> readedFiles = new Data().LoadCache(file, directory);
+                    List<DataEntry> readedFiles = new DataLogic().LoadCache(file, directory);
 
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ", " + readedFiles.Count + " files)";
                     Program.MainWindowCore.listViewMain.Visible = true;
@@ -77,8 +78,8 @@ namespace Shenmue_HD_Tools.ShenmueHD
             {
                 if (loadedVFS != null)
                 {
-                    new Data().SaveVFS(loadedVFS);
-                    new Data().UpdateGUI();
+                    new DataLogic().SaveVFS(loadedVFS);
+                    new DataLogic().UpdateGUI();
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "VFS saved!";
                 }
                 else
@@ -103,7 +104,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     
                     if (newSavePathDlg.ShowDialog() == DialogResult.OK)
                     {
-                        new Data().SaveVFS(newSavePathDlg.FileName);
+                        new DataLogic().SaveVFS(newSavePathDlg.FileName);
                         Program.MainWindowCore.toolStripStatusLabel1.Text = "VFS saved!";
                     }
                 }
@@ -120,17 +121,26 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
         public void MurmurHash2Debug()
         {
-            OpenFileDialog newPathHashDlg = new OpenFileDialog();
-            newPathHashDlg.Filter = "HASH TEST|*.*";
-
-            if (newPathHashDlg.ShowDialog() == DialogResult.OK)
+            byte[] hashHeader = new byte[56];
+            int i = 0;
+            foreach (var entry in DataCollector.header.GetHeader(true))
             {
-                byte[] fileArray = File.ReadAllBytes(newPathHashDlg.FileName);
-                var testHash = new MurmurHash2Simple().Hash(fileArray); //MD5?
-
-                MessageBox.Show(testHash.ToString());
-
+                entry.CopyTo(hashHeader, i);
+                i += 4;
             }
+
+            var testHash = new MurmurHash2Simple().Hash(hashHeader); //MD5?
+            OpenFileDialog newPathHashDlg = new OpenFileDialog();
+            //newPathHashDlg.Filter = "HASH TEST|*.*";
+
+            //if (newPathHashDlg.ShowDialog() == DialogResult.OK)
+            //{
+            //    byte[] fileArray = File.ReadAllBytes(newPathHashDlg.FileName);
+            //    var testHash = new MurmurHash2Simple().Hash(fileArray); //MD5?
+
+            //    MessageBox.Show(testHash.ToString());
+
+            //}
         }
 
     }

@@ -35,10 +35,12 @@ v0.0 (Test01)
 Other:
 
 [Shenmuedojo.com Thread](https://www.shenmuedojo.com/forum/index.php?threads/shenmue-hd-unpacker-tool.366/)
+[Reserve engineering notes](https://github.com/derplayer/ShenmueHDTools/wiki)
 
 TODO:
-Filenames Database(?) & Hashing
-Include the invalidation Method
+* Filenames Database(?) & Hashing
+* Include the invalidation Method
+* Docs
 
 License:
 MIT

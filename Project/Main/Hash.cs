@@ -21,17 +21,17 @@ namespace Shenmue_HD_Tools.ShenmueHD
     {
         public UInt32 Hash(Byte[] data)
         {
-            return Hash(data, 0xc58f1a7b); //shenmue own seed?
+            return Hash(data, 0x66EE5D0); //shenmue own seed (at least in 1?)
         }
-        const UInt32 m = 0x5bd1e995; //magic
-        const Int32 r = 24; //is not changed in shenmue implementation?
+        const UInt32 m = 0x5bd1e995; //multiplier
+        const Int32 r = 18; // rotation is 18 (not standard 24)
 
-        public UInt32 Hash(Byte[] data, UInt32 seed) //shenmue has UInt64!
+        public UInt32 Hash(Byte[] data, UInt32 seed)
         {
-            Int32 length = data.Length;
+            UInt32 length = (UInt32)data.Length;
             if (length == 0)
                 return 0;
-            UInt32 h = (seed + seed / 0xFFFFFFFF) ^ 0x66EE5D0;
+            UInt32 h = (length + length / 0xFFFFFFFF) ^ seed;
             Int32 currentIndex = 0;
             while (length >= 4)
             {
@@ -49,7 +49,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
             {
                 case 3:
                     h ^= BitConverter.ToUInt16(data, currentIndex);
-                    h ^= (UInt32)data[currentIndex + 2] << 16;
+                    h ^= (UInt32)data[currentIndex + 2] << 16; //24 in shenmue?
                     h *= m;
                     break;
                 case 2:
