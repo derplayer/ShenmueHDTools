@@ -8,71 +8,93 @@ using System.Runtime.InteropServices;
 
 namespace Shenmue_HD_Tools.ShenmueHD
 {
-    public interface IHashAlgorithm
+    /// <summary>
+    /// MurmurHash2 Shenmue implementation
+    /// </summary>
+    public class MurmurHash2Shenmue
     {
-        UInt32 Hash(Byte[] data);
-    }
-    public interface ISeededHashAlgorithm : IHashAlgorithm
-    {
-        UInt32 Hash(Byte[] data, UInt32 seed);
-    }
+        private static uint initSeed = 0x66ee5d0;
+        private static uint multiplier = 0x5BD1E995;
+        private static int rotationAmount = 0x18;
 
-    public class MurmurHash2Simple : ISeededHashAlgorithm
-    {
-        public UInt32 Hash(Byte[] data)
+        /// <summary>
+        /// MurmurHash2 Shenmue implementation.
+        /// This is not an complete implementation but enough for TAD.
+        /// </summary>
+        /// <param name="data">Data buffer</param>
+        /// <param name="length">Length to hash</param>
+        /// <returns>Shenmue MurmurHash2</returns>
+        public static uint Hash(byte[] data, uint length)
         {
-            return Hash(data, 0x66EE5D0); //shenmue own seed (at least in 1?)
-        }
-        const UInt32 m = 0x5bd1e995; //multiplier
-        const Int32 r = 18; // rotation is 18 (not standard 24)
+            uint hash = (length / 0xFFFFFFFF + length) ^ initSeed;
+            uint m = multiplier;
+            int r = rotationAmount;
 
-        public UInt32 Hash(Byte[] data, UInt32 seed)
-        {
-            UInt32 length = (UInt32)data.Length;
-            if (length == 0)
-                return 0;
-            UInt32 h = (length + length / 0xFFFFFFFF) ^ seed;
-            Int32 currentIndex = 0;
-            while (length >= 4)
+            if (length >= 4)
             {
-                UInt32 k = BitConverter.ToUInt32(data, currentIndex);
-                k *= m;
-                k ^= k >> r;
-                k *= m;
-
-                h *= m;
-                h ^= k;
-                currentIndex += 4;
-                length -= 4;
-            }
-            switch (length)
-            {
-                case 3:
-                    h ^= BitConverter.ToUInt16(data, currentIndex);
-                    h ^= (UInt32)data[currentIndex + 2] << 16; //24 in shenmue?
-                    h *= m;
-                    break;
-                case 2:
-                    h ^= BitConverter.ToUInt16(data, currentIndex);
-                    h *= m;
-                    break;
-                case 1:
-                    h ^= data[currentIndex];
-                    h *= m;
-                    break;
-                default:
-                    break;
+                for (int i = 0; i < length; i += 4)
+                {
+                    uint ecx = BitConverter.ToUInt32(data, i) * m;
+                    hash = hash * m ^ (ecx >> r ^ ecx) * m;
+                }
             }
 
-            // Do a few final mixes of the hash to ensure the last few
-            // bytes are well-incorporated.
-
-            h ^= h >> 13;
-            h *= m;
-            h ^= h >> 15;
-
-            return h;
+            uint edx = (hash >> 13 ^ hash) * m;
+            hash = edx >> 15 ^ edx;
+            return hash;
         }
+
+        /*
+        /// <summary>
+        /// MurmurHash2 Shenmue implementation 1:1
+        /// </summary>
+        /// <param name="d">Data buffer</param>
+        /// <param name="length">Length to hash</param>
+        /// <returns>Shenmue MurmurHash2</returns>
+        public unsafe static uint HashUnsafe(byte[] d, UInt64 length)
+        {
+            fixed (byte* da = &d[0])
+            {
+                byte* data = da;
+                uint hash = (uint)((length / 0xffffffff + length) ^ initSeed);
+                UInt64 r8 = length;
+                uint m = multiplier;
+                int r = rotationAmount;
+
+                if (length >= 4)
+                {
+                    UInt64 r10 = length >> 2; //length / 4
+                    r8 = length + r10 * 0xfffffffffffffffc; //-4
+                    do
+                    {
+                        uint ecx = *(uint*)data * m;
+                        data += 4;
+                        hash = hash * m ^ (ecx >> r ^ ecx) * m;
+                        r10--;
+                    } while (r10 > 0);
+                }
+                r8 = r8 - 1;
+                if (r8 > 0)
+                {
+                    r8 = r8 - 1;
+                    if (r8 > 0)
+                    {
+                        if (r8 != 1)
+                        {
+                            uint edx = (hash >> 13 ^ hash) * m;
+                            hash = edx >> 15 ^ edx;
+                            return hash;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Not implemented yet");
+                        }
+                    }
+                }
+                return hash;
+            }
+        }
+        */
     }
 
 }
