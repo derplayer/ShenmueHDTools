@@ -129,7 +129,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                 i += 4;
             }
 
-            var testHash = MurmurHash2Shenmue.Hash(hashHeader, 56);
+            var testHash = MurmurHash2Shenmue.Hash(hashHeader, (uint)hashHeader.Length);
             OpenFileDialog newPathHashDlg = new OpenFileDialog();
             //newPathHashDlg.Filter = "HASH TEST|*.*";
 

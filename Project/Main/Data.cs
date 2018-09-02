@@ -27,14 +27,31 @@ namespace Shenmue_HD_Tools.ShenmueHD
         public byte[] Reserved2 { get; set; }
         public byte[] RenderType { get; set; }
         public byte[] Reserved3 { get; set; }
+        /// <summary>
+        /// Hash of the header
+        /// </summary>
         public byte[] Unknown4 { get; set; }
         public byte[] Reserved4 { get; set; }
+        /// <summary>
+        /// Uint32 tac length
+        /// </summary>
         public byte[] TacSize { get; set; }
         public byte[] Reserved5 { get; set; }
+        /// <summary>
+        /// Filecount in tac file
+        /// </summary>
         public byte[] Unknown5 { get; set; }
         public byte[] Reserved6 { get; set; }
 
+        // --- HASH HEADER END ---
+
+        /// <summary>
+        /// Filecount in tac file - again?
+        /// </summary>
         public byte[] Unknown6 { get; set; }
+        /// <summary>
+        /// Unknown - seems to be uninportant? shenmue still loads tac/d stuff
+        /// </summary>
         public byte[] Unknown7 { get; set; }
 
         public IEnumerable<byte[]> GetHeader(bool hashMode = false)
@@ -52,11 +69,13 @@ namespace Shenmue_HD_Tools.ShenmueHD
             yield return Reserved4;
             yield return TacSize;
             yield return Reserved5;
+            yield return Unknown5;
+            yield return Reserved6;
 
             if (hashMode == false)
             {
-                yield return Unknown5;
-                yield return Reserved6;
+                yield return Unknown6;
+                yield return Unknown7;
             }
         }
 

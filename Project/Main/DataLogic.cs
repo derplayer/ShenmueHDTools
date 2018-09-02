@@ -35,14 +35,14 @@ namespace ShenmueHDTools.Main
                 headerTmp.Reserved2 = reader.ReadBytes(4);
                 headerTmp.RenderType = reader.ReadBytes(4);
                 headerTmp.Reserved3 = reader.ReadBytes(4);
-                headerTmp.Unknown4 = reader.ReadBytes(4); //Hash of the header
+                headerTmp.Unknown4 = reader.ReadBytes(4);
                 headerTmp.Reserved4 = reader.ReadBytes(4);
-                headerTmp.TacSize = reader.ReadBytes(4); //Uint32 tac legth
+                headerTmp.TacSize = reader.ReadBytes(4); 
                 headerTmp.Reserved5 = reader.ReadBytes(4);
-                headerTmp.Unknown5 = reader.ReadBytes(4); //filecound in tac
+                headerTmp.Unknown5 = reader.ReadBytes(4); 
                 headerTmp.Reserved6 = reader.ReadBytes(4);
-                headerTmp.Unknown6 = reader.ReadBytes(4); //filecound in tac (again?)
-                headerTmp.Unknown7 = reader.ReadBytes(12); //unknown? seems to be uninportant? shenmue still loads tac/d stuff :)
+                headerTmp.Unknown6 = reader.ReadBytes(4); 
+                headerTmp.Unknown7 = reader.ReadBytes(12);
 
                 //if (headerTmp.RenderType != "dx11") return null; //tac identifier? TODO
                 DataCollector.header = headerTmp;
