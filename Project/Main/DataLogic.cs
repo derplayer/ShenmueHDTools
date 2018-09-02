@@ -381,6 +381,10 @@ namespace ShenmueHDTools.Main
 
                 if (dataArray[0] == 0x12 && dataArray[1] == 0x98 && dataArray[2] == 0xEE && dataArray[3] == 0x51 && dataArray[4] == 0x40)
                     fileExt = ".modeloverride";
+
+                else if (dataArray[0] == 0x03 && dataArray[1] == 0x00 && dataArray[2] == 0x00 && dataArray[3] == 0x00 && 
+                    (dataArray[4] == 0x2F && dataArray[5] == 0x76 || dataArray[4] == 0xC2 && dataArray[5] == 0x8F))
+                    fileExt = ".sub";
             }
 
             return fileExt;
