@@ -209,6 +209,11 @@ namespace Shenmue_HD_Tools
         {
             new ShenmueHD.Core().ImportProj();
         }
+
+        private void exportAsAModToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ShenmueHD.Core().export();
+        }
     }
 
     public static class JSONSerializer<TType> where TType : class

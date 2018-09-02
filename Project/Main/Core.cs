@@ -119,29 +119,44 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
-        public void MurmurHash2Debug()
+        public void export()
         {
-            byte[] hashHeader = new byte[56];
-            int i = 0;
-            foreach (var entry in DataCollector.header.GetHeader(true))
+            try
             {
-                entry.CopyTo(hashHeader, i);
-                i += 4;
+                if (loadedVFS != null)
+                {
+                    SaveFileDialog newSavePathDlg = new SaveFileDialog();
+                    newSavePathDlg.Filter = "The Archive Dictonary files(*.tad)| *.tad";
+
+                    if (newSavePathDlg.ShowDialog() == DialogResult.OK)
+                    {
+                        new DataLogic().Export(newSavePathDlg.FileName);
+                        Program.MainWindowCore.toolStripStatusLabel1.Text = "Exported!";
+                    }
+                }
+                else
+                {
+                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Please load first an file!";
+                }
             }
-
-            var testHash = MurmurHash2Shenmue.Hash(hashHeader, (uint)hashHeader.Length);
-            OpenFileDialog newPathHashDlg = new OpenFileDialog();
-            //newPathHashDlg.Filter = "HASH TEST|*.*";
-
-            //if (newPathHashDlg.ShowDialog() == DialogResult.OK)
-            //{
-            //    byte[] fileArray = File.ReadAllBytes(newPathHashDlg.FileName);
-            //    var testHash = new MurmurHash2Simple().Hash(fileArray); //MD5?
-
-            //    MessageBox.Show(testHash.ToString());
-
-            //}
+            catch (IOException e)
+            {
+                Program.MainWindowCore.toolStripStatusLabel1.Text = "Error at export: " + e.TargetSite;
+            }
         }
 
+        public void MurmurHash2Debug()
+        {
+            //byte[] hashHeader = new byte[56];
+            //int i = 0;
+            //foreach (var entry in DataCollector.header.GetHeader(true))
+            //{
+            //    entry.CopyTo(hashHeader, i);
+            //    i += 4;
+            //}
+
+            //uint tacHash = MurmurHash2Shenmue.Hash(hashHeader, (uint)hashHeader.Length);
+            //var tacHashRes = Helper.HashReverse(tacHash);
+        }
     }
 }

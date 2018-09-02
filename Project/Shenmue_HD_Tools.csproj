@@ -78,6 +78,7 @@
     <Compile Include="Main\DataLogic.cs" />
     <Compile Include="Main\Hash.cs" />
     <Compile Include="Main\Data.cs" />
+    <Compile Include="Main\Helper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Version.cs" />

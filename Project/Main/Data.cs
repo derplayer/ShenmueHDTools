@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ShenmueHDTools.Main;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace Shenmue_HD_Tools.ShenmueHD
 {
@@ -79,8 +82,30 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
+        public byte[] GetPreHash(HeaderData header)
+        {
+            byte[] hashHeader = new byte[56];
+            int i = 0;
+            foreach (var entry in header.GetHeader(true))
+            {
+                entry.CopyTo(hashHeader, i);
+                i += 4;
+            }
+
+            return hashHeader;
+        }
+
+        public UInt32 GetHash(byte[] preHash)
+        {
+            uint tacHash = MurmurHash2Shenmue.Hash(preHash, (uint)preHash.Length);
+            //UInt32 tacHashRes = Helper.HashReverse(tacHash);
+
+            return tacHash;
+        }
+
     }
 
+    // Version 1 DataEntry. 
     [Serializable]
     public class DataEntry
     {
@@ -99,6 +124,10 @@ namespace Shenmue_HD_Tools.ShenmueHD
         //public byte[] file_data { get; set; }
         public string file_name { get; set; }
         //public byte[] file_name_pointer { get; set; }
+
+        //Backwards compatible with older versions...
+        [OptionalField]
+        public DateTime LastWriteTimeUtc;
     }
-    
+
 }

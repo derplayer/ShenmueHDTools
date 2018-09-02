@@ -57,6 +57,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.labelMessage = new System.Windows.Forms.Label();
             this.dataCollectorBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.exportAsAModToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataCollectorBindingSource)).BeginInit();
@@ -83,6 +84,7 @@
             this.testToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.test1ToolStripMenuItem,
             this.importExistingProjectToolStripMenuItem,
+            this.exportAsAModToolStripMenuItem,
             this.saveVFSToolStripMenuItem1,
             this.saveVFSToolStripMenuItem});
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
@@ -161,7 +163,7 @@
             // cRC32FromLookupToolStripMenuItem
             // 
             this.cRC32FromLookupToolStripMenuItem.Name = "cRC32FromLookupToolStripMenuItem";
-            this.cRC32FromLookupToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.cRC32FromLookupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cRC32FromLookupToolStripMenuItem.Text = "HASH Test";
             this.cRC32FromLookupToolStripMenuItem.Click += new System.EventHandler(this.cRC32FromLookupToolStripMenuItem_Click);
             // 
@@ -281,6 +283,13 @@
             // 
             this.dataCollectorBindingSource.DataSource = typeof(Shenmue_HD_Tools.ShenmueHD.DataCollector);
             // 
+            // exportAsAModToolStripMenuItem
+            // 
+            this.exportAsAModToolStripMenuItem.Name = "exportAsAModToolStripMenuItem";
+            this.exportAsAModToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.exportAsAModToolStripMenuItem.Text = "Export as a mod";
+            this.exportAsAModToolStripMenuItem.Click += new System.EventHandler(this.exportAsAModToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -336,6 +345,7 @@
         private System.Windows.Forms.ToolStripMenuItem gIMOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gIMShowGIMStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importExistingProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAsAModToolStripMenuItem;
     }
 }
 
