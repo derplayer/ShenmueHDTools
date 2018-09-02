@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 
+/// <summary>
+/// DEPRECATED & FROZEN!
+/// </summary>
 namespace Shenmue_HD_Tools.ShenmueHD
 {
     public static class DataCollector

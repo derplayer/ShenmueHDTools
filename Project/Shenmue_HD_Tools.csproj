@@ -76,6 +76,8 @@
     </Compile>
     <Compile Include="Main\Core.cs" />
     <Compile Include="Main\DataLogic.cs" />
+    <Compile Include="Main\DataStructure\FileStructure.cs" />
+    <Compile Include="Main\DataStructure\HeaderStructure.cs" />
     <Compile Include="Main\Hash.cs" />
     <Compile Include="Main\Data.cs" />
     <Compile Include="Main\Helper.cs" />
@@ -126,6 +128,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
