@@ -11,22 +11,23 @@ namespace ShenmueHDTools.Main.DataStructure
     {
         public byte[] Hash1 { get; set; }
         public byte[] Hash2 { get; set; }
+
         public byte[] FileStart { get; set; }
         public byte[] FileSize { get; set; }
 
         // Not part of real "tad" file, but useful
-        public FileStructureMeta Index { get; set; } = new FileStructureMeta();
+        public FileStructureMeta Meta { get; set; } = new FileStructureMeta();
     }
 
     [Serializable]
     public class FileStructureMeta
     {
         public int Index { get; set; }
+        public byte[] FileEnd { get; set; }
 
-        public byte[] FileExt { get; set; }
-        public byte[] FilePath { get; set; }
+        public string FileExt { get; set; }
+        public string FilePath { get; set; }
         public bool FileModified { get; set; }
-        public byte[] FileSize { get; set; }
         public DateTime FileLastWrite { get; set; }
         //Future(?): FileHashedPath, FileHashedName
     }

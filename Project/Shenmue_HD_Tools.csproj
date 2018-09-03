@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="Main\Core.cs" />
     <Compile Include="Main\DataLogic.cs" />
+    <Compile Include="Main\DataStructure\DataCollection.cs" />
     <Compile Include="Main\DataStructure\FileStructure.cs" />
     <Compile Include="Main\DataStructure\HeaderStructure.cs" />
     <Compile Include="Main\Hash.cs" />
