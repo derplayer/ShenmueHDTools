@@ -8,12 +8,14 @@ using System.IO;
 using Microsoft.Win32;
 using System.IO.Compression;
 using ShenmueHDTools.Main;
+using ShenmueHDTools.Main.DataStructure;
 
 namespace Shenmue_HD_Tools.ShenmueHD
 {
     class Core
     {
         public static string loadedVFS { get; set; }
+        private static DataLogic data { get; set; } = new DataLogic();
 
         public void Main()
         {
@@ -32,7 +34,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     directory = Path.GetDirectoryName(file);
                     loadedVFS = file;
 
-                    List<DataEntry> readedFiles = new DataLogic().LoadVFS(file, directory);
+                    List<FileStructure> readedFiles = data.LoadVFS(file, directory);
 
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ", " + readedFiles.Count + " files)";
                     Program.MainWindowCore.listViewMain.Visible = true;
@@ -60,7 +62,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     directory = Path.GetDirectoryName(file);
                     loadedVFS = file;
 
-                    List<DataEntry> readedFiles = new DataLogic().LoadCache(file, directory);
+                    List<FileStructure> readedFiles = data.LoadCache(file, directory);
 
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ", " + readedFiles.Count + " files)";
                     Program.MainWindowCore.listViewMain.Visible = true;
@@ -78,8 +80,8 @@ namespace Shenmue_HD_Tools.ShenmueHD
             {
                 if (loadedVFS != null)
                 {
-                    new DataLogic().SaveVFS(loadedVFS);
-                    new DataLogic().UpdateGUI();
+                    data.SaveVFS(loadedVFS);
+                    data.UpdateGUI();
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "VFS saved!";
                 }
                 else
@@ -104,7 +106,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     
                     if (newSavePathDlg.ShowDialog() == DialogResult.OK)
                     {
-                        new DataLogic().SaveVFS(newSavePathDlg.FileName);
+                        data.SaveVFS(newSavePathDlg.FileName);
                         Program.MainWindowCore.toolStripStatusLabel1.Text = "VFS saved!";
                     }
                 }
@@ -130,7 +132,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
                     if (newSavePathDlg.ShowDialog() == DialogResult.OK)
                     {
-                        new DataLogic().Export(newSavePathDlg.FileName);
+                        data.Export(newSavePathDlg.FileName);
                         Program.MainWindowCore.toolStripStatusLabel1.Text = "Exported!";
                     }
                 }

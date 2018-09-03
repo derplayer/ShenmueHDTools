@@ -11,17 +11,16 @@ using Shenmue_HD_Tools.ShenmueHD;
 using ShenmueHDTools.Main;
 using Shenmue_HD_Tools;
 using ShenmueHDTools.Main.DataStructure;
+using System.Security.Cryptography;
 
 namespace ShenmueHDTools.Main
 {
-    //Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
     public class DataLogic
     {
         private HeaderStructure _actualHeader = new HeaderStructure();
         private List<FileStructure> _actualFiles = new List<FileStructure>();
 
-        public List<DataEntry> LoadVFS(string path, string directory)
+        public List<FileStructure> LoadVFS(string path, string directory)
         {
             ClearStructures();
             string tempFileExt = Path.GetExtension(path);
@@ -52,7 +51,7 @@ namespace ShenmueHDTools.Main
                 _actualHeader.FileCount2 = reader.ReadBytes(4);
 
                 string identifier = new ASCIIEncoding().GetString(_actualHeader.RenderType);
-                if (identifier != "dx11") throw new Exception("Header identifier isn't correct!");       
+                if (identifier != "dx11") throw new Exception("Header identifier isn't correct!");
 
                 int i = 0;
                 while (true)
@@ -98,16 +97,21 @@ namespace ShenmueHDTools.Main
                         byte[] dataArray = new byte[sizeInt];
                         tacReader.Read(dataArray, 0, dataArray.Length);
                         file.Meta.FileExt = ExtFinder(dataArray);
-                        string finalFilePath = extractDirectory + "\\" + file.Meta.Index + file.Meta.FileExt;
+                        string finalFilePath = extractDirectory + file.Meta.Index + file.Meta.FileExt;
                         file.Meta.FilePath = finalFilePath;
-                        
+
                         //Extract at load...
                         try
                         {
                             using (StreamWriter writer = new StreamWriter(new FileStream(finalFilePath, FileMode.Create)))
                             {
                                 writer.BaseStream.Write(dataArray, 0, dataArray.Length);
-                                file.Meta.FileLastWrite = new FileInfo(finalFilePath).LastWriteTimeUtc;
+
+                                using (var md5 = MD5.Create())
+                                {
+                                    md5.ComputeHash(dataArray, 0, dataArray.Length);
+                                    file.Meta.MD5Hash = md5.Hash;
+                                }
                             }
                         }
                         catch (Exception e)
@@ -116,8 +120,6 @@ namespace ShenmueHDTools.Main
                         }
 
                     }
-
-                    tacReader.Close();
                 }
 
                 reader.Close();
@@ -126,7 +128,7 @@ namespace ShenmueHDTools.Main
                 try
                 {
                     string cachePath = Path.ChangeExtension(path, ".shdcache");
-                    using (StreamWriter writer = new StreamWriter(new FileStream(directory + "\\" + cachePath, FileMode.Create)))
+                    using (StreamWriter writer = new StreamWriter(new FileStream(cachePath, FileMode.Create)))
                     {
                         BinaryFormatter bf = new BinaryFormatter();
                         using (var ms = new MemoryStream())
@@ -151,10 +153,10 @@ namespace ShenmueHDTools.Main
             }
 
             UpdateGUI();
-            return DataCollector.Files;
+            return _actualFiles;
         }
 
-        public List<DataEntry> LoadCache(string path, string directory)
+        public List<FileStructure> LoadCache(string path, string directory)
         {
             ClearStructures();
             string cachePath = Path.ChangeExtension(path, ".shdcache"); //TODO: why change?
@@ -176,10 +178,11 @@ namespace ShenmueHDTools.Main
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("Something broke..." + e);
+                MessageBox.Show("The shdcahe was created with an older verison that in incompatible! Please create a new project and try again!");
             }
 
             UpdateGUI();
-            return DataCollector.Files;
+            return _actualFiles;
         }
 
         public void SaveVFS(string path)
@@ -304,57 +307,62 @@ namespace ShenmueHDTools.Main
         {
             path = Path.ChangeExtension(path, ".tad"); // in case of shdcache import
 
-            var headerTmp = DataCollector.header;
-            var tempFiles = DataCollector.Files;
-            List<DataEntry> newFiles = new List<DataEntry>();
+            var headerTmp = _actualHeader;
+            //var tempFiles = DataCollector.Files;
+            List<FileStructure> newFiles = new List<FileStructure>();
+            //var headerTmp = DataCollector.header;
 
-            using (BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create)))
+            foreach (var file in _actualFiles)
             {
-                //var headerTmp = DataCollector.header;
-
-                foreach (var file in tempFiles)
+                using (BinaryReader vfsReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
                 {
-                    using (BinaryReader vfsReader = new BinaryReader(new FileStream(file.file_path, FileMode.Open)))
+                    using (var actualMD5 = MD5.Create())
                     {
-                        var actFileInfo = new FileInfo(file.file_path);
-                        var cachedLastWriteTimeUtc = file.LastWriteTimeUtc;
+                        actualMD5.ComputeHash(vfsReader.BaseStream);
+                        var cachedMD5 = file.Meta.MD5Hash;
+                        var actFileInfo = new FileInfo(file.Meta.FilePath);
 
-                        //int actualLength = (int)actFileInfo.Length; //Int64 -> Int32 could make a bit of an problem for big files?
-                        //int cachedLength = BitConverter.ToInt32(file.file_size, 0);
-
-                        if (actFileInfo.LastWriteTimeUtc == cachedLastWriteTimeUtc)
+                        if (Helper.ArraysEqual(cachedMD5, actualMD5.Hash, cachedMD5.Length))
                         {
-                            //tempFiles.Remove(file);
-                            file.file_modified = false;
+                            file.Meta.FileModified = false;
                             continue;
                         }
                         else
                         {
-                            file.file_modified = true;
+                            file.Meta.FileModified = true;
 
                             var tempFile = file;
-                            tempFile.file_modified = true;
-                            tempFile.file_begin = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
-                            tempFile.file_end = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
-                            tempFile.file_size = BitConverter.GetBytes(actFileInfo.Length);
+                            tempFile.Meta.FileModified = true;
+                            tempFile.FileStart = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+                            tempFile.Meta.FileEnd = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+                            tempFile.FileSize = BitConverter.GetBytes(actFileInfo.Length);
 
                             newFiles.Add(tempFile);
                         }
-
                     }
                 }
+            }
 
-                int newPosBuf = 0;
+            if (newFiles.Count <= 0)
+            {
+                MessageBox.Show("No files were modified! Export stopped!");
+
+                return;
+            }
+
+            using (BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create)))
+            {
+                long newPosBuf = 0;
                 foreach (var file in newFiles)
                 {
-                    using (BinaryReader vfsReader = new BinaryReader(new FileStream(file.file_path, FileMode.Open)))
+                    using (BinaryReader vfsReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
                     {
-                        int length = BitConverter.ToInt32(file.file_size, 0);
+                        long length = BitConverter.ToInt32(file.FileSize, 0);
 
-                        file.file_begin = BitConverter.GetBytes(newPosBuf);
+                        file.FileStart = BitConverter.GetBytes(newPosBuf);
                         newPosBuf += length;
-                        file.file_end = BitConverter.GetBytes(newPosBuf);
-                        file.file_size = BitConverter.GetBytes(length);
+                        file.Meta.FileEnd = BitConverter.GetBytes(newPosBuf);
+                        file.FileSize = BitConverter.GetBytes(length);
                     }
                 }
 
@@ -364,9 +372,9 @@ namespace ShenmueHDTools.Main
                     //Data Stream - write the archive container
                     foreach (var file in newFiles)
                     {
-                        using (BinaryReader tacVFSReader = new BinaryReader(new FileStream(file.file_path, FileMode.Open)))
+                        using (BinaryReader tacVFSReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
                         {
-                            int sizeInt = BitConverter.ToInt32(file.file_size, 0);
+                            int sizeInt = BitConverter.ToInt32(file.FileSize, 0);
                             byte[] dataArray = new byte[sizeInt];
                             tacVFSReader.Read(dataArray, 0, dataArray.Length);
                             containerWriter.Write(dataArray);
@@ -379,42 +387,47 @@ namespace ShenmueHDTools.Main
                 //...
                 var actTacInfo = new FileInfo(containerPath);
                 headerTmp.TacSize = BitConverter.GetBytes((uint)actTacInfo.Length);
-                headerTmp.Unknown5 = BitConverter.GetBytes(newFiles.Count);
-                headerTmp.Unknown6 = BitConverter.GetBytes(newFiles.Count);
+                headerTmp.FileCount1 = BitConverter.GetBytes(newFiles.Count);
+                headerTmp.FileCount2 = BitConverter.GetBytes(newFiles.Count);
+                headerTmp.UnixTimestamp = BitConverter.GetBytes((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
 
                 var preHash = headerTmp.GetPreHash(headerTmp);
                 var realHash = headerTmp.GetHash(preHash);
-                headerTmp.Unknown4 = BitConverter.GetBytes(realHash);
+                headerTmp.HeaderChecksum = BitConverter.GetBytes(realHash);
 
-                writer.Write(headerTmp.Unknown1);
-                writer.Write(headerTmp.Unknown2);
-                writer.Write(headerTmp.Unknown3);
-                writer.Write(headerTmp.Reserved1);
-                writer.Write(headerTmp.Timestamp);
-                writer.Write(headerTmp.Reserved2);
-                writer.Write(headerTmp.RenderType);
-                writer.Write(headerTmp.Reserved3);
-                writer.Write(headerTmp.Unknown4);
-                writer.Write(headerTmp.Reserved4);
-                writer.Write(headerTmp.TacSize);
-                writer.Write(headerTmp.Reserved5);
-                writer.Write(headerTmp.Unknown5);
-                writer.Write(headerTmp.Reserved6);
-                writer.Write(headerTmp.Unknown6);
-                writer.Write(headerTmp.Unknown7);
+                writer.Write(_actualHeader.FileType);
+                writer.Write(_actualHeader.Identifier1);
+                writer.Write(_actualHeader.Identifier2);
+                writer.Write(_actualHeader.Reserved1);
+
+                
+                writer.Write(_actualHeader.UnixTimestamp);
+                writer.Write(_actualHeader.Reserved2);
+
+                writer.Write(_actualHeader.RenderType);
+                writer.Write(_actualHeader.Reserved3);
+
+                writer.Write(_actualHeader.HeaderChecksum);
+                writer.Write(_actualHeader.Reserved4);
+
+                writer.Write(_actualHeader.TacSize);
+                writer.Write(_actualHeader.Reserved5);
+
+                writer.Write(_actualHeader.FileCount1);
+                writer.Write(_actualHeader.Reserved6);
+
+                writer.Write(_actualHeader.FileCount2);
 
                 //Rebuild "the archive dictonary"
                 foreach (var file in newFiles) //extra modify flag check?
                 {
-                    if (file.file_modified == false) continue;
+                    if (file.Meta.FileModified == false) continue;
                     try
                     {
-                        writer.Write(0x00000000);
-                        writer.Write(file.file_begin);
-                        writer.Write(0x00000000);
-                        writer.Write(file.file_size);
-                        writer.Write(0x00000000);
-                        writer.Write(file.file_unknownhash);
+                        writer.Write(file.Hash1);
+                        writer.Write(file.Hash2);
+                        writer.Write(file.FileStart);
+                        writer.Write(file.FileSize);
                     }
                     catch (Exception e)
                     {
@@ -435,19 +448,21 @@ namespace ShenmueHDTools.Main
                 Program.MainWindowCore.listViewMain.Items.Remove((ListViewItem)item);
             }
 
-            foreach (var item in DataCollector.Files)
+            foreach (var item in _actualFiles)
             {
                 // Add the pet to our listview
                 ListViewItem lvi = new ListViewItem();
 
-                lvi.Text = item.index_position.ToString();
+                lvi.Text = item.Meta.Index.ToString();
 
-                lvi.SubItems.Add("0x" + Helper.Reverse(BitConverter.ToString((item.file_begin)).Replace("-", "")));
-                lvi.SubItems.Add("0x" + Helper.Reverse(BitConverter.ToString((item.file_size)).Replace("-", "")));
-                lvi.SubItems.Add("0x" + Helper.Reverse(BitConverter.ToString((item.file_end)).Replace("-", "")));
-                lvi.SubItems.Add("0x" + Helper.Reverse(BitConverter.ToString((item.file_unknownhash)).Replace("-", "")));
+                lvi.SubItems.Add("0x" + (BitConverter.ToString((item.FileStart)).Replace("-", "")));
+                lvi.SubItems.Add("0x" + (BitConverter.ToString((item.FileSize)).Replace("-", "")));
+                lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Meta.FileEnd)).Replace("-", "")));
+                lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Hash1)).Replace("-", "")));
+                lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Hash2)).Replace("-", "")));
+                //lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Meta.FileModified)).Replace("-", "")));
 
-                lvi.SubItems.Add(item.file_modified.ToString());
+                lvi.SubItems.Add(item.Meta.FileModified.ToString());
 
                 Program.MainWindowCore.listViewMain.Items.Add(lvi);
 
@@ -504,7 +519,7 @@ namespace ShenmueHDTools.Main
                 if (dataArray[0] == 0x12 && dataArray[1] == 0x98 && dataArray[2] == 0xEE && dataArray[3] == 0x51 && dataArray[4] == 0x40)
                     fileExt = ".modeloverride";
 
-                else if (dataArray[0] == 0x03 && dataArray[1] == 0x00 && dataArray[2] == 0x00 && dataArray[3] == 0x00 && 
+                else if (dataArray[0] == 0x03 && dataArray[1] == 0x00 && dataArray[2] == 0x00 && dataArray[3] == 0x00 &&
                     (dataArray[4] == 0x2F && dataArray[5] == 0x76 || dataArray[4] == 0xC2 && dataArray[5] == 0x8F))
                     fileExt = ".sub";
             }

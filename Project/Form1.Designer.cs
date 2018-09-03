@@ -34,6 +34,7 @@
             this.testToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.test1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importExistingProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAsAModToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveVFSToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveVFSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gIMOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,7 +58,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.labelMessage = new System.Windows.Forms.Label();
             this.dataCollectorBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.exportAsAModToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataCollectorBindingSource)).BeginInit();
@@ -90,6 +90,7 @@
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
             this.testToolStripMenuItem1.Size = new System.Drawing.Size(113, 20);
             this.testToolStripMenuItem1.Text = "TAD/TAC Options";
+            this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
             // 
             // test1ToolStripMenuItem
             // 
@@ -104,6 +105,13 @@
             this.importExistingProjectToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
             this.importExistingProjectToolStripMenuItem.Text = "Import existing project (*.shdcache)";
             this.importExistingProjectToolStripMenuItem.Click += new System.EventHandler(this.importExistingProjectToolStripMenuItem_Click);
+            // 
+            // exportAsAModToolStripMenuItem
+            // 
+            this.exportAsAModToolStripMenuItem.Name = "exportAsAModToolStripMenuItem";
+            this.exportAsAModToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.exportAsAModToolStripMenuItem.Text = "Export as mod container";
+            this.exportAsAModToolStripMenuItem.Click += new System.EventHandler(this.exportAsAModToolStripMenuItem_Click);
             // 
             // saveVFSToolStripMenuItem1
             // 
@@ -163,7 +171,7 @@
             // cRC32FromLookupToolStripMenuItem
             // 
             this.cRC32FromLookupToolStripMenuItem.Name = "cRC32FromLookupToolStripMenuItem";
-            this.cRC32FromLookupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cRC32FromLookupToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.cRC32FromLookupToolStripMenuItem.Text = "HASH Test";
             this.cRC32FromLookupToolStripMenuItem.Click += new System.EventHandler(this.cRC32FromLookupToolStripMenuItem_Click);
             // 
@@ -278,17 +286,6 @@
             this.labelMessage.Size = new System.Drawing.Size(446, 39);
             this.labelMessage.TabIndex = 13;
             this.labelMessage.Text = "Please load a TAD/TAC file!";
-            // 
-            // dataCollectorBindingSource
-            // 
-            this.dataCollectorBindingSource.DataSource = typeof(Shenmue_HD_Tools.ShenmueHD.DataCollector);
-            // 
-            // exportAsAModToolStripMenuItem
-            // 
-            this.exportAsAModToolStripMenuItem.Name = "exportAsAModToolStripMenuItem";
-            this.exportAsAModToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.exportAsAModToolStripMenuItem.Text = "Export as a mod";
-            this.exportAsAModToolStripMenuItem.Click += new System.EventHandler(this.exportAsAModToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
