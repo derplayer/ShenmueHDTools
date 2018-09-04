@@ -1,7 +1,7 @@
 # Shenmue-HD-Mod-Tools
 Shenmue 1&2 HD Modding & Tweak Tools
 
-Tool that (for now) allows unpacking, editing and rebuilding of Shenmue tad/tac files.
+A tool that allows unpacking, editing, rebuilding and mod export on Shenmue HD tad/tac files.
 ![Alt text](https://vgy.me/av0tj0.gif "Test Preview of Shenmue HD Mod Tools")
 
 FAQ:
