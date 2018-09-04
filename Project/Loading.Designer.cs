@@ -42,14 +42,16 @@
             this.loadLabel.Size = new System.Drawing.Size(175, 39);
             this.loadLabel.TabIndex = 0;
             this.loadLabel.Text = "Working...";
+            this.loadLabel.UseWaitCursor = true;
             // 
             // vmuBox
             // 
-            this.vmuBox.Location = new System.Drawing.Point(193, 12);
+            this.vmuBox.Location = new System.Drawing.Point(188, 12);
             this.vmuBox.Name = "vmuBox";
             this.vmuBox.Size = new System.Drawing.Size(32, 32);
             this.vmuBox.TabIndex = 1;
             this.vmuBox.TabStop = false;
+            this.vmuBox.UseWaitCursor = true;
             // 
             // Loading
             // 

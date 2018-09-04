@@ -144,8 +144,8 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     {
                         LockGUI();
                         data.Export(newSavePathDlg.FileName);
-                        Program.MainWindowCore.toolStripStatusLabel1.Text = "Export executed!";
                         UnlockGUI();
+                        Program.MainWindowCore.toolStripStatusLabel1.Text = "Export executed!";
                     }
                 }
                 else
@@ -173,15 +173,30 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
         public void LockGUI()
         {
-            loadingThread = new Thread(() => new Loading().ShowDialog());
-            Program.MainWindowCore.Hide();
-            loadingThread.Start();
+            try
+            {
+                loadingThread = new Thread(() => new Loading());
+                Program.MainWindowCore.Hide();
+                loadingThread.Start();
+            }
+            catch (Exception)
+            {
+                Program.MainWindowCore.Hide();
+            }
         }
 
         public void UnlockGUI()
         {
-            loadingThread.Abort();
-            Program.MainWindowCore.Show();
+            try
+            {
+                loadingThread.Abort();
+                Program.MainWindowCore.Show();
+            }
+            catch (Exception)
+            {
+                Program.MainWindowCore.Show();
+            }
+
         }
     }
 }

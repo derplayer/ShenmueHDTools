@@ -199,6 +199,7 @@ namespace Shenmue_HD_Tools
             listViewMain.AllowDrop = true;
             listViewMain.DragDrop += new DragEventHandler(listViewMain_DragDrop);
             listViewMain.DragEnter += new DragEventHandler(listViewMain_DragEnter);
+            listViewColumnSorter = new ListViewColumnSorterExt(listViewMain);
         }
 
         void listViewMain_DragEnter(object sender, DragEventArgs e)
@@ -373,6 +374,8 @@ namespace Shenmue_HD_Tools
             // Cast the objects to be compared to ListViewItem objects
             listviewX = (ListViewItem)x;
             listviewY = (ListViewItem)y;
+
+            if (listviewY.Text == "") return 0; //dirty bugfix for an bigfix
 
             // Compare the two items
             compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);

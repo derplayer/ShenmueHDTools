@@ -355,8 +355,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataCollectorBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
-            listViewColumnSorter = new ListViewColumnSorterExt(listViewMain);
         }
 
         #endregion
@@ -392,7 +390,7 @@
         private System.Windows.Forms.Button refreshButton;
         public System.Windows.Forms.ColumnHeader modifiedFlag;
         public System.Windows.Forms.ColumnHeader fileExt;
-        private ListViewColumnSorterExt listViewColumnSorter;
+        public ListViewColumnSorterExt listViewColumnSorter;
     }
 }
 

@@ -17,6 +17,14 @@ namespace ShenmueHDTools
         public Loading()
         {
             InitializeComponent();
+            try
+            {
+                ShowDialog();
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
 
         private void Loading_Load(object sender, EventArgs e)

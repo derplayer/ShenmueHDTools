@@ -116,5 +116,10 @@ namespace Shenmue_HD_Tools
             this.vmuBox.Image = null;
             this.vmuBox.Image = Resources.gfx[random.Next(0, Resources.gfx.Count)];
         }
+
+        private void urlLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/derplayer/ShenmueHDTools");
+        }
     }
 }

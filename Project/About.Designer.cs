@@ -31,6 +31,7 @@
             this.labelAbout = new System.Windows.Forms.Label();
             this.aboutLabel = new System.Windows.Forms.Label();
             this.vmuBox = new System.Windows.Forms.PictureBox();
+            this.urlLink = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.vmuBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,9 +51,9 @@
             this.aboutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutLabel.Location = new System.Drawing.Point(13, 47);
             this.aboutLabel.Name = "aboutLabel";
-            this.aboutLabel.Size = new System.Drawing.Size(155, 20);
+            this.aboutLabel.Size = new System.Drawing.Size(277, 20);
             this.aboutLabel.TabIndex = 1;
-            this.aboutLabel.Text = "Created by derplayer";
+            this.aboutLabel.Text = "Created by Derplayer and PhilYeahz - ";
             // 
             // vmuBox
             // 
@@ -64,17 +65,35 @@
             this.vmuBox.TabStop = false;
             this.vmuBox.Click += new System.EventHandler(this.vmuBox_Click);
             // 
+            // urlLink
+            // 
+            this.urlLink.AutoSize = true;
+            this.urlLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.urlLink.Location = new System.Drawing.Point(286, 48);
+            this.urlLink.Name = "urlLink";
+            this.urlLink.Size = new System.Drawing.Size(38, 20);
+            this.urlLink.TabIndex = 3;
+            this.urlLink.TabStop = true;
+            this.urlLink.Text = "Link";
+            this.urlLink.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.urlLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.urlLink_LinkClicked);
+            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
             this.ClientSize = new System.Drawing.Size(415, 76);
+            this.Controls.Add(this.urlLink);
             this.Controls.Add(this.vmuBox);
             this.Controls.Add(this.aboutLabel);
             this.Controls.Add(this.labelAbout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "About";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "About";
             this.Load += new System.EventHandler(this.About_Load);
             ((System.ComponentModel.ISupportInitialize)(this.vmuBox)).EndInit();
@@ -87,5 +106,6 @@
         private System.Windows.Forms.Label aboutLabel;
         public System.Windows.Forms.Label labelAbout;
         private System.Windows.Forms.PictureBox vmuBox;
+        private System.Windows.Forms.LinkLabel urlLink;
     }
 }

@@ -179,7 +179,10 @@ namespace ShenmueHDTools.Main
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("Something broke..." + e);
-                MessageBox.Show("The shdcahe was created with an older verison that in incompatible! Please create a new project and try again!");
+                MessageBox.Show("The loaded shdcahe was created with an older verison of ModTools, that is incompatible now!\n\n" +
+                    "Please copy your modified files, create a new project and copy those over and try again!\n\n" +
+                    "Remember: The fileextensions are also now changed (fewer unknowns)\n"
+                    );
             }
 
             UpdateGUI();
@@ -347,7 +350,7 @@ namespace ShenmueHDTools.Main
             if (newFiles.Count <= 0)
             {
                 MessageBox.Show("No files were modified! Export stopped!");
-
+                UpdateGUI();
                 return;
             }
 
