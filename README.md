@@ -8,39 +8,37 @@ FAQ:
 
 How do i use it?
 
-1. Go to TAD/TAC Options and press "Create project (from *.tad/*.tac)"
-2. Select a tad/tac file that you want to open
-3. It will take 1-2 min to extract it as an subfolder that is created next to the selected tad/tac
-4. After it is extracted, you're freely to edit directory
-5. When you're finnished save the container (TAD/TAC Options -> Save)
-6. This will also take 1-2 minutes
-7. Launch the game, when everything is fine it should start with the new files
+* Go to TAD/TAC Options and press "Create project (from .tad/.tac)"
+* Select a tad/tac file that you want to open
+* It will take 1-2 min to extract it as an subfolder that is created next to the selected tad/tac
+* After it is extracted, you're freely to edit directory
+* When you're finnished export it as a mod (TAD/TAC Options -> Export as mod container)
+* Save it where you want (in "dx11/mods" folder when you want to test it out)
+* This will also take 1-2 minutes
+* Launch the game, when everything is fine it should start with the new files
 
-After the first extract, you can also reimport your project.
-To do this just go to TAD/TAC Options and press "Import existing project"
-This will load the project immediately and dosen't take 1-2 minutes.
+How to install mods?
+* Just copy the mod that you have into the ".../archive/dx11/mods/" folder (create the folder, when not there) from Shenmue.
 
-Changelog:
+Will game updates break it?
+* Maybe, for now exports work without any problems with v1.0 and v1.01
 
-v1.0
-* New Codebase
-* Allows Unpacking and Rebuilding of *.tad and *tac files
-* Bigger/Smaller files at rebuilding are supported (pointer recalculation inside *.tad)
-* Support for fileformat detection (~75% of files)
-* Support for fast-loading of already extracted Project with *.shdcache file
-
-v0.0 (Test01)
-* Simple and dirty proof of concept of *.tad/*tac extracting
+Why do the gamefiles extract each time again when i restart the tools?
+* After the first extract, you need to reimport your project. To do this just go to TAD/TAC Options and press "Import existing project" * This will load the project immediately and will not take 1-2 minutes each time.
 
 Other:
+* [Shenmuedojo.com Thread](https://www.shenmuedojo.com/forum/index.php?threads/shenmue-hd-unpacker-tool.366/)
+* [Reserve engineering wiki notes](https://github.com/derplayer/ShenmueHDTools/wiki)
+* [Changelog](https://github.com/derplayer/ShenmueHDTools/releases)
 
-[Shenmuedojo.com Thread](https://www.shenmuedojo.com/forum/index.php?threads/shenmue-hd-unpacker-tool.366/)
-[Reserve engineering notes](https://github.com/derplayer/ShenmueHDTools/wiki)
+Example mod
+* Reverts the textures to the original Dreamcast ones and shows a modified SEGA logo at start.
+* [Download](https://www.shenmuedojo.com/forum/index.php?attachments/sdtextureoverride-zip.1109/)
 
 TODO:
-* Filenames Database(?) & Hashing
+* Filenames Database from executeable
 * Include the invalidation Method
-* Docs
+* Wiki docs
 
 License:
 MIT
