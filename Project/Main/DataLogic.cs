@@ -66,8 +66,8 @@ namespace ShenmueHDTools.Main
                     actualFile.FileSize = reader.ReadBytes(8);
 
                     actualFile.Meta.FileEnd = BitConverter.GetBytes(
-                        BitConverter.ToInt32(actualFile.FileStart, 0) +
-                        BitConverter.ToInt32(actualFile.FileSize, 0)
+                        BitConverter.ToInt64(actualFile.FileStart, 0) +
+                        BitConverter.ToInt64(actualFile.FileSize, 0)
                     );
 
                     _actualFiles.Add(actualFile);
@@ -88,11 +88,11 @@ namespace ShenmueHDTools.Main
                 {
                     foreach (FileStructure file in _actualFiles)
                     {
-                        tacReader.BaseStream.Seek(BitConverter.ToInt32(file.FileStart, 0), SeekOrigin.Begin);
+                        tacReader.BaseStream.Seek(BitConverter.ToInt64(file.FileStart, 0), SeekOrigin.Begin);
 
-                        int startInt = BitConverter.ToInt32(file.FileStart, 0);
-                        int sizeInt = BitConverter.ToInt32(file.FileSize, 0);
-                        int endInt = startInt + sizeInt;
+                        long startInt = BitConverter.ToInt64(file.FileStart, 0);
+                        long sizeInt = BitConverter.ToInt64(file.FileSize, 0);
+                        long endInt = startInt + sizeInt;
 
                         byte[] dataArray = new byte[sizeInt];
                         tacReader.Read(dataArray, 0, dataArray.Length);
@@ -357,7 +357,7 @@ namespace ShenmueHDTools.Main
                 {
                     using (BinaryReader vfsReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
                     {
-                        long length = BitConverter.ToInt32(file.FileSize, 0);
+                        long length = BitConverter.ToInt64(file.FileSize, 0);
 
                         file.FileStart = BitConverter.GetBytes(newPosBuf);
                         newPosBuf += length;
@@ -374,7 +374,7 @@ namespace ShenmueHDTools.Main
                     {
                         using (BinaryReader tacVFSReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
                         {
-                            int sizeInt = BitConverter.ToInt32(file.FileSize, 0);
+                            long sizeInt = BitConverter.ToInt64(file.FileSize, 0);
                             byte[] dataArray = new byte[sizeInt];
                             tacVFSReader.Read(dataArray, 0, dataArray.Length);
                             containerWriter.Write(dataArray);
@@ -463,8 +463,10 @@ namespace ShenmueHDTools.Main
                 //lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Meta.FileModified)).Replace("-", "")));
 
                 lvi.SubItems.Add(item.Meta.FileModified.ToString());
+                lvi.BeginEdit();
 
                 Program.MainWindowCore.listViewMain.Items.Add(lvi);
+                Program.MainWindowCore.listViewMain.LabelEdit = true;
 
             }
 
@@ -478,51 +480,79 @@ namespace ShenmueHDTools.Main
             var semiIdentifier = Encoding.ASCII.GetString(dataArray.Take(3).ToArray());
 
             if (semiIdentifier == "DDS")
-                fileExt = ".dds";
+                return ".dds";
 
             if (semiIdentifier == "IDX")
-                fileExt = ".idx";
+                return ".idx";
 
             if (semiIdentifier == "AFS")
-                fileExt = ".afs";
+                return ".afs";
 
             var semiIdentifier4 = Encoding.ASCII.GetString(dataArray.Take(4).ToArray());
             if (semiIdentifier4 == "RIFF")
-                fileExt = ".wav";
+                return ".wav";
 
             if (semiIdentifier4 == "DXBC")
-                fileExt = ".hlsl";
+                return ".hlsl";
 
             if (semiIdentifier4 == "PAKS") //IPAC Browser
-                fileExt = ".pks";
+                return ".pks";
 
             if (semiIdentifier4 == "PAKF") //IPAC Browser
-                fileExt = ".pkf";
+                return ".pkf";
 
-            if (semiIdentifier4 == "MDP7" || semiIdentifier4 == "MDC7" || semiIdentifier4 == "HRCM") //MT5/MT6/MT7?
-                fileExt = ".model";
+            if (semiIdentifier4 == "HRCM") //MT5
+                return ".mt5";
+
+            if (semiIdentifier4 == "MDCX" || semiIdentifier4 == "MDC7" || semiIdentifier4 == "MDP7") //MT7?
+                return ".mt7";
 
             if (semiIdentifier4 == "DTPK")
-                fileExt = ".SND";
+                return ".snd";
 
             if (semiIdentifier4 == "GBIX" || semiIdentifier4 == "TEXN")
-                fileExt = ".pvr";
+                return ".pvr";
 
-            //7B 0A 09
             if (dataArray.Length > 0)
             {
                 if ((dataArray[0] == 0x7B && dataArray[1] == 0x0A)
                     || (dataArray[0] == 0x7B && dataArray[1] == 0x0D)
                     || (dataArray[0] == 0x7B && dataArray[1] == 0x09))
-                    fileExt = ".json";
+                    return ".json";
 
                 if (dataArray[0] == 0x12 && dataArray[1] == 0x98 && dataArray[2] == 0xEE && dataArray[3] == 0x51 && dataArray[4] == 0x40)
-                    fileExt = ".modeloverride";
+                    return ".override";
 
-                else if (dataArray[0] == 0x03 && dataArray[1] == 0x00 && dataArray[2] == 0x00 && dataArray[3] == 0x00 &&
+                if (dataArray[0] == 0x03 && dataArray[1] == 0x00 && dataArray[2] == 0x00 && dataArray[3] == 0x00 ||
                     (dataArray[4] == 0x2F && dataArray[5] == 0x76 || dataArray[4] == 0xC2 && dataArray[5] == 0x8F))
-                    fileExt = ".sub";
+                    return ".sub";
             }
+
+            try
+            {
+                long nullCount = 0;
+                for (int i = 0; i < dataArray.Length; i++)
+                {
+                    if (dataArray[i] == 0x00) nullCount++;
+                }
+
+                if(nullCount == 0) return fileExt = ".csv";
+            }
+            catch (Exception)
+            {
+                return fileExt;
+            }
+
+            // From now on it is just a "maybe"
+
+            //FF8600
+
+            if (
+                (dataArray[0] == 0xFF && dataArray[1] == 0x86 && dataArray[2] == 0x00) ||
+                (dataArray[0] == 0xFF && dataArray[1] == 0x00 && dataArray[2] == 0x40) ||
+                (dataArray[0] == 0xFF && dataArray[1] == 0xC5 && dataArray[2] == 0x40) ||
+                (dataArray[0] == 0xFF && dataArray[1] == 0xEB && dataArray[2] == 0x40)
+               ) return ".fontdef";
 
             return fileExt;
         }

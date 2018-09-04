@@ -13,6 +13,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Globalization;
+using static System.Windows.Forms.ListViewItem;
 
 namespace Shenmue_HD_Tools
 {
@@ -124,6 +125,64 @@ namespace Shenmue_HD_Tools
         {
 
         }
+
+        private void listView1_MouseDown(object sender, MouseEventArgs e)
+        {
+            bool match = false;
+
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                foreach (ListViewItem item in listViewMain.Items)
+                {
+
+                    if (item.Bounds.Contains(new Point(e.X, e.Y)))
+                    {
+                        string allCollected = "";
+                        foreach (ListViewSubItem subItem in item.SubItems)
+                        {
+                            allCollected += subItem.Text + ", ";
+                        }
+
+                        var m = new ContextMenu();
+
+                        var fileHash = new MenuItem("Copy FileHash", new System.EventHandler(this.listViewMain_Click));
+                        fileHash.Tag = item.SubItems[4].Text;
+
+                        var fileHashHalf = new MenuItem("Copy FileHash (half)", new System.EventHandler(this.listViewMain_Click));
+                        fileHashHalf.Tag = item.SubItems[4].Text.Substring(2, 8);
+
+                        var fileAll = new MenuItem("Copy All", new System.EventHandler(this.listViewMain_Click));
+                        fileAll.Tag = allCollected;
+
+                        m.MenuItems.Add(fileHash);
+                        m.MenuItems.Add(fileHashHalf);
+                        m.MenuItems.Add(fileAll);
+
+                        listViewMain.ContextMenu = m;
+                        match = true;
+                        break;
+                    }
+                }
+                if (match)
+                {
+                    listViewMain.ContextMenu.Show(listViewMain, new Point(e.X, e.Y));
+                }
+                else
+                {
+                    //Show listViews context menu
+                }
+
+            }
+
+        }
+
+        void listViewMain_Click(object sender, EventArgs e)
+        {
+            MenuItem senderCasted = (MenuItem)sender;
+            System.Windows.Forms.Clipboard.SetText(senderCasted.Tag.ToString());
+            Program.MainWindowCore.toolStripStatusLabel1.Text = senderCasted.Tag.ToString() + " is now in clipboard!";
+        }
+
 
         private void MainWindow_Load(object sender, EventArgs e)
         {

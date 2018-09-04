@@ -205,6 +205,8 @@
             // 
             // listViewMain
             // 
+            this.listViewMain.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.listViewMain.AllowColumnReorder = true;
             this.listViewMain.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.indexHeader,
             this.beginHeader,
@@ -215,8 +217,12 @@
             this.modifiedFlag,
             this.hashedPath});
             this.listViewMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewMain.FullRowSelect = true;
+            this.listViewMain.MultiSelect = false;
+            this.listViewMain.HideSelection = false;
             this.listViewMain.Location = new System.Drawing.Point(0, 24);
             this.listViewMain.Name = "listViewMain";
+            this.listViewMain.ShowItemToolTips = true;
             this.listViewMain.Size = new System.Drawing.Size(879, 322);
             this.listViewMain.TabIndex = 6;
             this.listViewMain.Tag = "";
@@ -224,6 +230,8 @@
             this.listViewMain.View = System.Windows.Forms.View.Details;
             this.listViewMain.Visible = false;
             this.listViewMain.SelectedIndexChanged += new System.EventHandler(this.listViewMain_SelectedIndexChanged);
+            this.listViewMain.DoubleClick += new System.EventHandler(this.listViewMain_Click);
+            this.listViewMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDown);
             // 
             // indexHeader
             // 
@@ -373,9 +381,9 @@
         private System.Windows.Forms.ToolStripMenuItem exportAsAModToolStripMenuItem;
         public System.Windows.Forms.ColumnHeader hashHeaderOne;
         public System.Windows.Forms.ColumnHeader hashHeaderTwo;
-        private System.Windows.Forms.ColumnHeader modifiedFlag;
         public System.Windows.Forms.ColumnHeader hashedPath;
         private System.Windows.Forms.Button refreshButton;
+        public System.Windows.Forms.ColumnHeader modifiedFlag;
     }
 }
 
