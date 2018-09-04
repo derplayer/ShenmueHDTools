@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +31,16 @@ namespace ShenmueHDTools.Main.DataStructure
         public string FilePath { get; set; }
         public bool FileModified { get; set; }
         public byte[] MD5Hash { get; set; }
-        //Future(?): FileHashedPath, FileHashedName
+
+        //Reserved for future use
+        [OptionalField]
+        public byte[] FileHashedPath;
+        [OptionalField]
+        public byte[] FileHashedName;
+        [OptionalField]
+        public byte[] FileHashedExt;
+        [OptionalField]
+        public byte[] FileHashedReserved;
     }
 
 }

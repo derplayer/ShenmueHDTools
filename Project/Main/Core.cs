@@ -74,7 +74,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
-        public void save()
+        public void Save()
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                 {
                     data.SaveVFS(loadedVFS);
                     data.UpdateGUI();
-                    Program.MainWindowCore.toolStripStatusLabel1.Text = "VFS saved!";
+                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Tac/Tad saved!";
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
-        public void saveAs()
+        public void SaveAs()
         {
             try
             {
@@ -103,11 +103,11 @@ namespace Shenmue_HD_Tools.ShenmueHD
                 {
                     SaveFileDialog newSavePathDlg = new SaveFileDialog();
                     newSavePathDlg.Filter = "The Archive Dictonary files(*.tad)| *.tad";
-                    
+
                     if (newSavePathDlg.ShowDialog() == DialogResult.OK)
                     {
                         data.SaveVFS(newSavePathDlg.FileName);
-                        Program.MainWindowCore.toolStripStatusLabel1.Text = "VFS saved!";
+                        Program.MainWindowCore.toolStripStatusLabel1.Text = "Tac/Tad saved!";
                     }
                 }
                 else
@@ -121,7 +121,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
-        public void export()
+        public void Export()
         {
             try
             {
@@ -133,7 +133,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     if (newSavePathDlg.ShowDialog() == DialogResult.OK)
                     {
                         data.Export(newSavePathDlg.FileName);
-                        Program.MainWindowCore.toolStripStatusLabel1.Text = "Exported!";
+                        Program.MainWindowCore.toolStripStatusLabel1.Text = "Export executed!";
                     }
                 }
                 else
@@ -147,18 +147,17 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
-        public void MurmurHash2Debug()
+        public void UpdateGUI()
         {
-            //byte[] hashHeader = new byte[56];
-            //int i = 0;
-            //foreach (var entry in DataCollector.header.GetHeader(true))
-            //{
-            //    entry.CopyTo(hashHeader, i);
-            //    i += 4;
-            //}
-
-            //uint tacHash = MurmurHash2Shenmue.Hash(hashHeader, (uint)hashHeader.Length);
-            //var tacHashRes = Helper.HashReverse(tacHash);
+            try
+            {
+                data.UpdateGUI();
+            }
+            catch (Exception e)
+            {
+                Program.MainWindowCore.toolStripStatusLabel1.Text = "Error! : " + e.TargetSite;
+            }
         }
+
     }
 }

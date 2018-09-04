@@ -80,7 +80,6 @@
     <Compile Include="Main\DataStructure\FileStructure.cs" />
     <Compile Include="Main\DataStructure\HeaderStructure.cs" />
     <Compile Include="Main\Hash.cs" />
-    <Compile Include="Main\Data.cs" />
     <Compile Include="Main\Helper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

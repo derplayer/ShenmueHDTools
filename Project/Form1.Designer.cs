@@ -51,13 +51,16 @@
             this.beginHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.sizeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.endHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.unknownHashHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.modHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.hashHeaderOne = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.hashHeaderTwo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.modifiedFlag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.hashedPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.button1 = new System.Windows.Forms.Button();
             this.labelMessage = new System.Windows.Forms.Label();
             this.dataCollectorBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.refreshButton = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataCollectorBindingSource)).BeginInit();
@@ -75,9 +78,10 @@
             this.aboutToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(680, 24);
+            this.mainMenuStrip.Size = new System.Drawing.Size(879, 24);
             this.mainMenuStrip.TabIndex = 4;
             this.mainMenuStrip.Text = "mainMenuStrip";
+            this.mainMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mainMenuStrip_ItemClicked);
             // 
             // testToolStripMenuItem1
             // 
@@ -206,12 +210,14 @@
             this.beginHeader,
             this.sizeHeader,
             this.endHeader,
-            this.unknownHashHeader,
-            this.modHeader});
+            this.hashHeaderOne,
+            this.hashHeaderTwo,
+            this.modifiedFlag,
+            this.hashedPath});
             this.listViewMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewMain.Location = new System.Drawing.Point(0, 24);
             this.listViewMain.Name = "listViewMain";
-            this.listViewMain.Size = new System.Drawing.Size(680, 270);
+            this.listViewMain.Size = new System.Drawing.Size(879, 322);
             this.listViewMain.TabIndex = 6;
             this.listViewMain.Tag = "";
             this.listViewMain.UseCompatibleStateImageBehavior = false;
@@ -223,6 +229,7 @@
             // 
             this.indexHeader.Tag = "";
             this.indexHeader.Text = "Index";
+            this.indexHeader.Width = 46;
             // 
             // beginHeader
             // 
@@ -236,24 +243,33 @@
             // 
             this.endHeader.Text = "End (*)";
             // 
-            // unknownHashHeader
+            // hashHeaderOne
             // 
-            this.unknownHashHeader.Text = "Hash";
-            this.unknownHashHeader.Width = 118;
+            this.hashHeaderOne.Text = "Hash1";
+            this.hashHeaderOne.Width = 74;
             // 
-            // modHeader
+            // hashHeaderTwo
             // 
-            this.modHeader.Text = "Modified";
-            this.modHeader.Width = 116;
+            this.hashHeaderTwo.Text = "Hash2";
+            this.hashHeaderTwo.Width = 71;
+            // 
+            // modifiedFlag
+            // 
+            this.modifiedFlag.Text = "Modified";
+            // 
+            // hashedPath
+            // 
+            this.hashedPath.Text = "Path";
+            this.hashedPath.Width = 78;
             // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 272);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 324);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(680, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(879, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             this.statusStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
@@ -268,7 +284,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(630, 272);
+            this.button1.Location = new System.Drawing.Point(829, 324);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(27, 22);
             this.button1.TabIndex = 11;
@@ -281,17 +297,29 @@
             this.labelMessage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelMessage.AutoSize = true;
             this.labelMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMessage.Location = new System.Drawing.Point(112, 129);
+            this.labelMessage.Location = new System.Drawing.Point(211, 155);
             this.labelMessage.Name = "labelMessage";
             this.labelMessage.Size = new System.Drawing.Size(446, 39);
             this.labelMessage.TabIndex = 13;
             this.labelMessage.Text = "Please load a TAD/TAC file!";
             // 
+            // refreshButton
+            // 
+            this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.refreshButton.Location = new System.Drawing.Point(769, 324);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(54, 22);
+            this.refreshButton.TabIndex = 14;
+            this.refreshButton.Text = "Refresh";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(680, 294);
+            this.ClientSize = new System.Drawing.Size(879, 346);
+            this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.listViewMain);
@@ -304,6 +332,8 @@
             this.ShowIcon = false;
             this.Text = "Shenmue HD ModTools v";
             this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.Enter += new System.EventHandler(this.Form1_Enter);
+            this.Leave += new System.EventHandler(this.Form1_Enter);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -326,9 +356,7 @@
         public System.Windows.Forms.ColumnHeader beginHeader;
         public System.Windows.Forms.ColumnHeader sizeHeader;
         public System.Windows.Forms.ColumnHeader endHeader;
-        public System.Windows.Forms.ColumnHeader unknownHashHeader;
         private System.Windows.Forms.ToolStripMenuItem saveVFSToolStripMenuItem1;
-        private System.Windows.Forms.ColumnHeader modHeader;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem howToModifyAFileInVFSToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
@@ -343,6 +371,11 @@
         private System.Windows.Forms.ToolStripMenuItem gIMShowGIMStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importExistingProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportAsAModToolStripMenuItem;
+        public System.Windows.Forms.ColumnHeader hashHeaderOne;
+        public System.Windows.Forms.ColumnHeader hashHeaderTwo;
+        private System.Windows.Forms.ColumnHeader modifiedFlag;
+        public System.Windows.Forms.ColumnHeader hashedPath;
+        private System.Windows.Forms.Button refreshButton;
     }
 }
 

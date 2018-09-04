@@ -84,12 +84,11 @@ namespace Shenmue_HD_Tools
 
         private void anaButton_Click(object sender, EventArgs e)
         {
-            new ShenmueHD.Core().MurmurHash2Debug();
         }
 
         private void fileInjector_Click(object sender, EventArgs e)
         {
-            new ShenmueHD.Core().saveAs();
+            new ShenmueHD.Core().SaveAs();
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
@@ -104,12 +103,11 @@ namespace Shenmue_HD_Tools
 
         private void cRC32FromLookupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new ShenmueHD.Core().MurmurHash2Debug();
         }
 
         private void replaceFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new ShenmueHD.Core().saveAs();
+            new ShenmueHD.Core().SaveAs();
         }
 
         private void listBoxVFS_SelectedIndexChanged(object sender, EventArgs e)
@@ -119,7 +117,7 @@ namespace Shenmue_HD_Tools
 
         private void saveVFSToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new ShenmueHD.Core().saveAs();
+            new ShenmueHD.Core().SaveAs();
         }
 
         private void listViewMain_SelectedIndexChanged(object sender, EventArgs e)
@@ -146,7 +144,7 @@ namespace Shenmue_HD_Tools
 
         private void saveVFSToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            new ShenmueHD.Core().save();
+            new ShenmueHD.Core().Save();
         }
 
         private void howToModifyAFileInVFSToolStripMenuItem_Click(object sender, EventArgs e)
@@ -212,11 +210,28 @@ namespace Shenmue_HD_Tools
 
         private void exportAsAModToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new ShenmueHD.Core().export();
+            new ShenmueHD.Core().Export();
         }
 
         private void testToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void mainMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void Form1_Enter(object sender, EventArgs e)
+        {
+            new ShenmueHD.Core().UpdateGUI();
+        }
+
+        private void refreshButton_Click(object sender, EventArgs e)
+        {
+            this.refreshButton.Enabled = false;
+            new ShenmueHD.Core().UpdateGUI();
+            this.refreshButton.Enabled = true;
         }
     }
 

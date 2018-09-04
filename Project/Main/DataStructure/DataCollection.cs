@@ -9,6 +9,7 @@ namespace ShenmueHDTools.Main.DataStructure
     [Serializable]
     public class DataCollection
     {
+        public ushort Version { get; set; } = 1;
         public HeaderStructure Header { get; set; }
         public List<FileStructure> Files { get; set; }
     }
