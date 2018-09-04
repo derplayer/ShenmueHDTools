@@ -9,6 +9,8 @@ using Microsoft.Win32;
 using System.IO.Compression;
 using ShenmueHDTools.Main;
 using ShenmueHDTools.Main.DataStructure;
+using System.Threading;
+using ShenmueHDTools;
 
 namespace Shenmue_HD_Tools.ShenmueHD
 {
@@ -16,6 +18,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
     {
         public static string loadedVFS { get; set; }
         private static DataLogic data { get; set; } = new DataLogic();
+        private Thread loadingThread;
 
         public void Main()
         {
@@ -29,7 +32,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
                 if (newPathDlg.ShowDialog() == DialogResult.OK)
                 {
-
+                    LockGUI();
                     file = newPathDlg.FileName;
                     directory = Path.GetDirectoryName(file);
                     loadedVFS = file;
@@ -37,6 +40,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     List<FileStructure> readedFiles = data.LoadVFS(file, directory);
 
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ", " + readedFiles.Count + " files)";
+                    UnlockGUI();
                     Program.MainWindowCore.listViewMain.Visible = true;
                 }
             }
@@ -58,6 +62,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
                 if (newPathDlg.ShowDialog() == DialogResult.OK)
                 {
+                    LockGUI();
                     file = newPathDlg.FileName;
                     directory = Path.GetDirectoryName(file);
                     loadedVFS = file;
@@ -65,6 +70,7 @@ namespace Shenmue_HD_Tools.ShenmueHD
                     List<FileStructure> readedFiles = data.LoadCache(file, directory);
 
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "Loading finished! (" + newPathDlg.FileName + ", " + readedFiles.Count + " files)";
+                    UnlockGUI();
                     Program.MainWindowCore.listViewMain.Visible = true;
                 }
             }
@@ -80,7 +86,9 @@ namespace Shenmue_HD_Tools.ShenmueHD
             {
                 if (loadedVFS != null)
                 {
+                    LockGUI();
                     data.SaveVFS(loadedVFS);
+                    UnlockGUI();
                     data.UpdateGUI();
                     Program.MainWindowCore.toolStripStatusLabel1.Text = "Tac/Tad saved!";
                 }
@@ -106,7 +114,9 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
                     if (newSavePathDlg.ShowDialog() == DialogResult.OK)
                     {
+                        LockGUI();
                         data.SaveVFS(newSavePathDlg.FileName);
+                        UnlockGUI();
                         Program.MainWindowCore.toolStripStatusLabel1.Text = "Tac/Tad saved!";
                     }
                 }
@@ -132,8 +142,10 @@ namespace Shenmue_HD_Tools.ShenmueHD
 
                     if (newSavePathDlg.ShowDialog() == DialogResult.OK)
                     {
+                        LockGUI();
                         data.Export(newSavePathDlg.FileName);
                         Program.MainWindowCore.toolStripStatusLabel1.Text = "Export executed!";
+                        UnlockGUI();
                     }
                 }
                 else
@@ -159,5 +171,17 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
+        public void LockGUI()
+        {
+            loadingThread = new Thread(() => new Loading().ShowDialog());
+            Program.MainWindowCore.Hide();
+            loadingThread.Start();
+        }
+
+        public void UnlockGUI()
+        {
+            loadingThread.Abort();
+            Program.MainWindowCore.Show();
+        }
     }
 }

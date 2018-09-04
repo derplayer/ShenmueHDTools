@@ -12,6 +12,7 @@ using ShenmueHDTools.Main;
 using Shenmue_HD_Tools;
 using ShenmueHDTools.Main.DataStructure;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace ShenmueHDTools.Main
 {
@@ -442,7 +443,6 @@ namespace ShenmueHDTools.Main
 
         public void UpdateGUI()
         {
-
             foreach (var item in Program.MainWindowCore.listViewMain.Items)
             {
                 Program.MainWindowCore.listViewMain.Items.Remove((ListViewItem)item);
@@ -460,16 +460,16 @@ namespace ShenmueHDTools.Main
                 lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Meta.FileEnd)).Replace("-", "")));
                 lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Hash1)).Replace("-", "")));
                 lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Hash2)).Replace("-", "")));
-                //lvi.SubItems.Add("0x" + (BitConverter.ToString((item.Meta.FileModified)).Replace("-", "")));
-
                 lvi.SubItems.Add(item.Meta.FileModified.ToString());
-                lvi.BeginEdit();
+                lvi.SubItems.Add(item.Meta.FileExt);
+                lvi.SubItems.Add("?");
 
                 Program.MainWindowCore.listViewMain.Items.Add(lvi);
                 Program.MainWindowCore.listViewMain.LabelEdit = true;
 
             }
 
+            Program.MainWindowCore.listViewMain.Items.Add(new ListViewItem());
             Program.MainWindowCore.listViewMain.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
@@ -536,23 +536,66 @@ namespace ShenmueHDTools.Main
                     if (dataArray[i] == 0x00) nullCount++;
                 }
 
-                if(nullCount == 0) return fileExt = ".csv";
+                if(nullCount == 0) return fileExt = ".txt";
             }
             catch (Exception)
             {
                 return fileExt;
             }
 
-            // From now on it is just a "maybe"
-
-            //FF8600
-
             if (
                 (dataArray[0] == 0xFF && dataArray[1] == 0x86 && dataArray[2] == 0x00) ||
                 (dataArray[0] == 0xFF && dataArray[1] == 0x00 && dataArray[2] == 0x40) ||
                 (dataArray[0] == 0xFF && dataArray[1] == 0xC5 && dataArray[2] == 0x40) ||
-                (dataArray[0] == 0xFF && dataArray[1] == 0xEB && dataArray[2] == 0x40)
+                (dataArray[0] == 0xFF && dataArray[1] == 0xEB && dataArray[2] == 0x40) ||
+                (dataArray[0] == 0x78 && dataArray[1] == 0x56 && dataArray[2] == 0x34)
                ) return ".fontdef";
+
+            if (
+                (dataArray[0] == 0x20 && dataArray[1] == 0x00 && dataArray[2] == 0x00) ||
+                (dataArray[0] == 0x0A && dataArray[1] == 0x00 && dataArray[2] == 0x00)
+               ) return ".glyphs";
+
+            //Disk Container Detection
+
+            if (semiIdentifier == "SCN") //MT5
+                return ".scn";
+
+            if (semiIdentifier4 == "SCRL") //MT5
+                return ".spr";
+
+            if (
+                (dataArray[0] == 0x1F && dataArray[1] == 0x8B && dataArray[2] == 0x08 && dataArray[2] == 0x08)
+               ) return ".gz";
+
+            if (semiIdentifier4 == "ATTR")
+                return ".bin";
+
+            //PKS/PKF Detection
+            using (var ms = new MemoryStream(dataArray))
+            {
+                ms.Seek(9, SeekOrigin.Begin);
+                int i = 0; //saftey check
+                while (true)
+                {
+                    byte actualVar = (byte)ms.ReadByte();
+                    if (actualVar == 0x2E) //a dot
+                    {
+                        byte[] buffer = new byte[3];
+                        ms.Read(buffer, 0, 3);
+
+                        string semiArchiveIdentifier = Encoding.ASCII.GetString(buffer);
+
+                        if (semiArchiveIdentifier == "PKF") return ".pkf";
+                        if (semiArchiveIdentifier == "PKS") return ".pks";
+
+                        break;
+                    }
+
+                    i++;
+                    if (i >= 24) break;
+                }
+            }          
 
             return fileExt;
         }

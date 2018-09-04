@@ -46,6 +46,11 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.howToModifyAFileInVFSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.labelMessage = new System.Windows.Forms.Label();
+            this.refreshButton = new System.Windows.Forms.Button();
             this.listViewMain = new System.Windows.Forms.ListView();
             this.indexHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.beginHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -54,13 +59,9 @@
             this.hashHeaderOne = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.hashHeaderTwo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.modifiedFlag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.fileExt = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.hashedPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.labelMessage = new System.Windows.Forms.Label();
             this.dataCollectorBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.refreshButton = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataCollectorBindingSource)).BeginInit();
@@ -175,8 +176,8 @@
             // cRC32FromLookupToolStripMenuItem
             // 
             this.cRC32FromLookupToolStripMenuItem.Name = "cRC32FromLookupToolStripMenuItem";
-            this.cRC32FromLookupToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.cRC32FromLookupToolStripMenuItem.Text = "HASH Test";
+            this.cRC32FromLookupToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.cRC32FromLookupToolStripMenuItem.Text = "Show";
             this.cRC32FromLookupToolStripMenuItem.Click += new System.EventHandler(this.cRC32FromLookupToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
@@ -202,73 +203,6 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // listViewMain
-            // 
-            this.listViewMain.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.listViewMain.AllowColumnReorder = true;
-            this.listViewMain.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.indexHeader,
-            this.beginHeader,
-            this.sizeHeader,
-            this.endHeader,
-            this.hashHeaderOne,
-            this.hashHeaderTwo,
-            this.modifiedFlag,
-            this.hashedPath});
-            this.listViewMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewMain.FullRowSelect = true;
-            this.listViewMain.MultiSelect = false;
-            this.listViewMain.HideSelection = false;
-            this.listViewMain.Location = new System.Drawing.Point(0, 24);
-            this.listViewMain.Name = "listViewMain";
-            this.listViewMain.ShowItemToolTips = true;
-            this.listViewMain.Size = new System.Drawing.Size(879, 322);
-            this.listViewMain.TabIndex = 6;
-            this.listViewMain.Tag = "";
-            this.listViewMain.UseCompatibleStateImageBehavior = false;
-            this.listViewMain.View = System.Windows.Forms.View.Details;
-            this.listViewMain.Visible = false;
-            this.listViewMain.SelectedIndexChanged += new System.EventHandler(this.listViewMain_SelectedIndexChanged);
-            this.listViewMain.DoubleClick += new System.EventHandler(this.listViewMain_Click);
-            this.listViewMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDown);
-            // 
-            // indexHeader
-            // 
-            this.indexHeader.Tag = "";
-            this.indexHeader.Text = "Index";
-            this.indexHeader.Width = 46;
-            // 
-            // beginHeader
-            // 
-            this.beginHeader.Text = "Begin (*)";
-            // 
-            // sizeHeader
-            // 
-            this.sizeHeader.Text = "File Size";
-            // 
-            // endHeader
-            // 
-            this.endHeader.Text = "End (*)";
-            // 
-            // hashHeaderOne
-            // 
-            this.hashHeaderOne.Text = "Hash1";
-            this.hashHeaderOne.Width = 74;
-            // 
-            // hashHeaderTwo
-            // 
-            this.hashHeaderTwo.Text = "Hash2";
-            this.hashHeaderTwo.Width = 71;
-            // 
-            // modifiedFlag
-            // 
-            this.modifiedFlag.Text = "Modified";
-            // 
-            // hashedPath
-            // 
-            this.hashedPath.Text = "Path";
-            this.hashedPath.Width = 78;
             // 
             // statusStrip1
             // 
@@ -322,6 +256,78 @@
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
+            // listViewMain
+            // 
+            this.listViewMain.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.listViewMain.AllowColumnReorder = true;
+            this.listViewMain.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.indexHeader,
+            this.beginHeader,
+            this.sizeHeader,
+            this.endHeader,
+            this.hashHeaderOne,
+            this.hashHeaderTwo,
+            this.modifiedFlag,
+            this.fileExt,
+            this.hashedPath});
+            this.listViewMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewMain.FullRowSelect = true;
+            this.listViewMain.HideSelection = false;
+            this.listViewMain.Location = new System.Drawing.Point(0, 24);
+            this.listViewMain.MultiSelect = false;
+            this.listViewMain.Name = "listViewMain";
+            this.listViewMain.ShowItemToolTips = true;
+            this.listViewMain.Size = new System.Drawing.Size(879, 322);
+            this.listViewMain.TabIndex = 6;
+            this.listViewMain.Tag = "";
+            this.listViewMain.UseCompatibleStateImageBehavior = false;
+            this.listViewMain.View = System.Windows.Forms.View.Details;
+            this.listViewMain.Visible = false;
+            this.listViewMain.SelectedIndexChanged += new System.EventHandler(this.listViewMain_SelectedIndexChanged);
+            this.listViewMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDown);
+            // 
+            // indexHeader
+            // 
+            this.indexHeader.Tag = "";
+            this.indexHeader.Text = "Index";
+            this.indexHeader.Width = 46;
+            // 
+            // beginHeader
+            // 
+            this.beginHeader.Text = "Begin (*)";
+            // 
+            // sizeHeader
+            // 
+            this.sizeHeader.Text = "File Size";
+            // 
+            // endHeader
+            // 
+            this.endHeader.Text = "End (*)";
+            // 
+            // hashHeaderOne
+            // 
+            this.hashHeaderOne.Text = "Hash1";
+            this.hashHeaderOne.Width = 74;
+            // 
+            // hashHeaderTwo
+            // 
+            this.hashHeaderTwo.Text = "Hash2";
+            this.hashHeaderTwo.Width = 71;
+            // 
+            // modifiedFlag
+            // 
+            this.modifiedFlag.Text = "Modified";
+            // 
+            // fileExt
+            // 
+            this.fileExt.Text = "Extenstion";
+            this.fileExt.Width = 80;
+            // 
+            // hashedPath
+            // 
+            this.hashedPath.Text = "Path";
+            this.hashedPath.Width = 78;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -350,6 +356,7 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
+            listViewColumnSorter = new ListViewColumnSorterExt(listViewMain);
         }
 
         #endregion
@@ -384,6 +391,8 @@
         public System.Windows.Forms.ColumnHeader hashedPath;
         private System.Windows.Forms.Button refreshButton;
         public System.Windows.Forms.ColumnHeader modifiedFlag;
+        public System.Windows.Forms.ColumnHeader fileExt;
+        private ListViewColumnSorterExt listViewColumnSorter;
     }
 }
 

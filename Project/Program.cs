@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShenmueHDTools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,14 @@ namespace Shenmue_HD_Tools
 
         public static void Run()
         {
+            Resources.InitResources();
+            Application.ApplicationExit += new EventHandler(OnApplicationExit);
             Application.Run(MainWindowCore);
+        }
+
+        private static void OnApplicationExit(object sender, EventArgs e)
+        {
+            About.StopFromOtherThread("playThread");
         }
     }
 }
