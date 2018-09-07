@@ -97,9 +97,24 @@ namespace ShenmueHDTools.Main
 
                         byte[] dataArray = new byte[sizeInt];
                         tacReader.Read(dataArray, 0, dataArray.Length);
+
                         file.Meta.FileExt = ExtFinder(dataArray);
                         string finalFilePath = extractDirectory + file.Meta.Index + file.Meta.FileExt;
                         file.Meta.FilePath = finalFilePath;
+
+                        try
+                        {
+                            //TODO: REMOVE/MODIFY LATER!
+                            if (file.Meta.FileExt == ".json" && file.Meta.Index == 12)
+                            {
+                                //load stuff into memory for assertmapping/s
+                                file.Meta.FileDeserialized = new RemappingStructure(dataArray);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw;
+                        }
 
                         //Extract at load...
                         try

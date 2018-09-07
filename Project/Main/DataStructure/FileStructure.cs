@@ -58,6 +58,10 @@ namespace ShenmueHDTools.Main.DataStructure
         public byte[] FileHashedExt;
         [OptionalField]
         public byte[] FileHashedReserved;
+
+        //Temporary... TODO: Typegeneric?
+        [OptionalField]
+        public RemappingStructure FileDeserialized;
     }
 
 }
