@@ -26,21 +26,43 @@ namespace Shenmue_HD_Tools.ShenmueHD
         /// <returns>Shenmue MurmurHash2</returns>
         public static uint Hash(byte[] data, uint length)
         {
+            //TODO: Needs a refactoring because its just plain broken up asm logic which is not that performant
             uint hash = (length / 0xFFFFFFFF + length) ^ initSeed;
             uint m = multiplier;
             int r = rotationAmount;
+
+            UInt64 lengthRemaining = length + length / 4 * 0xfffffffffffffffc;
 
             if (length >= 4)
             {
                 for (int i = 0; i < length; i += 4)
                 {
+                    if (i / 4 >= length / 4) break;
                     uint ecx = BitConverter.ToUInt32(data, i) * m;
                     hash = hash * m ^ (ecx >> r ^ ecx) * m;
                 }
             }
 
-            uint edx = (hash >> 13 ^ hash) * m;
-            hash = edx >> 15 ^ edx;
+            byte[] buffer = new byte[4];
+            if (lengthRemaining == 1)
+            {
+                buffer[0] = data[length - 1];
+            }
+            else if (lengthRemaining == 2)
+            {
+                buffer[0] = data[length - 2];
+                buffer[1] = data[length - 1];
+            }
+            else
+            {
+                buffer[0] = data[length - 3];
+                buffer[1] = data[length - 2];
+                buffer[2] = data[length - 1];
+            }
+            hash = (hash ^ BitConverter.ToUInt32(buffer, 0)) * m;
+
+            uint edx = (hash >> 0x0D ^ hash) * m;
+            hash = edx >> 0x0F ^ edx;
             return hash;
         }
 

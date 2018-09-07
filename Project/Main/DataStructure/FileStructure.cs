@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Shenmue_HD_Tools.ShenmueHD;
 
 namespace ShenmueHDTools.Main.DataStructure
 {
@@ -19,6 +20,22 @@ namespace ShenmueHDTools.Main.DataStructure
 
         // Not part of real "tad" file, but useful
         public FileStructureMeta Meta { get; set; } = new FileStructureMeta();
+
+        public static byte[] GetFilenameHash(String filename)
+        {
+            if (filename[0] == '.')
+            {
+                filename = filename.Substring(1);
+            }
+            string strippedFilename = filename.ToLower().Replace("/", "");
+            uint murmurHash = MurmurHash2Shenmue.Hash(Encoding.ASCII.GetBytes(strippedFilename), (uint)strippedFilename.Length);
+
+            Console.WriteLine(murmurHash.ToString("X"));
+
+            uint hash = murmurHash * 0x0001003F + (uint)strippedFilename.Length * (uint)strippedFilename.Length * 0x0002001F;
+
+            return BitConverter.GetBytes(hash);
+        }
     }
 
     [Serializable]
