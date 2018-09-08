@@ -105,7 +105,7 @@ namespace Shenmue_HD_Tools
 
         private void cRC32FromLookupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new ShenmueHDTools.Main.DataHelper().GenerateDCObject();
+
         }
 
         private void replaceFileToolStripMenuItem_Click(object sender, EventArgs e)

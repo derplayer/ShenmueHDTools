@@ -7,20 +7,16 @@ using System.Threading.Tasks;
 
 namespace ShenmueHDTools.Main.DataStructure
 {
-    [Serializable]
-    public class DCCollector
+    public static class DCCollector
     {
-        public List<DCStructure> FileCollector = new List<DCStructure>();
+        public static List<DCStructure> FileCollector = new List<DCStructure>();
     }
 
-    [Serializable]
     public class DCStructure
     {
         public string FilePathFull;
         public string FileName;
         public long FileSize;
-
-        [OptionalField]
         public byte[] Hash;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ShenmueHDTools;
+using ShenmueHDTools.Main;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace Shenmue_HD_Tools
         public static void Run()
         {
             Resources.InitResources();
+            DataHelper.GenerateDCObject();
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
             Application.Run(MainWindowCore);
         }
