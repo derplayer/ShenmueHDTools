@@ -19,7 +19,7 @@ namespace ShenmueHDTools.Main
             {
                 filename = filename.Substring(1);
             }
-            string strippedFilename = filename.ToLower().Replace("/", "");
+            string strippedFilename = filename.ToLower().Replace("/", "").Replace("-", "");
             uint murmurHash = MurmurHash2Shenmue.Hash(Encoding.ASCII.GetBytes(strippedFilename), (uint)strippedFilename.Length);
 
             Console.WriteLine(murmurHash.ToString("X"));

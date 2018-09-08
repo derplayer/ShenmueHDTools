@@ -84,6 +84,7 @@
     <Compile Include="Loading.Designer.cs">
       <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
+    <Compile Include="Main\FilenameCrawler.cs" />
     <Compile Include="Main\Core.cs" />
     <Compile Include="Main\DataHelper.cs" />
     <Compile Include="Main\DataLogic.cs" />
