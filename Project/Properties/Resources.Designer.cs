@@ -61,12 +61,357 @@ namespace ShenmueHDTools.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2699828 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2414064 
+        ///\MISC\COLDINIT.PKF 108715 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string B_D1 {
+            get {
+                return ResourceManager.GetString("B_D1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2699828 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2414064 
+        ///\MISC\COLDINIT.PKF 108715 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string B_D2 {
+            get {
+                return ResourceManager.GetString("B_D2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2699828 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2414064 
+        ///\MISC\COLDINIT.PKF 108715 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string B_D3 {
+            get {
+                return ResourceManager.GetString("B_D3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 174796 
+        ///\1ST_READ.BIN 5054464 
+        ///\AICADRV.BIN 63432 
+        ///\MON.BIN 65552 
+        ///\MOVIE.BIN 405760 
+        ///\RELOAD.BIN 660736 
+        ///\RPG.BIN 4988928 
+        ///\SNDPACK.BIN 97392 
+        ///\SP_01.SFD 14462976 
+        ///\SP_11.SFD 58628096 
+        ///\SP_17.SFD 78546944 
+        ///\SP_18.SFD 34596864 
+        ///\SP_19.SFD 58929152 
+        ///\FONT\ASCII.PVR 6172 
+        ///\FONT\DC_KANA.FON 7680 
+        ///\FONT\DC_KANJI.FON 351270 
+        ///\FONT\RYOU.FON 351270 
+        ///\FONT\WAZA.FON 351270 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\ASCII.PVR 6172 
+        ///\MISC\BATTLE.GZ 36392 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.B [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string B_PASS {
+            get {
+                return ResourceManager.GetString("B_PASS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2755492 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2414064 
+        ///\MISC\COLDINIT.PKF 108715 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string EU_D1 {
+            get {
+                return ResourceManager.GetString("EU_D1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2755492 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2414064 
+        ///\MISC\COLDINIT.PKF 108715 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string EU_D2 {
+            get {
+                return ResourceManager.GetString("EU_D2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.BMP 262282 
+        ///\0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2755492 
+        ///\ABSTRACT.TXT 0 
+        ///\AUTORUN.INF 50 
+        ///\BIBLIOGR.TXT 0 
+        ///\COPYRIGH.TXT 19 
+        ///\DISCNUM.BIN 2048 
+        ///\WARNING.MP3 262340 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000. [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string EU_D3 {
+            get {
+                return ResourceManager.GetString("EU_D3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.BMP 262282 
+        ///\0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 5054464 
+        ///\ABSTRACT.TXT 0 
+        ///\AICADRV.BIN 63432 
+        ///\AUTORUN.INF 50 
+        ///\BIBLIOGR.TXT 0 
+        ///\COPYRIGH.TXT 19 
+        ///\MON.BIN 65552 
+        ///\MOVIE.BIN 400128 
+        ///\RELOAD.BIN 660736 
+        ///\RPG.BIN 4988928 
+        ///\SNDPACK.BIN 97392 
+        ///\SP_01.SFD 3831808 
+        ///\SP_11.SFD 17836032 
+        ///\SP_17.SFD 24246272 
+        ///\SP_18.SFD 10852352 
+        ///\SP_19.SFD 17676288 
+        ///\WARNING.MP3 2385459 
+        ///\FONT\ASCII.PVR 6172 
+        ///\FONT\DC_KANA.FON 7680 
+        ///\FONT\DC_KANJI.FON 351270 
+        ///\FONT\RYOU.FON 351270 
+        ///\FONT\WAZA.FON 351270  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string EU_PASS {
+            get {
+                return ResourceManager.GetString("EU_PASS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] gfx {
             get {
                 object obj = ResourceManager.GetObject("gfx", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 174796 
+        ///\1ST_READ.BIN 2709860 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 36392 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2757072 
+        ///\MISC\COLDINIT.PKF 108715 
+        ///\MISC\COLDINIT.PKS 1700469 
+        ///\MISC\DC_KANA.FON 7680 
+        ///\MISC\DC_KANJI.FON 351270 
+        ///\MISC\MODELS.PKF 10 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string JAP_D1 {
+            get {
+                return ResourceManager.GetString("JAP_D1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 174796 
+        ///\1ST_READ.BIN 2709860 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 36392 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2757072 
+        ///\MISC\COLDINIT.PKF 108715 
+        ///\MISC\COLDINIT.PKS 1700469 
+        ///\MISC\DC_KANA.FON 7680 
+        ///\MISC\DC_KANJI.FON 351270 
+        ///\MISC\MODELS.PKF 10 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string JAP_D2 {
+            get {
+                return ResourceManager.GetString("JAP_D2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 174796 
+        ///\1ST_READ.BIN 2709860 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 36392 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2757072 
+        ///\MISC\COLDINIT.PKF 108715 
+        ///\MISC\COLDINIT.PKS 1700469 
+        ///\MISC\DC_KANA.FON 7680 
+        ///\MISC\DC_KANJI.FON 351270 
+        ///\MISC\MODELS.PKF 10 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string JAP_D3 {
+            get {
+                return ResourceManager.GetString("JAP_D3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 174796 
+        ///\1ST_READ.BIN 5054464 
+        ///\F355VMOP.BIN 1441792 
+        ///\MOVIE.BIN 3895696 
+        ///\RELOAD.BIN 660736 
+        ///\RPG.BIN 4988928 
+        ///\SHMPSPT.BIN 0 
+        ///\F355VMOP\CLEAR22A.ADX 2472354 
+        ///\F355VMOP\F355.SFD 94625792 
+        ///\F355VMOP\GALLERY.BIN 3701248 
+        ///\F355VMOP\MOVIE.BIN 327680 
+        ///\F355VMOP\OVERLAY.BIN 229376 
+        ///\F355VMOP\PACK0.BIN 1884352 
+        ///\F355VMOP\SCARL22A.ADX 2321964 
+        ///\F355VMOP\SELECT22A.ADX 2313918 
+        ///\F355VMOP\SPRITE.BIN 3107328 
+        ///\F355VMOP\TEXTURE.BIN 391168 
+        ///\FONT\ASCII.PVR 6172 
+        ///\FONT\DC_KANA.FON 7680 
+        ///\FO [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string JAP_PASS {
+            get {
+                return ResourceManager.GetString("JAP_PASS", resourceCulture);
             }
         }
         
@@ -87,6 +432,149 @@ namespace ShenmueHDTools.Properties {
             get {
                 object obj = ResourceManager.GetObject("mid", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2695540 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2414064 
+        ///\MISC\COLDINIT.PKF 108715 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string US_D1 {
+            get {
+                return ResourceManager.GetString("US_D1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2695540 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2414064 
+        ///\MISC\COLDINIT.PKF 108715 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string US_D2 {
+            get {
+                return ResourceManager.GetString("US_D2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 2695540 
+        ///\DISCNUM.BIN 2048 
+        ///\FIGHT\EN_RYOU.BIN 7596 
+        ///\FONT\ASCII.PVR 6172 
+        ///\HANGON\HANGON.BIN 5378124 
+        ///\HANGON\HANGON.EMU 849420 
+        ///\HARRIER\HARRIER.PKS 2288336 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\BATTLE.GZ 34230 
+        ///\MISC\BATTLE_E.GZ 34230 
+        ///\MISC\BATTLE_F.GZ 33722 
+        ///\MISC\BATTLE_G.GZ 34928 
+        ///\MISC\BATTLE_S.GZ 34754 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\CM_JOMO.BIN 21064 
+        ///\MISC\CM_MFSY.BIN 329144 
+        ///\MISC\COLD.BIN 2414064 
+        ///\MISC\COLDINIT.PKF 108715 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string US_D3 {
+            get {
+                return ResourceManager.GetString("US_D3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
+        ///\1ST_READ.BIN 5054464 
+        ///\AICADRV.BIN 63432 
+        ///\MON.BIN 65552 
+        ///\MOVIE.BIN 400128 
+        ///\RELOAD.BIN 660736 
+        ///\SNDPACK.BIN 97392 
+        ///\SP_01.SFD 14462976 
+        ///\SP_11.SFD 58628096 
+        ///\SP_17.SFD 78546944 
+        ///\SP_18.SFD 34596864 
+        ///\SP_19.SFD 58929152 
+        ///\FONT\ASCII.PVR 6172 
+        ///\FONT\DC_KANA.FON 7680 
+        ///\FONT\DC_KANJI.FON 351270 
+        ///\FONT\RYOU.FON 351270 
+        ///\FONT\WAZA.FON 351270 
+        ///\MISC\AICADRV.BIN 59264 
+        ///\MISC\ASCII.PVR 6172 
+        ///\MISC\BATTLE.GZ 36392 
+        ///\MISC\BGM110.SND 632148 
+        ///\MISC\CM_D000.BIN 629716 
+        ///\MISC\C [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string US_PASS {
+            get {
+                return ResourceManager.GetString("US_PASS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die \1ST_READ.BIN 2491396 
+        ///\IP.BIN 32768 
+        ///\TRACK04.WAV 1032572 
+        ///\TRACK05.WAV 27189164 
+        ///\TRACK06.WAV 23150780 
+        ///\TRACK07.WAV 17207276 
+        ///\TRACK08.WAV 2025116 
+        ///\2_LINEAR\L80GSEN.IDX 544 
+        ///\2_LINEAR\L80GSEN.IMG 2308864 
+        ///\2_LINEAR\L80SUSI.IDX 496 
+        ///\2_LINEAR\L80SUSI.IMG 1840256 
+        ///\2_LINEAR\L80TIKN.IDX 1408 
+        ///\2_LINEAR\L80TIKN.IMG 9326816 
+        ///\2_LINEAR\L80TOUR.IDX 472 
+        ///\2_LINEAR\L80TOUR.IMG 1584640 
+        ///\CAMERA\GMOT_CAM.CAM 7508 
+        ///\FONT\ASCII.PVR 6172 
+        ///\FONT\DC_KANA.FON 7680 
+        ///\FONT\DC_KANJI.FON 351270 
+        ///\FONT\RYO [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string WS_D1 {
+            get {
+                return ResourceManager.GetString("WS_D1", resourceCulture);
             }
         }
     }

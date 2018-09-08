@@ -85,8 +85,10 @@
       <DependentUpon>Loading.cs</DependentUpon>
     </Compile>
     <Compile Include="Main\Core.cs" />
+    <Compile Include="Main\DataHelper.cs" />
     <Compile Include="Main\DataLogic.cs" />
     <Compile Include="Main\DataStructure\DataCollection.cs" />
+    <Compile Include="Main\DataStructure\DCStructure.cs" />
     <Compile Include="Main\DataStructure\FileStructure.cs" />
     <Compile Include="Main\DataStructure\HeaderStructure.cs" />
     <Compile Include="Main\DataStructure\RemappingStructure.cs" />
@@ -148,6 +150,25 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Shenmue_BETA_v0_400\B_D1.txt" />
+    <Content Include="Resources\Shenmue_BETA_v0_400\B_D2.txt" />
+    <Content Include="Resources\Shenmue_BETA_v0_400\B_D3.txt" />
+    <Content Include="Resources\Shenmue_BETA_v0_400\B_PASS.txt" />
+    <Content Include="Resources\Shenmue_v1_001_EU\EU_D1.txt" />
+    <Content Include="Resources\Shenmue_v1_001_EU\EU_D2.txt" />
+    <Content Include="Resources\Shenmue_v1_001_EU\EU_D3.txt" />
+    <Content Include="Resources\Shenmue_v1_001_EU\EU_PASS.txt" />
+    <Content Include="Resources\Shenmue_v1_003_US\US_D1.txt" />
+    <Content Include="Resources\Shenmue_v1_003_US\US_D2.txt" />
+    <Content Include="Resources\Shenmue_v1_003_US\US_D3.txt" />
+    <Content Include="Resources\Shenmue_v1_003_US\US_PASS.txt" />
+    <Content Include="Resources\Shenmue_v1_007_JAP\JAP_D1.txt" />
+    <Content Include="Resources\Shenmue_v1_007_JAP\JAP_D2.txt" />
+    <Content Include="Resources\Shenmue_v1_007_JAP\JAP_D3.txt" />
+    <Content Include="Resources\Shenmue_v1_007_JAP\JAP_PASS.txt" />
+    <Content Include="Resources\Whats_Shemue\WS_D1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
