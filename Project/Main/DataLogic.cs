@@ -110,6 +110,12 @@ namespace ShenmueHDTools.Main
                                 //load stuff into memory for assertmapping/s
                                 file.Meta.FileDeserialized = new RemappingStructure(dataArray);
                             }
+
+                            // TODO: Verify Filehash and Database hash!
+                            //foreach (var dcFile in DCCollector.FileCollector)
+                            //{
+                            //    if(file.)
+                            //}
                         }
                         catch (Exception e)
                         {
