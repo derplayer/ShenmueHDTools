@@ -14,14 +14,14 @@ namespace ShenmueHDTools.Main.Files.Headers
         /// </summary>
         public static readonly ushort TADHeaderSize = 56;
 
-        public uint FileType { get; set; }
-        public uint Identifier1 { get; set; }
-        public uint Identifier2 { get; set; }
-        public DateTime UnixTimestamp { get; set; }
-        public string RenderType { get; set; }
-        public uint HeaderChecksum { get; set; }
-        public uint TacSize { get; set; }
-        public uint FileCount { get; set; }
+        public uint FileType { get; set; } = 1;
+        public uint Identifier1 { get; set; } = 5;
+        public uint Identifier2 { get; set; } = 2;
+        public DateTime UnixTimestamp { get; set; } = DateTime.UtcNow;
+        public string RenderType { get; set; } = "dx11";
+        public uint HeaderChecksum { get; set; } = 0;
+        public uint TacSize { get; set; } = 0;
+        public uint FileCount { get; set; } = 0;
 
         public void CalcHeaderChecksum()
         {

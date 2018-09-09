@@ -82,6 +82,9 @@ namespace ShenmueHDTools.Main
     {
         public static Dictionary<uint, string> FilenameDictionary = new Dictionary<uint, string>();
 
+        private static List<TADFile> m_tadFiles = new List<TADFile>();
+        private static List<TACFile> m_tacFiles = new List<TACFile>();
+
         private static bool ValidChar(char character)
         {
             return (Char.IsLetterOrDigit(character) || character == '-' || character == '_' ||
@@ -148,9 +151,42 @@ namespace ShenmueHDTools.Main
             return filenames;
         }
 
+        public static byte[] GetBufferFromEntry(FilenameDatabaseEntry dbEntry, out bool found)
+        {
+            found = false;
+            byte[] result = new byte[0];
+            foreach (TACFile tacFile in m_tacFiles)
+            {
+                bool tmpFound = false;
+                result = tacFile.GetFileFromEntry(dbEntry, out tmpFound);
+                if (tmpFound)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
         public static void GenerateFilenameDictionary(string dataFolder = "")
         {
             FilenameDatabase.Clear();
+
+            m_tadFiles = new List<TADFile>();
+            m_tacFiles = new List<TACFile>();
+            if (!String.IsNullOrEmpty(dataFolder))
+            {
+                foreach (string archiveFile in ArchiveFiles)
+                {
+                    string tadFilename = dataFolder + "\\" + archiveFile + ".tad";
+                    string tacFilename = dataFolder + "\\" + archiveFile + ".tac";
+                    TADFile tadFile = new TADFile(tadFilename);
+                    m_tadFiles.Add(tadFile);
+                    TACFile tacFile = new TACFile();
+                    tacFile.Load(tacFilename, tadFile);
+                    m_tacFiles.Add(tacFile);
+                }
+            }
 
             //AssetRemapping.json
             string assetRemapping = MurmurHash2Shenmue.GetFullFilename(AssetRemapping, false);
@@ -188,10 +224,31 @@ namespace ShenmueHDTools.Main
                 uint secondHash = MurmurHash2Shenmue.GetFilenameHashPlain(filename);
                 string fullFilename = MurmurHash2Shenmue.GetFullFilename(filename, secondHash);
                 uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fullFilename), 0);
-                FilenameDatabase.Add(hash, secondHash, fullFilename);
+
+                FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, secondHash, fullFilename);
+                FilenameDatabase.Add(entry);
+
+                bool exists = false;
+                byte[] buffer = GetBufferFromEntry(entry, out exists);
+
+                if (exists)
+                {
+                    List<string> images = GetImagesFromUI(buffer);
+                    if (images.Count > 0)
+                    {
+                        foreach (string imageFilename in images)
+                        {
+                            uint hash2 = MurmurHash2Shenmue.GetFilenameHashPlain(imageFilename);
+                            string fFilename = MurmurHash2Shenmue.GetFullFilename(imageFilename, hash2);
+                            uint hash1 = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fFilename), 0);
+                            FilenameDatabase.Add(hash1, hash2, fFilename);
+                        }
+                    }
+                }
             }
 
-            //TODO Crawl ui files
+            m_tadFiles.Clear();
+            m_tacFiles.Clear();
         }
 
         public static List<string> GenerateFontdefFilenames()
@@ -213,9 +270,17 @@ namespace ShenmueHDTools.Main
         private static List<string> GetImagesFromUI(byte[] buffer)
         {
             List<string> result = new List<string>();
+            string jsonString = Encoding.ASCII.GetString(buffer, 0, buffer.Length);
+            JObject data = (JObject)JsonConvert.DeserializeObject(jsonString);
 
-
-
+            JToken token = data.SelectToken("Images");
+            if (token != null)
+            {
+                foreach (JToken tok in token.Children())
+                {
+                    result.Add(String.Format(SuffixUIFormat, tok.First, 0));
+                }
+            }
             return result;
         }
 

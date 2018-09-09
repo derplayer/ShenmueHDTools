@@ -15,24 +15,26 @@ namespace ShenmueHDTools.Main.Files
         private byte[] m_buffer;
         private TADFile m_tadFile;
 
-        public byte[] GetFileFromHash(uint hash)
+        public byte[] GetFileFromEntry(FilenameDatabaseEntry dbEntry, out bool found)
         {
             uint offset = 0;
             uint size = 0;
             foreach (TADFileEntry entry in m_tadFile.FileEntries)
             {
-                if (entry.FirstHash == hash)
+                if (entry.FirstHash == dbEntry.FirstHash && entry.SecondHash == dbEntry.SecondHash)
                 {
                     offset = entry.FileOffset;
                     size = entry.FileSize;
                     break;
                 }
             }
+            found = false;
             if (offset == 0) return new byte[0];
             if (m_buffer.Length == 0) return new byte[0];
 
             byte[] fileBuffer = new byte[size];
             Array.Copy(m_buffer, offset, fileBuffer, 0, size);
+            found = true;
             return fileBuffer;
         }
 
