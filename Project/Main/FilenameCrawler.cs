@@ -80,8 +80,6 @@ namespace ShenmueHDTools.Main
 
     class FilenameCrawler
     {
-        public static Dictionary<uint, string> FilenameDictionary = new Dictionary<uint, string>();
-
         private static List<TADFile> m_tadFiles = new List<TADFile>();
         private static List<TACFile> m_tacFiles = new List<TACFile>();
 
@@ -168,7 +166,7 @@ namespace ShenmueHDTools.Main
             return result;
         }
 
-        public static void GenerateFilenameDictionary(string dataFolder = "")
+        public static void GenerateFilenameDatabase(string dataFolder = "")
         {
             FilenameDatabase.Clear();
 
@@ -198,7 +196,25 @@ namespace ShenmueHDTools.Main
             uint sdTextureOverrideSecondHash = MurmurHash2Shenmue.GetFilenameHashPlain(SDTextureOverride);
             string sdTextureOverride = MurmurHash2Shenmue.GetFullFilename(SDTextureOverride, sdTextureOverrideSecondHash);
             uint sdTextureOverrideFirstHash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(sdTextureOverride), 0);
-            FilenameDatabase.Add(sdTextureOverrideFirstHash, sdTextureOverrideSecondHash, sdTextureOverride);
+            FilenameDatabaseEntry e = new FilenameDatabaseEntry(sdTextureOverrideFirstHash, sdTextureOverrideSecondHash, sdTextureOverride);
+            FilenameDatabase.Add(e);
+
+            bool exists = false;
+            byte[] buffer = GetBufferFromEntry(e, out exists);
+            if (exists)
+            {
+                List<string> textures = GetSDTextureOverrideFiles(buffer);
+                if (textures.Count > 0)
+                {
+                    foreach (string texFilename in textures)
+                    {
+                        uint hash2 = MurmurHash2Shenmue.GetFilenameHashPlain(texFilename);
+                        string fFilename = MurmurHash2Shenmue.GetFullFilename(texFilename, hash2);
+                        uint hash1 = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fFilename), 0);
+                        FilenameDatabase.Add(hash1, hash2, fFilename);
+                    }
+                }
+            }
 
             //Hardcoded Filenames
             foreach (string filename in HardcodedFilenames)
@@ -228,12 +244,12 @@ namespace ShenmueHDTools.Main
                 FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, secondHash, fullFilename);
                 FilenameDatabase.Add(entry);
 
-                bool exists = false;
-                byte[] buffer = GetBufferFromEntry(entry, out exists);
+                bool exist = false;
+                byte[] buf = GetBufferFromEntry(entry, out exist);
 
-                if (exists)
+                if (exist)
                 {
-                    List<string> images = GetImagesFromUI(buffer);
+                    List<string> images = GetImagesFromUI(buf);
                     if (images.Count > 0)
                     {
                         foreach (string imageFilename in images)
@@ -262,6 +278,24 @@ namespace ShenmueHDTools.Main
                     {
                         result.Add(String.Format(SuffixFontdefFormat, fontdef, fontId, imageId));
                     }
+                }
+            }
+            return result;
+        }
+
+        private static List<string> GetSDTextureOverrideFiles(byte[] buffer)
+        {
+            List<string> result = new List<string>();
+            string jsonString = Encoding.ASCII.GetString(buffer, 0, buffer.Length);
+            JObject data = (JObject)JsonConvert.DeserializeObject(jsonString);
+
+            JToken token = data.SelectToken("Mappings");
+            if (token != null)
+            {
+                foreach (JToken tok in token.Children())
+                {
+                    //result.Add(String.Format(SuffixUIFormat, tok.Last.First, 0));
+                    result.Add((string)tok.Last.First);
                 }
             }
             return result;
