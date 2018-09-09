@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ShenmueHDTools.Main;
 
 namespace ShenmueHDTools.Main
 {
@@ -21,8 +22,6 @@ namespace ShenmueHDTools.Main
             }
             string strippedFilename = filename.ToLower().Replace("/", "").Replace("-", "");
             uint murmurHash = MurmurHash2Shenmue.Hash(Encoding.ASCII.GetBytes(strippedFilename), (uint)strippedFilename.Length);
-
-            Console.WriteLine(murmurHash.ToString("X"));
 
             uint hash = murmurHash * 0x0001003F + (uint)strippedFilename.Length * (uint)strippedFilename.Length * 0x0002001F;
 
@@ -70,7 +69,7 @@ namespace ShenmueHDTools.Main
                                 FilePathFull = lineArr[0],
                                 FileSize = Convert.ToInt32(lineArr[1]),
                                 FileName = Path.GetFileName(lineArr[0]),
-                                Hash = GetFilenameHash(Path.GetFileName(lineArr[0]))
+                                Hash = MurmurHash2Shenmue.GetFilenameHash(Path.GetFileName(lineArr[0]), false)
                             });
                         }
 

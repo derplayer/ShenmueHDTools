@@ -16,6 +16,7 @@ namespace ShenmueHDTools.Main
         public uint FirstHash { get; set; }
         public uint SecondHash { get; set; }
         public string Filename { get; set; }
+        public uint FileSize { get; set; } = 0;
 
         public FilenameDatabaseEntry() { }
         public FilenameDatabaseEntry(uint firstHash, uint secondHash, string filename)
@@ -25,10 +26,30 @@ namespace ShenmueHDTools.Main
             Filename = filename;
         }
 
+        public FilenameDatabaseEntry(uint firstHash, string filename, uint fileSize)
+        {
+            FirstHash = firstHash;
+            FileSize = fileSize;
+            Filename = filename;
+        }
+
         public bool Compare(TADFileEntry tadFileEntry)
         {
-            if (FirstHash == tadFileEntry.FirstHash &&
+            if (FileSize > 0)
+            {
+                /*
+                if (FirstHash == tadFileEntry.FirstHash &&
+                FileSize == tadFileEntry.FileSize) return true;
+                */
+
+                //unsafe
+                if (FirstHash == tadFileEntry.FirstHash) return true;
+            }
+            else
+            {
+                if (FirstHash == tadFileEntry.FirstHash &&
                 SecondHash == tadFileEntry.SecondHash) return true;
+            }
             return false;
         }
     }
@@ -55,7 +76,11 @@ namespace ShenmueHDTools.Main
                     if (dbEntry.Compare(entry))
                     {
                         string filename = dbEntry.Filename;
-                        entry.Filename = filename.Substring(1);
+                        if (filename[0] == '.')
+                        {
+                            filename = filename.Substring(1); 
+                        }
+                        entry.Filename = filename;
                         Console.WriteLine("FOUND FILE: [{0}] {1}", dbEntry.FirstHash.ToString("X8"), filename);
                     }
                 }
@@ -186,6 +211,8 @@ namespace ShenmueHDTools.Main
                 }
             }
 
+            GenerateDiskFilenames();
+
             //AssetRemapping.json
             string assetRemapping = MurmurHash2Shenmue.GetFullFilename(AssetRemapping, false);
             byte[] assetRemappingBuffer = MurmurHash2Shenmue.GetFilenameHash(assetRemapping, false);
@@ -263,8 +290,66 @@ namespace ShenmueHDTools.Main
                 }
             }
 
+            //Disk Filenames
+
+
             m_tadFiles.Clear();
             m_tacFiles.Clear();
+        }
+
+        public static void GenerateDiskFilenames()
+        {
+
+            List<string> discCollection = new List<string>();
+            discCollection.Add(Properties.Resources.EU_D1);
+            discCollection.Add(Properties.Resources.EU_D2);
+            discCollection.Add(Properties.Resources.EU_D3);
+            discCollection.Add(Properties.Resources.EU_PASS);
+
+            discCollection.Add(Properties.Resources.JAP_D1);
+            discCollection.Add(Properties.Resources.JAP_D2);
+            discCollection.Add(Properties.Resources.JAP_D3);
+            discCollection.Add(Properties.Resources.JAP_PASS);
+
+            discCollection.Add(Properties.Resources.US_D1);
+            discCollection.Add(Properties.Resources.US_D2);
+            discCollection.Add(Properties.Resources.US_D3);
+            discCollection.Add(Properties.Resources.US_PASS);
+
+            discCollection.Add(Properties.Resources.B_D1);
+            discCollection.Add(Properties.Resources.B_D2);
+            discCollection.Add(Properties.Resources.B_D3);
+            discCollection.Add(Properties.Resources.B_PASS);
+
+            discCollection.Add(Properties.Resources.WS_D1);
+
+            string fName = "/misc/SegaLogo.wav";
+            uint fSize = 480044;
+            uint fHash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fName, false), 0);
+            FilenameDatabaseEntry e = new FilenameDatabaseEntry(fHash, fName, fSize);
+            FilenameDatabase.Add(e);
+
+            foreach (var disc in discCollection)
+            {
+                using (StringReader reader = new StringReader(disc))
+                {
+                    string line = string.Empty;
+                    do
+                    {
+                        line = reader.ReadLine();
+                        if (line != null)
+                        {
+                            var lineArr = line.Split(' ');
+                            string filename = lineArr[0].Replace("\\", "/");
+                            uint fileSize = Convert.ToUInt32(lineArr[1]);
+                            uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(filename, false), 0);
+                            FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, filename, fileSize);
+                            FilenameDatabase.Add(entry);
+                        }
+
+                    } while (line != null);
+                }
+            }
         }
 
         public static List<string> GenerateFontdefFilenames()
@@ -414,8 +499,6 @@ namespace ShenmueHDTools.Main
             "/particles/rain/rain.fbx",
             "/particles/snow/snow.fbx",
             "/foliageanim.json",
-
-            "/misc/SegaLogo.wav",
 
             "/subs/japanese.sub",
             "/subs/german.sub",
