@@ -164,6 +164,7 @@ namespace ShenmueHDTools.Main
                         if (text.Length > 4 && (text.Contains('/') || text.Contains('\\') || text.Contains('.'))) 
                         {
                             filenames.Add(text);
+                            Console.WriteLine("\"" + text + "\"");
                         }
                         continue;
                     }
@@ -329,6 +330,15 @@ namespace ShenmueHDTools.Main
             FilenameDatabaseEntry e = new FilenameDatabaseEntry(fHash, fName, fSize);
             FilenameDatabase.Add(e);
 
+            foreach (string filename in HarrierFilenames)
+            {
+                string hFilename = filename.Replace("\\", "/");
+                uint fileSize = 0;
+                uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(hFilename, false), 0);
+                FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, hFilename, fileSize);
+                FilenameDatabase.Add(entry);
+            }
+
             foreach (var disc in discCollection)
             {
                 using (StringReader reader = new StringReader(disc))
@@ -488,6 +498,101 @@ namespace ShenmueHDTools.Main
             "/ui/gamehud/GameHudTraining.ui",
             "/ui/splash/Splash.ui",
             "/ui/splash/SplashSecondary.ui",
+        };
+
+        public static List<string> HarrierFilenames = new List<string>()
+        {
+            "XHAR\\sound\\sfx\\00000000.wav",
+            "XHAR\\sound\\sfx\\00000001.wav",
+            "XHAR\\sound\\sfx\\00000002.wav",
+            "XHAR\\sound\\sfx\\00000003.wav",
+            "XHAR\\sound\\sfx\\00000004.wav",
+            "XHAR\\sound\\sfx\\00000005.wav",
+            "XHAR\\sound\\sfx\\00000006.wav",
+            "XHAR\\sound\\sfx\\00000007.wav",
+            "XHAR\\sound\\sfx\\00000008.wav",
+            "XHAR\\sound\\sfx\\00000009.wav",
+            "XHAR\\sound\\sfx\\0000000a.wav",
+            "XHAR\\sound\\sfx\\0000000b.wav",
+            "XHAR\\sound\\sfx\\0000000c.wav",
+            "XHAR\\sound\\sfx\\0000000d.wav",
+            "XHAR\\sound\\sfx\\0000000e.wav",
+            "XHAR\\sound\\sfx\\0000000f.wav",
+            "XHAR\\sound\\sfx\\00000010.wav",
+            "XHAR\\sound\\sfx\\00000011.wav",
+            "XHAR\\sound\\sfx\\00000012.wav",
+            "XHAR\\sound\\sfx\\00000013.wav",
+            "XHAR\\sound\\sfx\\00000014.wav",
+            "XHAR\\sound\\sfx\\00000015.wav",
+            "XHAR\\sound\\sfx\\00000016.wav",
+            "XHAR\\sound\\sfx\\00000017.wav",
+            "XHAR\\sound\\sfx\\00000018.wav",
+            "XHAR\\sound\\sfx\\00000019.wav",
+            "XHAR\\sound\\sfx\\0000001a.wav",
+            "XHAR\\sound\\sfx\\0000001b.wav",
+            "XHAR\\sound\\sfx\\0000001c.wav",
+            "XHAR\\sound\\sfx\\0000001d.wav",
+            "XHAR\\sound\\sfx\\0000001e.wav",
+            "XHAR\\sound\\sfx\\0000001f.wav",
+            "XHAR\\sound\\sfx\\00000020.wav",
+            "XHAR\\sound\\sfx\\00000021.wav",
+            "XHAR\\sound\\sfx\\00000022.wav",
+            "XHAR\\sound\\sfx\\00000023.wav",
+            "XHAR\\sound\\sfx\\00000024.wav",
+            "XHAR\\sound\\sfx\\00000025.wav",
+            "XHAR\\sound\\sfx\\00000026.wav",
+            "XHAR\\sound\\sfx\\00000027.wav",
+            "XHAR\\sound\\sfx\\00000028.wav",
+            "XHAR\\sound\\sfx\\00000029.wav",
+            "XHAR\\sound\\sfx\\0000002a.wav",
+            "XHAR\\sound\\sfx\\0000002b.wav",
+            "XHAR\\sound\\sfx\\0000002c.wav",
+            "XHAR\\sound\\sfx\\0000002d.wav",
+            "XHAR\\sound\\sfx\\0000002e.wav",
+            "XHAR\\sound\\sfx\\0000002f.wav",
+            "XHAR\\sound\\sfx\\00000030.wav",
+            "XHAR\\sound\\sfx\\00000031.wav",
+            "XHAR\\sound\\sfx\\00000032.wav",
+            "XHAR\\sound\\sfx\\00000033.wav",
+            "XHAR\\sound\\sfx\\00000034.wav",
+            "XHAR\\sound\\sfx\\00000035.wav",
+            "XHAR\\sound\\sfx\\00000036.wav",
+            "XHAR\\sound\\sfx\\00000037.wav",
+            "XHAR\\sound\\sfx\\00000038.wav",
+            "XHAR\\sound\\sfx\\00000039.wav",
+            "XHAR\\sound\\sfx\\0000003a.wav",
+            "XHAR\\sound\\sfx\\0000003b.wav",
+            "XHAR\\sound\\sfx\\0000003c.wav",
+            "XHAR\\sound\\sfx\\0000003d.wav",
+            "XHAR\\sound\\sfx\\0000003e.wav",
+            "XHAR\\sound\\sfx\\0000003f.wav",
+            "XHAR\\sound\\sfx\\00000040.wav",
+            "XHAR\\sound\\sfx\\00000041.wav",
+            "XHAR\\sound\\sfx\\00000042.wav",
+            "XHAR\\sound\\sfx\\00000043.wav",
+            "XHAR\\sound\\sfx\\00000044.wav",
+            "XHAR\\sound\\sfx\\00000045.wav",
+            "XHAR\\sound\\harrier_a3.wav",
+            "XHAR\\sound\\harrier_a4.wav",
+            "XHAR\\sound\\harrier_a5.wav",
+            "XHAR\\sound\\harrier_a6.wav",
+            "XHAR\\sound\\harrier_aa.wav",
+            "XHAR\\sound\\harrier_ab.wav",
+            "XHAR\\sound\\harrier_ad.wav",
+            "XHAR\\sound\\harrier_ae.wav",
+            "XHAR\\sound\\harrier_af.wav",
+            "XHAR\\sound\\harrier_b0.wav",
+            "XHAR\\sound\\harrier_b1.wav",
+            "XHAR\\sound\\harrier_b2.wav",
+            "XHAR\\sound\\harrier_b7.wav",
+            "XHAR\\sound\\harrier_b8.wav",
+            "XHAR\\sound\\harrier_b9.wav",
+            "XHAR\\datas\\HAR.ROM",
+            "XHAR\\datas\\SHXOBJ.BIN",
+            "XHAR\\datas\\SHXBG.BIN",
+            "XHAR\\datas\\FILL.BMP",
+            "XHAR\\datas\\SHICPAT.BMP",
+            "XHAR\\datas\\SYSASCII.BMP"
         };
 
         public static List<string> HardcodedFilenames = new List<string>()

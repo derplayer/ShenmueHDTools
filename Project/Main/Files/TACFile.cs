@@ -101,7 +101,8 @@ namespace ShenmueHDTools.Main.Files
                     }
                     else
                     {
-                        fileEntryPath = outputFolder + entry.Filename.Replace('/', '\\');
+                        fileEntryPath = entry.Filename.Replace('/', '\\');
+                        fileEntryPath = outputFolder + "\\" + fileEntryPath;
                         fileEntryPath = SwitchExtension(fileEntryPath);
 
                         string dir = Path.GetDirectoryName(fileEntryPath);
