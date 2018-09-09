@@ -1,6 +1,7 @@
 ﻿using Shenmue_HD_Tools.ShenmueHD;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ShenmueHDTools.Main.DataStructure
 {
@@ -28,6 +29,31 @@ namespace ShenmueHDTools.Main.DataStructure
         public byte[] Reserved6 { get; set; } = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
 
         public byte[] FileCount2 { get; set; }
+
+        public void ReadHeader(BinaryReader reader)
+        {
+            FileType = reader.ReadBytes(4);
+            Identifier1 = reader.ReadBytes(4);
+            Identifier2 = reader.ReadBytes(4);
+            Reserved1 = reader.ReadBytes(4);
+
+            UnixTimestamp = reader.ReadBytes(4);
+            Reserved2 = reader.ReadBytes(4);
+
+            RenderType = reader.ReadBytes(4);
+            Reserved3 = reader.ReadBytes(4);
+
+            HeaderChecksum = reader.ReadBytes(4);
+            Reserved4 = reader.ReadBytes(4);
+
+            TacSize = reader.ReadBytes(4);
+            Reserved5 = reader.ReadBytes(4);
+
+            FileCount1 = reader.ReadBytes(4);
+            Reserved6 = reader.ReadBytes(4);
+
+            FileCount2 = reader.ReadBytes(4);
+        }
 
         public IEnumerable<byte[]> GetHeader(bool hashMode = false)
         {

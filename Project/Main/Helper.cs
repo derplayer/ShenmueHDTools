@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace ShenmueHDTools.Main
 {
@@ -51,6 +53,142 @@ namespace ShenmueHDTools.Main
             }
 
             return true;
+        }
+
+        public static byte[] MD5Hash(byte[] data)
+        {
+            using (var md5 = MD5.Create())
+            {
+                md5.ComputeHash(data, 0, data.Length);
+                return md5.Hash;
+            }
+        }
+
+        public static string ExtensionFinder(byte[] dataArray)
+        {
+            var fileExt = ".unknown";
+
+            var semiIdentifier = Encoding.ASCII.GetString(dataArray.Take(3).ToArray());
+
+            if (semiIdentifier == "DDS")
+                return ".dds";
+
+            if (semiIdentifier == "IDX")
+                return ".idx";
+
+            if (semiIdentifier == "AFS")
+                return ".afs";
+
+            var semiIdentifier4 = Encoding.ASCII.GetString(dataArray.Take(4).ToArray());
+            if (semiIdentifier4 == "RIFF")
+                return ".wav";
+
+            if (semiIdentifier4 == "DXBC")
+                return ".hlsl";
+
+            if (semiIdentifier4 == "PAKS") //IPAC Browser
+                return ".pks";
+
+            if (semiIdentifier4 == "PAKF") //IPAC Browser
+                return ".pkf";
+
+            if (semiIdentifier4 == "HRCM") //MT5
+                return ".mt5";
+
+            if (semiIdentifier4 == "MDCX" || semiIdentifier4 == "MDC7" || semiIdentifier4 == "MDP7") //MT7?
+                return ".mt7";
+
+            if (semiIdentifier4 == "DTPK")
+                return ".snd";
+
+            if (semiIdentifier4 == "GBIX" || semiIdentifier4 == "TEXN")
+                return ".pvr";
+
+            if (dataArray.Length > 0)
+            {
+                if ((dataArray[0] == 0x7B && dataArray[1] == 0x0A)
+                    || (dataArray[0] == 0x7B && dataArray[1] == 0x0D)
+                    || (dataArray[0] == 0x7B && dataArray[1] == 0x09))
+                    return ".json";
+
+                if (dataArray[0] == 0x12 && dataArray[1] == 0x98 && dataArray[2] == 0xEE && dataArray[3] == 0x51 && dataArray[4] == 0x40)
+                    return ".override";
+
+                if (dataArray[0] == 0x03 && dataArray[1] == 0x00 && dataArray[2] == 0x00 && dataArray[3] == 0x00 ||
+                    (dataArray[4] == 0x2F && dataArray[5] == 0x76 || dataArray[4] == 0xC2 && dataArray[5] == 0x8F))
+                    return ".sub";
+            }
+
+            try
+            {
+                long nullCount = 0;
+                for (int i = 0; i < dataArray.Length; i++)
+                {
+                    if (dataArray[i] == 0x00) nullCount++;
+                }
+
+                if (nullCount == 0) return fileExt = ".txt";
+            }
+            catch (Exception)
+            {
+                return fileExt;
+            }
+
+            if (
+                (dataArray[0] == 0xFF && dataArray[1] == 0x86 && dataArray[2] == 0x00) ||
+                (dataArray[0] == 0xFF && dataArray[1] == 0x00 && dataArray[2] == 0x40) ||
+                (dataArray[0] == 0xFF && dataArray[1] == 0xC5 && dataArray[2] == 0x40) ||
+                (dataArray[0] == 0xFF && dataArray[1] == 0xEB && dataArray[2] == 0x40) ||
+                (dataArray[0] == 0x78 && dataArray[1] == 0x56 && dataArray[2] == 0x34)
+               ) return ".fontdef";
+
+            if (
+                (dataArray[0] == 0x20 && dataArray[1] == 0x00 && dataArray[2] == 0x00) ||
+                (dataArray[0] == 0x0A && dataArray[1] == 0x00 && dataArray[2] == 0x00)
+               ) return ".glyphs";
+
+            //Disk Container Detection
+
+            if (semiIdentifier == "SCN") //MT5
+                return ".scn";
+
+            if (semiIdentifier4 == "SCRL") //MT5
+                return ".spr";
+
+            if (
+                (dataArray[0] == 0x1F && dataArray[1] == 0x8B && dataArray[2] == 0x08 && dataArray[2] == 0x08)
+               ) return ".gz";
+
+            if (semiIdentifier4 == "ATTR")
+                return ".bin";
+
+            //PKS/PKF Detection
+            using (var ms = new MemoryStream(dataArray))
+            {
+                ms.Seek(9, SeekOrigin.Begin);
+                int i = 0; //saftey check
+                while (true)
+                {
+                    byte actualVar = (byte)ms.ReadByte();
+                    if (actualVar == 0x2E) //a dot
+                    {
+                        byte[] buffer = new byte[3];
+                        ms.Read(buffer, 0, 3);
+
+                        string semiArchiveIdentifier = Encoding.ASCII.GetString(buffer);
+
+                        if (semiArchiveIdentifier == "PKF") return ".pkf";
+                        if (semiArchiveIdentifier == "PKS") return ".pks";
+
+                        break;
+                    }
+
+                    i++;
+                    if (i >= 24) break;
+                }
+            }
+
+            return fileExt;
         }
     }
 }

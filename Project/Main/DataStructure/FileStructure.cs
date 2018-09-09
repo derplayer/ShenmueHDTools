@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Shenmue_HD_Tools.ShenmueHD;
+using System.IO;
 
 namespace ShenmueHDTools.Main.DataStructure
 {
@@ -20,6 +21,15 @@ namespace ShenmueHDTools.Main.DataStructure
 
         // Not part of real "tad" file, but useful
         public FileStructureMeta Meta { get; set; } = new FileStructureMeta();
+
+        public void ReadHeader(BinaryReader reader)
+        {
+            Hash1 = reader.ReadBytes(8);
+            Hash2 = reader.ReadBytes(8);
+
+            FileStart = reader.ReadBytes(8);
+            FileSize = reader.ReadBytes(8);
+        }
 
         public byte[] GetFilenameHash()
         {
