@@ -79,6 +79,54 @@ namespace ShenmueHDTools.Main.Files
                 entry.Write(writer, includeMeta);
             }
         }
+
+        public double GetStatisticPercentage()
+        {
+            int counter = 0;
+            foreach (TADFileEntry entry in FileEntries)
+            {
+                if (String.IsNullOrEmpty(entry.Filename)) continue;
+                counter++;
+            }
+            return Math.Round((float)counter / (float)FileEntries.Count * 100.0f, 2);
+        }
+
+        public void PrintStatistic(bool verbose = false)
+        {
+            int counter = 0;
+            List<TADFileEntry> unknownEntries = new List<TADFileEntry>();
+            List<TADFileEntry> knownEntries = new List<TADFileEntry>();
+            foreach (TADFileEntry entry in FileEntries)
+            {
+                if (String.IsNullOrEmpty(entry.Filename))
+                {
+                    unknownEntries.Add(entry);
+                    continue;
+                }
+                knownEntries.Add(entry);
+                counter++;
+            }
+
+            Console.WriteLine("\n### TAD File Statistic ###\n");
+            Console.WriteLine(" File coverage: {0}/{1} ({2}%)", counter, FileEntries.Count,
+                Math.Round((float)counter / (float)FileEntries.Count * 100.0f, 2));
+
+            if (verbose)
+            {
+                Console.WriteLine("\n Found Files:");
+                foreach (TADFileEntry entry in knownEntries)
+                {
+                    Console.WriteLine("  " + entry.ToString());
+                }
+                Console.WriteLine("\n Unknown Files:");
+                foreach (TADFileEntry entry in unknownEntries)
+                {
+                    Console.WriteLine("  " + entry.ToString());
+                }
+            }
+            
+            Console.WriteLine("\n##########################\n");
+        }
     }
 
 
@@ -253,5 +301,18 @@ namespace ShenmueHDTools.Main.Files
             return result;
         }
 
+        public override string ToString()
+        {
+            if (String.IsNullOrEmpty(Filename))
+            {
+                return String.Format("[{0}{1}{2}] Offset: {3}, Size: {4}", FirstHash.ToString("X8"), SecondHash.ToString("X8"),
+                    Unknown.ToString("X8"), FileOffset, FileSize);
+            }
+            else
+            {
+                return String.Format("[{0}{1}{2}] Offset: {3}, Size: {4}, Filename:{5}", FirstHash.ToString("X8"), SecondHash.ToString("X8"),
+                    Unknown.ToString("X8"), FileOffset, FileSize, Filename);
+            }
+        }
     }
 }
