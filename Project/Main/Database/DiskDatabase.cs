@@ -49,6 +49,19 @@ namespace ShenmueHDTools.Main.Database
                 FilenameDatabase.Add(entry);
             }
 
+            int actCount = 3;
+            for (int i = 1; i < actCount + 1; i++)
+            {
+                foreach (string scene in ScenarioNames)
+                {
+                    string filename = String.Format(ScenarioFormat, i, scene);
+                    uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(filename, false), 0);
+                    FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, 0, filename);
+                    FilenameDatabase.Add(entry);
+                }
+            }
+
+
             foreach (var disc in discCollection)
             {
                 using (StringReader reader = new StringReader(disc))
@@ -165,6 +178,83 @@ namespace ShenmueHDTools.Main.Database
             "XHAR\\datas\\FILL.BMP",
             "XHAR\\datas\\SHICPAT.BMP",
             "XHAR\\datas\\SYSASCII.BMP"
+        };
+
+        public static string ScenarioFormat = "/SCENARIO/act{0:D2}_{1}.SCN";
+
+        public static List<string> ScenarioNames = new List<string>()
+        {
+            "0000",
+            "ARAR",
+            "BETD",
+            "D000",
+            "DAZA",
+            "DBHB",
+            "DBYO",
+            "DCBN",
+            "DCHA",
+            "DGCT",
+            "DHQB",
+            "DJAZ",
+            "DKPA",
+            "DKTY",
+            "DMAJ",
+            "DNOZ",
+            "DOOR",
+            "DPIZ",
+            "DRHT",
+            "DRME",
+            "DRSA",
+            "DSBA",
+            "DSKI",
+            "DSLI",
+            "DSLT",
+            "DSUS",
+            "DTKY",
+            "DURN",
+            "DXMS",
+            "DYKZ",
+            "FACE",
+            "FBGG",
+            "FREE",
+            "GMCT",
+            "JABE",
+            "JD00",
+            "JD99",
+            "JHD0",
+            "JOMO",
+            "JU00",
+            "JU99",
+            "M3FB",
+            "MA00",
+            "MB9Q",
+            "MBQC",
+            "MC5Q",
+            "MEND",
+            "MF99",
+            "MFBT",
+            "MFSY",
+            "MK80",
+            "MK99",
+            "MKSG",
+            "MKYU",
+            "MO99",
+            "MS08",
+            "MS8A",
+            "MS8S",
+            "MSBS",
+            "NBIK",
+            "OP00",
+            "OP02",
+            "TATQ",
+            "TERY",
+            "TOKI",
+            "VEND",
+            "YD01",
+            "YD8S",
+            "YDB1",
+            "YDMA",
+            "YQ14"
         };
     }
 }
