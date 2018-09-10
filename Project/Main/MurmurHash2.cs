@@ -70,9 +70,12 @@ namespace ShenmueHDTools.Main
             return hash;
         }
 
-        public static uint GetFilenameHashPlain(string filename)
+        public static uint GetFilenameHashPlain(string filename, bool lower = true)
         {
-            filename = filename.ToLower();
+            if (lower)
+            {
+                filename = filename.ToLower();
+            }
             byte[] filenameBytes = Encoding.ASCII.GetBytes(filename);
             uint hash = Hash(filenameBytes, (uint)filenameBytes.Length);
             return hash;

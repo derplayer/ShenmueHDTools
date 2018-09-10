@@ -8,19 +8,64 @@ namespace ShenmueHDTools.Main.Database
 {
     class ShaderDatabase
     {
-        public static string Suffix = "?CAPS={0}";
+        public static string Suffix = "{0}?CAPS={1};";
         public static char Seperator = ';';
 
         /*
         /engine/assets/shaders/uber_vs.hlsl?CAPS=_SHAD;_HASPRE;_BILLBOARD;
         */
 
+        public static void GenerateShaderFilenames()
+        {
+            foreach (string filename in ShaderFilenames)
+            {
+                uint secondHash = MurmurHash2Shenmue.GetFilenameHashPlain(filename);
+                string fullFilename = MurmurHash2Shenmue.GetFullFilename(filename, secondHash);
+                uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fullFilename), 0);
+                FilenameDatabase.Add(hash, secondHash, fullFilename);
+            }
+
+            /*
+            List<List<string>> combos = GetAllCombos(ShaderSuffixParameter);
+            foreach(List<string> parameters in combos)
+            {
+                foreach (string fname in ShaderFilenames)
+                {
+                    string filename = String.Format(Suffix, fname, parameters.Aggregate((i, j) => i + ";" + j));
+                    
+                    uint secondHash = MurmurHash2Shenmue.GetFilenameHashPlain(filename, false);
+                    string fullFilename = MurmurHash2Shenmue.GetFullFilename(filename, secondHash);
+                    uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fullFilename), 0);
+                    FilenameDatabase.Add(hash, secondHash, fullFilename);
+
+                    Console.WriteLine("[{0:X8}|{1:X8}] {2}", hash, secondHash, filename);
+                }
+            }
+            */
+        }
+
+        public static List<List<T>> GetAllCombos<T>(List<T> list)
+        {
+            int comboCount = (int)Math.Pow(2, list.Count) - 1;
+            List<List<T>> result = new List<List<T>>();
+            for (int i = 1; i < comboCount + 1; i++)
+            {
+                result.Add(new List<T>());
+                for (int j = 0; j < list.Count; j++)
+                {
+                    if ((i >> j) % 2 != 0)
+                        result.Last().Add(list[j]);
+                }
+            }
+            return result;
+        }
+
         public static List<string> ShaderSuffixParameter = new List<string>()
         {
             "_SHAD",
             "_HASPRE",
             "_BILLBOARD",
-            "_DBG",
+            "_DBG", //debug shaders are missing
             "_PCF",
             "_REFLECT"
         };

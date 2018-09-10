@@ -123,8 +123,8 @@ namespace ShenmueHDTools.Main.Database
             }
 
             AudioDatabase.GenerateAudioFilenames();
-
             DiskDatabase.GenerateDiskFilenames();
+            ShaderDatabase.GenerateShaderFilenames();
 
             //AssetRemapping.json
             string assetRemapping = MurmurHash2Shenmue.GetFullFilename(AssetRemapping, false);
