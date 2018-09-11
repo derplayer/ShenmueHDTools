@@ -100,7 +100,7 @@ namespace ShenmueHDTools.Main.Database
             return result;
         }
 
-        public static void GenerateFilenameDatabase(string dataFolder = "")
+        public static void GenerateFilenameDatabase(string dataFolder = "", bool inRAM = false)
         {
             FilenameDatabase.Clear();
 
@@ -115,7 +115,16 @@ namespace ShenmueHDTools.Main.Database
                     TADFile tadFile = new TADFile(tadFilename);
                     m_tadFiles.Add(tadFile);
                     TACFile tacFile = new TACFile();
-                    tacFile.Load(tacFilename, tadFile);
+                    
+                    if (inRAM)
+                    {
+                        tacFile.Load(tacFilename, tadFile);
+                    }
+                    else
+                    {
+                        tacFile.Filename = tacFilename;
+                        tacFile.TADFile = tadFile;
+                    }
                     m_tacFiles.Add(tacFile);
                 }
             }

@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using ShenmueHDTools.Main.Files;
+using System.IO;
 
 namespace ShenmueHDTools.Main.Database
 {
+    [Serializable]
     class FilenameDatabaseEntry
     {
-        public uint FirstHash { get; set; }
-        public uint SecondHash { get; set; }
-        public string Filename { get; set; }
+        public uint FirstHash { get; set; } = 0;
+        public uint SecondHash { get; set; } = 0;
+        public uint Unknown { get; set; } = 0;
+        public string Filename { get; set; } = "";
         public uint FileSize { get; set; } = 0;
 
         public FilenameDatabaseEntry() { }
@@ -53,6 +57,23 @@ namespace ShenmueHDTools.Main.Database
     class FilenameDatabase
     {
         public static List<FilenameDatabaseEntry> Entries { get; set; } = new List<FilenameDatabaseEntry>();
+
+        public static void Load(string filename)
+        {
+            using (FileStream stream = File.Open(filename, FileMode.Open))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                Entries = (List<FilenameDatabaseEntry>)formatter.Deserialize(stream);
+            }
+        }
+        public static void Save(string filename)
+        {
+            using (FileStream stream = File.Create(filename))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, Entries);
+            }
+        }
 
         public static string GetFilename(TADFileEntry tadFileEntry)
         {

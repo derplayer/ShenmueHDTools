@@ -13,14 +13,16 @@ namespace ShenmueHDTools.Main.Files
     {
         public static readonly string Extension = ".tac";
 
+        public string Filename { get; set; }
+        public TADFile TADFile { get; set; }
+
         private byte[] m_buffer;
-        private TADFile m_tadFile;
 
         public byte[] GetFileFromEntry(FilenameDatabaseEntry dbEntry, out bool found)
         {
             uint offset = 0;
             uint size = 0;
-            foreach (TADFileEntry entry in m_tadFile.FileEntries)
+            foreach (TADFileEntry entry in TADFile.FileEntries)
             {
                 if (entry.FirstHash == dbEntry.FirstHash && entry.SecondHash == dbEntry.SecondHash)
                 {
@@ -31,7 +33,18 @@ namespace ShenmueHDTools.Main.Files
             }
             found = false;
             if (offset == 0) return new byte[0];
-            if (m_buffer.Length == 0) return new byte[0];
+            if (m_buffer == null || m_buffer.Length == 0)
+            {
+                using (FileStream stream = File.Open(Filename, FileMode.Open))
+                {
+                    m_buffer = new byte[stream.Length];
+                    stream.Read(m_buffer, 0, m_buffer.Length);
+                    byte[] buffer = new byte[size];
+                    Array.Copy(m_buffer, offset, buffer, 0, size);
+                    found = true;
+                    return buffer;
+                }
+            }
 
             byte[] fileBuffer = new byte[size];
             Array.Copy(m_buffer, offset, fileBuffer, 0, size);
@@ -46,7 +59,7 @@ namespace ShenmueHDTools.Main.Files
         /// <param name="tadFile">The TAD file.</param>
         public void Load(string filename, TADFile tadFile)
         {
-            m_tadFile = tadFile;
+            TADFile = tadFile;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 m_buffer = new byte[stream.Length];
