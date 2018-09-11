@@ -13,6 +13,7 @@ using Shenmue_HD_Tools;
 using ShenmueHDTools.Main.DataStructure;
 using System.Security.Cryptography;
 using System.Threading;
+using ShenmueHDTools.Main.Database;
 
 namespace ShenmueHDTools.Main
 {

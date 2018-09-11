@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shenmue_HD_Tools.ShenmueHD;
 using System.IO;
+using ShenmueHDTools.Main.Database;
 
 namespace ShenmueHDTools.Main.DataStructure
 {

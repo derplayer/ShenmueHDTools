@@ -15,6 +15,7 @@ namespace ShenmueHDTools.Main.Database
         public List<Unique> Uniques = new List<Unique>();
         public List<Location> Locations = new List<Location>();
         public List<HashCollisions> HashCollisionStrings = new List<HashCollisions>();
+        private string HashCollisionString = "";
 
         private Dictionary<Location, Unique> LocationMap = new Dictionary<Location, Unique>();
         private static string RMPFormat = "/remap/{0}{1}-{2}{3}-{4}-{5}.rmp";
@@ -39,6 +40,7 @@ namespace ShenmueHDTools.Main.Database
             }
 
             //Split HashCollisionStrings from dynamic
+            HashCollisionString = data.HashCollisionStrings.Value;
             string[] tempStrArr = data.HashCollisionStrings.Value.Split('!');
 
             foreach (var str in tempStrArr)
@@ -47,11 +49,11 @@ namespace ShenmueHDTools.Main.Database
             }
 
             GenerateLocationMap();
-            GenerateRMPFilenames();
         }
 
-        public void GenerateRMPFilenames()
+        public Dictionary<string, string> GenerateRMPFilenames()
         {
+            Dictionary<string, string> result = new Dictionary<string, string>();
             foreach (KeyValuePair<Location, Unique> pair in LocationMap)
             {
                 string hash1 = pair.Value.ContHashContainer.ContHashMD5_2.ToString("x");
@@ -62,8 +64,17 @@ namespace ShenmueHDTools.Main.Database
                 string fileSize = pair.Value.FileSize.ToString();
 
                 string filename = String.Format(RMPFormat, hash1, hash2, hash3, hash4, hash5, fileSize);
-                Console.WriteLine(filename);
+
+                string tmp = HashCollisionString.Substring((int)pair.Key.LocStrIdx);
+
+                if (tmp.IndexOf('!') > 0)
+                {
+                    tmp = tmp.Substring(0, tmp.IndexOf('!'));
+                }
+                tmp = MurmurHash2Shenmue.GetFullFilename(tmp, false).Substring(1);
+                result.Add(tmp.Substring(0, tmp.Length - 9), filename);
             }
+            return result;
         }
 
         public void GenerateLocationMap()
