@@ -117,6 +117,15 @@ namespace ShenmueHDTools.Main.Database
                     }
                 }
             }
+
+            //LD Filenames (LOADSCREEN.UI)
+            foreach(string ldFile in GetLDFiles())
+            {
+                uint hash2 = MurmurHash2Shenmue.GetFilenameHashPlain(ldFile);
+                string fFilename = MurmurHash2Shenmue.GetFullFilename(ldFile, hash2);
+                uint hash1 = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fFilename), 0);
+                FilenameDatabase.Add(hash1, hash2, fFilename);
+            }
         }
 
         public static List<string> GenerateFontdefFilenames()
@@ -169,6 +178,112 @@ namespace ShenmueHDTools.Main.Database
             }
             return result;
         }
+
+        private static List<string> GetLDFiles()
+        {
+            List<string> result = new List<string>();
+
+            foreach(string ldFile in LDFiles)
+            {
+                result.Add(String.Format(LDFormat, ldFile));
+            }
+
+            return result;
+        }
+
+        public static string SkyFormat = "/{0}/{1}";
+
+        public static List<string> SkyFolders = new List<string>()
+        {
+            "Sky",
+            "SkyProbe"
+        };
+
+        public static List<string> SkyFilenames = new List<string>()
+        {
+            "HD_skyDome.fbx",
+            "HD_skyHorizon2.fbx",
+            "HD_skyLayer0.fbx",
+            "HD_skyHorizon0.fbx",
+            "HD_skyHorizon1.fbx",
+            "HD_Stars0.fbx",
+            "HD_Moon.fbx",
+            "HD_skyLayer1.fbx",
+            "HD_Corona.fbx",
+        };
+
+        public static string LDFormat = "/ui/loadscreen/textures/headers/{0}.png?usage=0";
+
+        public static List<string> LDFiles = new List<string>()
+        {
+            "LD4DAYAF",
+            "LDABESYO",
+            "LDAJIITI",
+            "LDASIARK",
+            "LDBARHAR",
+            "LDBARMJQ",
+            "LDBARYKS",
+            "LDBPIZZA",
+            "LDBUNKAD",
+            "LDCHIKA",
+            "LDDAI10S",
+            "LDDAI11S",
+            "LDDAI12S",
+            "LDDAI13S",
+            "LDDAI14S",
+            "LDDAI15S",
+            "LDDAI16S",
+            "LDDAI17S",
+            "LDDAI18S",
+            "LDDAI1SO",
+            "LDDAI2SO",
+            "LDDAI3SO",
+            "LDDAI4SO",
+            "LDDAI5SO",
+            "LDDAI6SO",
+            "LDDAI7SO",
+            "LDDAI8SO",
+            "LDDAI9SO",
+            "LDDAISAN",
+            "LDDOBUIT",
+            "LDGAMEYU",
+            "LDHAZUKI",
+            "LDJIMSYO",
+            "LDJYUUTA",
+            "LDKARAOK",
+            "LDKITAKU",
+            "LDKOUJIG",
+            "LDKYUKEI",
+            "LDKYUSOK",
+            "LDLINDA",
+            "LDMANPUK",
+            "LDNAGAIK",
+            "LDOMOYA",
+            "LDOPNING",
+            "LDRAPISU",
+            "LDRIYOMA",
+            "LDROSIYA",
+            "LDRROOMK",
+            "LDRYROOM",
+            "LDRYURIH",
+            "LDSAKURA",
+            "LDSEKAIR",
+            "LDSINYKK",
+            "LDSLOTHO",
+            "LDSOBAYA",
+            "LDSYUEIR",
+            "LDTAKARA",
+            "LDTATOO",
+            "LDTOMATO",
+            "LDWASYOK",
+            "LDYAMANO",
+            "LD_0101",
+            "LD_0214",
+            "LD_1224",
+            "LD_1225",
+            "LD_1231",
+            "LD4DAYAF"
+        };
 
         public static List<string> FontdefFilenames = new List<string>()
         {
