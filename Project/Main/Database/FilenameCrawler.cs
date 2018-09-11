@@ -140,7 +140,7 @@ namespace ShenmueHDTools.Main.Database
             
             if (exists)
             {
-                RemappingStructure remappingStructure = new RemappingStructure(buffer);
+                AssetRemappingJSON remappingStructure = new AssetRemappingJSON(buffer);
                 foreach (HashCollisions filename in remappingStructure.HashCollisionStrings)
                 {
                     

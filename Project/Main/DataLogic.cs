@@ -84,7 +84,7 @@ namespace ShenmueHDTools.Main
                             if (file.Meta.FileExt == ".json" && file.Meta.Index == 12)
                             {
                                 //load stuff into memory for assertmapping/s
-                                file.Meta.FileDeserialized = new RemappingStructure(dataArray);
+                                file.Meta.FileDeserialized = new AssetRemappingJSON(dataArray);
                             }
 
                             // TODO: Verify Filehash and Database hash!

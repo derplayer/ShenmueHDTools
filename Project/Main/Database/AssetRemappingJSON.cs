@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace ShenmueHDTools.Main.DataStructure
+namespace ShenmueHDTools.Main.Database
 {
-    public class RemappingStructure
+    public class AssetRemappingJSON
     {
         public int Version;
         public bool HasFullLocationPaths;
@@ -16,8 +16,11 @@ namespace ShenmueHDTools.Main.DataStructure
         public List<Location> Locations = new List<Location>();
         public List<HashCollisions> HashCollisionStrings = new List<HashCollisions>();
 
+        private Dictionary<Location, Unique> LocationMap = new Dictionary<Location, Unique>();
+        private static string RMPFormat = "/remap/{0}{1}-{2}{3}-{4}-{5}.rmp";
+
         //Deserialize...
-        public RemappingStructure(byte[] dataArray)
+        public AssetRemappingJSON(byte[] dataArray)
         {
             var jsonString = Encoding.ASCII.GetString(dataArray, 0, dataArray.Length);
             dynamic data = JsonConvert.DeserializeObject(jsonString);
@@ -43,42 +46,70 @@ namespace ShenmueHDTools.Main.DataStructure
                 HashCollisionStrings.Add(new HashCollisions(str));
             }
 
+            GenerateLocationMap();
+            GenerateRMPFilenames();
+        }
+
+        public void GenerateRMPFilenames()
+        {
+            foreach (KeyValuePair<Location, Unique> pair in LocationMap)
+            {
+                string hash1 = pair.Value.ContHashContainer.ContHashMD5_2.ToString("x");
+                string hash2 = pair.Value.ContHashContainer.ContHashMD5_1.ToString("x");
+                string hash3 = pair.Value.ContHashContainer.ContHashMD5_4.ToString("x");
+                string hash4 = pair.Value.ContHashContainer.ContHashMD5_3.ToString("x");
+                string hash5 = pair.Value.ContHashTex.ToString("x");
+                string fileSize = pair.Value.FileSize.ToString();
+
+                string filename = String.Format(RMPFormat, hash1, hash2, hash3, hash4, hash5, fileSize);
+                Console.WriteLine(filename);
+            }
+        }
+
+        public void GenerateLocationMap()
+        {
+            foreach (Location location in Locations)
+            {
+                LocationMap.Add(location, Uniques[(int)location.UniqueIdx]);
+            }
         }
 
     }
 
+    
+
     public class Unique
     {
         public ContHashMD5 ContHashContainer;
-        public byte[] ContHashTex;
-        public byte[] FileSize;
+        public ulong ContHashTex;
+        public uint FileSize;
 
         public Unique(dynamic FileSizeParam, dynamic ContHashTexParam, dynamic ContHashMD5Param)
         {
-            FileSize = BitConverter.GetBytes(FileSizeParam.Value);
-            ContHashTex = BitConverter.GetBytes(ContHashTexParam.Value);
+            FileSize = (uint)FileSizeParam.Value;
+            ContHashTex = (ulong)ContHashTexParam.Value;
 
                 ContHashContainer = new ContHashMD5()
                 {
-                    ContHashMD5_1 = BitConverter.GetBytes(ContHashMD5Param[0].Value),
-                    ContHashMD5_2 = BitConverter.GetBytes(ContHashMD5Param[1].Value),
-                    ContHashMD5_3 = BitConverter.GetBytes(ContHashMD5Param[2].Value),
-                    ContHashMD5_4 = BitConverter.GetBytes(ContHashMD5Param[3].Value)
+                    ContHashMD5_1 = (uint)ContHashMD5Param[0].Value,
+                    ContHashMD5_2 = (uint)ContHashMD5Param[1].Value,
+                    ContHashMD5_3 = (uint)ContHashMD5Param[2].Value,
+                    ContHashMD5_4 = (uint)ContHashMD5Param[3].Value
                 };
         }
     }
 
     public class Location
     {
-        public byte[] LocHash;
-        public byte[] UniqueIdx;
-        public byte[] LocStrIdx;
+        public uint LocHash;
+        public uint UniqueIdx;
+        public uint LocStrIdx;
 
         public Location(dynamic LocHashParam, dynamic UniqueIdxParam, dynamic LocStrIdxParam)
         {
-            LocHash = BitConverter.GetBytes(LocHashParam.Value);
-            UniqueIdx = BitConverter.GetBytes(UniqueIdxParam.Value);
-            UniqueIdx = BitConverter.GetBytes(LocStrIdxParam.Value);
+            LocHash = (uint)LocHashParam.Value;
+            UniqueIdx = (uint)UniqueIdxParam.Value;
+            LocStrIdx = (uint)LocStrIdxParam.Value;
         }
     }
 
@@ -113,10 +144,10 @@ namespace ShenmueHDTools.Main.DataStructure
 
     public class ContHashMD5
     {
-        public byte[] ContHashMD5_1;
-        public byte[] ContHashMD5_2;
-        public byte[] ContHashMD5_3;
-        public byte[] ContHashMD5_4;
+        public uint ContHashMD5_1;
+        public uint ContHashMD5_2;
+        public uint ContHashMD5_3;
+        public uint ContHashMD5_4;
     }
 
 }

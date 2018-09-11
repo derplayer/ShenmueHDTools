@@ -60,7 +60,7 @@ namespace ShenmueHDTools.Main.DataStructure
 
         //Temporary... TODO: Typegeneric?
         [OptionalField]
-        public RemappingStructure FileDeserialized;
+        public AssetRemappingJSON FileDeserialized;
     }
 
 }

@@ -97,7 +97,7 @@
     <Compile Include="Main\DataStructure\DCStructure.cs" />
     <Compile Include="Main\DataStructure\FileStructure.cs" />
     <Compile Include="Main\DataStructure\HeaderStructure.cs" />
-    <Compile Include="Main\DataStructure\RemappingStructure.cs" />
+    <Compile Include="Main\Database\AssetRemappingJSON.cs" />
     <Compile Include="Main\Files\Headers\CacheHeader.cs" />
     <Compile Include="Main\Files\Headers\TADHeader.cs" />
     <Compile Include="Main\Files\CacheFile.cs" />
