@@ -133,9 +133,10 @@ namespace ShenmueHDTools.Main.Database
             List<string> result = new List<string>();
             foreach (string fontdef in FontdefFilenames)
             {
-                for (int fontId = 0; fontId < 5; fontId++)
+                result.Add(fontdef);
+                for (int fontId = 0; fontId < 6; fontId++)
                 {
-                    for (int imageId = 0; imageId < 5; imageId++)
+                    for (int imageId = 0; imageId < 6; imageId++)
                     {
                         result.Add(String.Format(SuffixFontdefFormat, fontdef, fontId, imageId));
                     }
@@ -157,6 +158,15 @@ namespace ShenmueHDTools.Main.Database
                 {
                     //result.Add(String.Format(SuffixUIFormat, tok.Last.First, 0));
                     result.Add((string)tok.Last.First);
+
+                    string fName = (string)tok.Last.First;
+                    string[] splitted = fName.Split('.');
+
+                    foreach (string lang in LanguageSuffix)
+                    {
+                        string finalName = String.Format("{0}_{1}.{2}", splitted[0], lang, splitted[1]);
+                        result.Add(finalName);
+                    }
                 }
             }
             return result;
@@ -173,11 +183,49 @@ namespace ShenmueHDTools.Main.Database
             {
                 foreach (JToken tok in token.Children())
                 {
-                    result.Add(String.Format(SuffixUIFormat, tok.First, 0));
+                    string fName = (string)tok.First;
+                    result.Add(String.Format(SuffixUIFormat, fName, 0));
+
+                    //brute force all language suffixes
+                    string langSuf = HasLangSuffix(fName);
+                    if (langSuf.Length > 0)
+                    {
+                        string srcLang = String.Format("_{0}.", langSuf);
+                        foreach (string lang in LanguageSuffix)
+                        {
+                            string tmp = String.Format(SuffixUIFormat, fName.Replace(srcLang, "_" + lang + "."), 0);
+                            if (!result.Contains(tmp))
+                            {
+                                result.Add(tmp);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        string[] splitted = fName.Split('.');
+                        foreach (string lang in LanguageSuffix)
+                        {
+                            string tmp = String.Format(SuffixUIFormat, splitted[0] + String.Format("_{0}.", lang) + splitted[1], 0);
+                            if (!result.Contains(tmp))
+                            {
+                                result.Add(tmp);
+                            }
+                        }
+                    }
                 }
             }
             return result;
         }
+
+        private static string HasLangSuffix(string fname)
+        {
+            foreach (string lang in LanguageSuffix)
+            {
+                if (fname.ToLower().Contains("_" + lang + ".")) return lang;
+            }
+            return "";
+        }
+
 
         private static List<string> GetLDFiles()
         {
@@ -210,6 +258,16 @@ namespace ShenmueHDTools.Main.Database
             "HD_Moon.fbx",
             "HD_skyLayer1.fbx",
             "HD_Corona.fbx",
+        };
+
+        public static List<string> LanguageSuffix = new List<string>()
+        {
+            "de",
+            "fr",
+            "kr",
+            "sc",
+            "tc",
+            "jp"
         };
 
         public static string LDFormat = "/ui/loadscreen/textures/headers/{0}.png?usage=0";
@@ -340,6 +398,10 @@ namespace ShenmueHDTools.Main.Database
             "/ui/gamehud/GameHudTraining.ui",
             "/ui/splash/Splash.ui",
             "/ui/splash/SplashSecondary.ui",
+
+            //not indexed files
+            "/ui/splash/Splash_jp.ui",
+            "/ui/gamehud/GameHudStreetFighter.ui",
         };
 
         public static List<string> HardcodedFilenames = new List<string>()

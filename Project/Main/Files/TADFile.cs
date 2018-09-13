@@ -29,6 +29,7 @@ namespace ShenmueHDTools.Main.Files
         public bool Read(string filename, bool includeMeta = false)
         {
             if (Path.GetExtension(filename).ToLower() != Extension) return false;
+            if (!File.Exists(filename)) return false;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -91,9 +92,11 @@ namespace ShenmueHDTools.Main.Files
             return Math.Round((float)counter / (float)FileEntries.Count * 100.0f, 2);
         }
 
-        public void PrintStatistic(bool verbose = false)
+        public void PrintStatistic(bool verbose = false, bool interleaved = false)
         {
             int counter = 0;
+
+
             List<TADFileEntry> unknownEntries = new List<TADFileEntry>();
             List<TADFileEntry> knownEntries = new List<TADFileEntry>();
             foreach (TADFileEntry entry in FileEntries)
@@ -113,15 +116,28 @@ namespace ShenmueHDTools.Main.Files
 
             if (verbose)
             {
-                Console.WriteLine("\n Found Files:");
-                foreach (TADFileEntry entry in knownEntries)
+                if (interleaved)
                 {
-                    Console.WriteLine("  " + entry.ToString());
+                    Console.WriteLine("\n Files:");
+                    int c = 0;
+                    foreach (TADFileEntry entry in FileEntries)
+                    {
+                        Console.WriteLine(String.Format("  [{0}] {1}", c.ToString(), entry.ToString()));
+                        c++;
+                    }
                 }
-                Console.WriteLine("\n Unknown Files:");
-                foreach (TADFileEntry entry in unknownEntries)
+                else
                 {
-                    Console.WriteLine("  " + entry.ToString());
+                    Console.WriteLine("\n Found Files:");
+                    foreach (TADFileEntry entry in knownEntries)
+                    {
+                        Console.WriteLine("  " + entry.ToString());
+                    }
+                    Console.WriteLine("\n Unknown Files:");
+                    foreach (TADFileEntry entry in unknownEntries)
+                    {
+                        Console.WriteLine("  " + entry.ToString());
+                    }
                 }
             }
             
@@ -305,12 +321,12 @@ namespace ShenmueHDTools.Main.Files
         {
             if (String.IsNullOrEmpty(Filename))
             {
-                return String.Format("[{0}{1}{2}] Offset: {3}, Size: {4}", FirstHash.ToString("X8"), SecondHash.ToString("X8"),
+                return String.Format("[{0}|{1}|{2}] Offset: {3}, Size: {4}", FirstHash.ToString("X8"), SecondHash.ToString("X8"),
                     Unknown.ToString("X8"), FileOffset, FileSize);
             }
             else
             {
-                return String.Format("[{0}{1}{2}] Offset: {3}, Size: {4}, Filename:{5}", FirstHash.ToString("X8"), SecondHash.ToString("X8"),
+                return String.Format("[{0}|{1}|{2}] Offset: {3}, Size: {4}, Filename:{5}", FirstHash.ToString("X8"), SecondHash.ToString("X8"),
                     Unknown.ToString("X8"), FileOffset, FileSize, Filename);
             }
         }

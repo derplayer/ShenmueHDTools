@@ -100,6 +100,7 @@ namespace ShenmueHDTools.Main.Database
                         entry.Filename = filename;
 
                         Console.WriteLine("FOUND FILE: [{0}] {1}", dbEntry.FirstHash.ToString("X8"), filename);
+                        break;
                     }
                 }
             }
