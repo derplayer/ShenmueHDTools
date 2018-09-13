@@ -37,10 +37,10 @@ namespace ShenmueHDTools.Main.Files
             {
                 using (FileStream stream = File.Open(Filename, FileMode.Open))
                 {
-                    m_buffer = new byte[stream.Length];
-                    stream.Read(m_buffer, 0, m_buffer.Length);
+                    stream.Seek(offset, SeekOrigin.Begin);
                     byte[] buffer = new byte[size];
-                    Array.Copy(m_buffer, offset, buffer, 0, size);
+                    stream.Read(buffer, 0, (int)size);
+
                     found = true;
                     return buffer;
                 }
@@ -89,14 +89,14 @@ namespace ShenmueHDTools.Main.Files
         /// <param name="outputFolder">The extraction output folder.</param>
         /// <param name="tadFile">The TAD file.</param>
         /// <returns></returns>
-        public static bool Unpack(string filename, string outputFolder, TADFile tadFile)
+        public static bool Unpack(string tacFilename, string outputFolder, TADFile tadFile)
         {
-            if (Path.GetExtension(filename).ToLower() != Extension) return false;
+            if (Path.GetExtension(tacFilename).ToLower() != Extension) return false;
             if (!Directory.Exists(outputFolder))
             {
                 Directory.CreateDirectory(outputFolder);
             }
-            using (FileStream tacStream = File.Open(filename, FileMode.Open))
+            using (FileStream tacStream = File.Open(tacFilename, FileMode.Open))
             {
                 int counter = 0;
                 foreach (TADFileEntry entry in tadFile.FileEntries)

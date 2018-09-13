@@ -88,10 +88,10 @@ namespace Shenmue_HD_Tools
         {
         }
 
-        private void fileInjector_Click(object sender, EventArgs e)
-        {
-            new ShenmueHD.Core().SaveAs();
-        }
+        //private void fileInjector_Click(object sender, EventArgs e)
+        //{
+        //    new ShenmueHD.Core().SaveAs();
+        //}
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
@@ -108,20 +108,20 @@ namespace Shenmue_HD_Tools
 
         }
 
-        private void replaceFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new ShenmueHD.Core().SaveAs();
-        }
+        //private void replaceFileToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    new ShenmueHD.Core().SaveAs();
+        //}
 
-        private void listBoxVFS_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        //private void listBoxVFS_SelectedIndexChanged(object sender, EventArgs e)
+        //{
 
-        }
+        //}
 
-        private void saveVFSToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new ShenmueHD.Core().SaveAs();
-        }
+        //private void saveVFSToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    new ShenmueHD.Core().SaveAs();
+        //}
 
         private void listViewMain_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -209,11 +209,6 @@ namespace Shenmue_HD_Tools
         void listViewMain_DragDrop(object sender, DragEventArgs e)
         {
 
-        }
-
-        private void saveVFSToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            new ShenmueHD.Core().Save();
         }
 
         private void howToModifyAFileInVFSToolStripMenuItem_Click(object sender, EventArgs e)

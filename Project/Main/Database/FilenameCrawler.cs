@@ -108,6 +108,7 @@ namespace ShenmueHDTools.Main.Database
             m_tacFiles = new List<TACFile>();
             if (!String.IsNullOrEmpty(dataFolder))
             {
+                //TODO: File Path recrusive search! Because the main files dont need to be in "data"
                 foreach (string archiveFile in ArchiveFiles)
                 {
                     string tadFilename = dataFolder + "\\" + archiveFile + ".tad";
@@ -138,6 +139,7 @@ namespace ShenmueHDTools.Main.Database
             m_tacFiles.Clear();
         }
 
+        //TODO: More generic, beacuse filenames (ALL) change with every patch
         public static List<string> ArchiveFiles = new List<string>()
         {
             "audio_eng_5b69b0ee",

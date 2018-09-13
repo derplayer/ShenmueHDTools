@@ -35,8 +35,6 @@
             this.test1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importExistingProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsAModToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveVFSToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveVFSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gIMOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gIMShowGIMStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,9 +87,7 @@
             this.testToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.test1ToolStripMenuItem,
             this.importExistingProjectToolStripMenuItem,
-            this.exportAsAModToolStripMenuItem,
-            this.saveVFSToolStripMenuItem1,
-            this.saveVFSToolStripMenuItem});
+            this.exportAsAModToolStripMenuItem});
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
             this.testToolStripMenuItem1.Size = new System.Drawing.Size(113, 20);
             this.testToolStripMenuItem1.Text = "TAD/TAC Options";
@@ -117,20 +113,6 @@
             this.exportAsAModToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
             this.exportAsAModToolStripMenuItem.Text = "Export as mod container";
             this.exportAsAModToolStripMenuItem.Click += new System.EventHandler(this.exportAsAModToolStripMenuItem_Click);
-            // 
-            // saveVFSToolStripMenuItem1
-            // 
-            this.saveVFSToolStripMenuItem1.Name = "saveVFSToolStripMenuItem1";
-            this.saveVFSToolStripMenuItem1.Size = new System.Drawing.Size(262, 22);
-            this.saveVFSToolStripMenuItem1.Text = "Save";
-            this.saveVFSToolStripMenuItem1.Click += new System.EventHandler(this.saveVFSToolStripMenuItem1_Click);
-            // 
-            // saveVFSToolStripMenuItem
-            // 
-            this.saveVFSToolStripMenuItem.Name = "saveVFSToolStripMenuItem";
-            this.saveVFSToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.saveVFSToolStripMenuItem.Text = "Save as...";
-            this.saveVFSToolStripMenuItem.Click += new System.EventHandler(this.saveVFSToolStripMenuItem_Click);
             // 
             // gIMOptionsToolStripMenuItem
             // 
@@ -355,13 +337,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataCollectorBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
         private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem test1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveVFSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cRC32FromLookupToolStripMenuItem;
         private System.Windows.Forms.BindingSource dataCollectorBindingSource;
         public System.Windows.Forms.ListView listViewMain;
@@ -369,7 +351,6 @@
         public System.Windows.Forms.ColumnHeader beginHeader;
         public System.Windows.Forms.ColumnHeader sizeHeader;
         public System.Windows.Forms.ColumnHeader endHeader;
-        private System.Windows.Forms.ToolStripMenuItem saveVFSToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem howToModifyAFileInVFSToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;

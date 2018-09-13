@@ -80,56 +80,56 @@ namespace Shenmue_HD_Tools.ShenmueHD
             }
         }
 
-        public void Save()
-        {
-            try
-            {
-                if (loadedVFS != null)
-                {
-                    LockGUI();
-                    data.SaveVFS(loadedVFS);
-                    UnlockGUI();
-                    data.UpdateGUI();
-                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Tac/Tad saved!";
-                }
-                else
-                {
-                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Please load first an file!";
-                }
-            }
-            catch (IOException e)
-            {
-                Program.MainWindowCore.toolStripStatusLabel1.Text = "Error at saveAs: " + e.TargetSite;
-            }
-        }
+        //public void Save()
+        //{
+        //    try
+        //    {
+        //        if (loadedVFS != null)
+        //        {
+        //            LockGUI();
+        //            data.SaveVFS(loadedVFS);
+        //            UnlockGUI();
+        //            data.UpdateGUI();
+        //            Program.MainWindowCore.toolStripStatusLabel1.Text = "Tac/Tad saved!";
+        //        }
+        //        else
+        //        {
+        //            Program.MainWindowCore.toolStripStatusLabel1.Text = "Please load first an file!";
+        //        }
+        //    }
+        //    catch (IOException e)
+        //    {
+        //        Program.MainWindowCore.toolStripStatusLabel1.Text = "Error at saveAs: " + e.TargetSite;
+        //    }
+        //}
 
-        public void SaveAs()
-        {
-            try
-            {
-                if (loadedVFS != null)
-                {
-                    SaveFileDialog newSavePathDlg = new SaveFileDialog();
-                    newSavePathDlg.Filter = "The Archive Dictonary files(*.tad)| *.tad";
+        //public void SaveAs()
+        //{
+        //    try
+        //    {
+        //        if (loadedVFS != null)
+        //        {
+        //            SaveFileDialog newSavePathDlg = new SaveFileDialog();
+        //            newSavePathDlg.Filter = "The Archive Dictonary files(*.tad)| *.tad";
 
-                    if (newSavePathDlg.ShowDialog() == DialogResult.OK)
-                    {
-                        LockGUI();
-                        data.SaveVFS(newSavePathDlg.FileName);
-                        UnlockGUI();
-                        Program.MainWindowCore.toolStripStatusLabel1.Text = "Tac/Tad saved!";
-                    }
-                }
-                else
-                {
-                    Program.MainWindowCore.toolStripStatusLabel1.Text = "Please load first an file!";
-                }
-            }
-            catch (IOException e)
-            {
-                Program.MainWindowCore.toolStripStatusLabel1.Text = "Error at saveAs: " + e.TargetSite;
-            }
-        }
+        //            if (newSavePathDlg.ShowDialog() == DialogResult.OK)
+        //            {
+        //                LockGUI();
+        //                data.SaveVFS(newSavePathDlg.FileName);
+        //                UnlockGUI();
+        //                Program.MainWindowCore.toolStripStatusLabel1.Text = "Tac/Tad saved!";
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Program.MainWindowCore.toolStripStatusLabel1.Text = "Please load first an file!";
+        //        }
+        //    }
+        //    catch (IOException e)
+        //    {
+        //        Program.MainWindowCore.toolStripStatusLabel1.Text = "Error at saveAs: " + e.TargetSite;
+        //    }
+        //}
 
         public void Export()
         {

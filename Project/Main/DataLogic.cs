@@ -14,6 +14,7 @@ using ShenmueHDTools.Main.DataStructure;
 using System.Security.Cryptography;
 using System.Threading;
 using ShenmueHDTools.Main.Database;
+using ShenmueHDTools.Main.Files;
 
 namespace ShenmueHDTools.Main
 {
@@ -25,131 +26,138 @@ namespace ShenmueHDTools.Main
         public List<FileStructure> LoadVFS(string path, string directory)
         {
             ClearStructures();
+
+            FilenameCrawler.GenerateFilenameDatabase(directory);
+
             string tempFileExt = Path.GetExtension(path);
             var containerPath = Path.ChangeExtension(path, ".tac");
+            TADFile tadFile = new TADFile(path);
+            FilenameDatabase.MapFilenamesToTAD(tadFile);
 
-            using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open)))
-            {
-                _actualHeader.ReadHeader(reader);
+            //using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open)))
+            //{
+                //_actualHeader.ReadHeader(reader);
 
-                string identifier = new ASCIIEncoding().GetString(_actualHeader.RenderType);
-                if (identifier != "dx11") throw new Exception("Header identifier isn't correct!");
+                //string identifier = new ASCIIEncoding().GetString(_actualHeader.RenderType);
+                //if (identifier != "dx11") throw new Exception("Header identifier isn't correct!");
 
-                int i = 0;
-                while (true)
-                {
-                    FileStructure actualFile = new FileStructure();
-                    actualFile.Meta.Index = i;
+                //int i = 0;
+                //while (true)
+                //{
+                //    FileStructure actualFile = new FileStructure();
+                //    actualFile.Meta.Index = i;
 
-                    actualFile.ReadHeader(reader);
+                //    actualFile.ReadHeader(reader);
 
-                    actualFile.Meta.FileEnd = BitConverter.GetBytes(
-                        BitConverter.ToInt64(actualFile.FileStart, 0) +
-                        BitConverter.ToInt64(actualFile.FileSize, 0)
-                    );
+                //    actualFile.Meta.FileEnd = BitConverter.GetBytes(
+                //        BitConverter.ToInt64(actualFile.FileStart, 0) +
+                //        BitConverter.ToInt64(actualFile.FileSize, 0)
+                //    );
 
-                    _actualFiles.Add(actualFile);
-                    i++;
+                //    _actualFiles.Add(actualFile);
+                //    i++;
 
-                    //TODO: Move to loop top?
-                    if (reader.BaseStream.Position >= reader.BaseStream.Length)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Stream position is at overflowing. Stop reading!");
-                        break;
-                    }
-                }
+                //    //TODO: Move to loop top?
+                //    if (reader.BaseStream.Position >= reader.BaseStream.Length)
+                //    {
+                //        System.Diagnostics.Debug.WriteLine("Stream position is at overflowing. Stop reading!");
+                //        break;
+                //    }
+                //}
 
-                string extractDirectory = directory + "\\_" + Path.GetFileName(path) + "_\\";
+                string extractDirectory = directory + "\\_" + Path.GetFileName(path);
                 Directory.CreateDirectory(extractDirectory);
 
-                using (BinaryReader tacReader = new BinaryReader(new FileStream(containerPath, FileMode.Open)))
-                {
-                    foreach (FileStructure file in _actualFiles)
-                    {
-                        tacReader.BaseStream.Seek(BitConverter.ToInt64(file.FileStart, 0), SeekOrigin.Begin);
+                TACFile.Unpack(containerPath, extractDirectory, tadFile);
 
-                        long startInt = BitConverter.ToInt64(file.FileStart, 0);
-                        long sizeInt = BitConverter.ToInt64(file.FileSize, 0);
-                        long endInt = startInt + sizeInt;
+                //using (BinaryReader tacReader = new BinaryReader(new FileStream(containerPath, FileMode.Open)))
+                //{
+                //    foreach (FileStructure file in _actualFiles)
+                //    {
+                //        tacReader.BaseStream.Seek(BitConverter.ToInt64(file.FileStart, 0), SeekOrigin.Begin);
 
-                        byte[] dataArray = new byte[sizeInt];
-                        tacReader.Read(dataArray, 0, dataArray.Length);
+                //        long startInt = BitConverter.ToInt64(file.FileStart, 0);
+                //        long sizeInt = BitConverter.ToInt64(file.FileSize, 0);
+                //        long endInt = startInt + sizeInt;
 
-                        file.Meta.FileExt = Helper.ExtensionFinder(dataArray);
-                        string finalFilePath = extractDirectory + file.Meta.Index + file.Meta.FileExt;
-                        file.Meta.FilePath = finalFilePath;
+                //        byte[] dataArray = new byte[sizeInt];
+                //        tacReader.Read(dataArray, 0, dataArray.Length);
 
-                        try
-                        {
-                            //TODO: REMOVE/MODIFY LATER!
-                            if (file.Meta.FileExt == ".json" && file.Meta.Index == 12)
-                            {
-                                //load stuff into memory for assertmapping/s
-                                file.Meta.FileDeserialized = new AssetRemappingJSON(dataArray);
-                            }
+                //        file.Meta.FileExt = Helper.ExtensionFinder(dataArray);
+                //        string finalFilePath = extractDirectory + file.Meta.Index + file.Meta.FileExt;
+                //        file.Meta.FilePath = finalFilePath;
 
-                            // TODO: Verify Filehash and Database hash!
-                            //foreach (var dcFile in DCCollector.FileCollector)
-                            //{
-                            //    if(file.)
-                            //}
-                        }
-                        catch (Exception e)
-                        {
-                            throw;
-                        }
+                //        try
+                //        {
+                //            //TODO: REMOVE/MODIFY LATER!
+                //            if (file.Meta.FileExt == ".json" && file.Meta.Index == 12)
+                //            {
+                //                //load stuff into memory for assertmapping/s
+                //                file.Meta.FileDeserialized = new AssetRemappingJSON(dataArray);
+                //            }
 
-                        //Extract at load...
-                        try
-                        {
-                            using (StreamWriter writer = new StreamWriter(new FileStream(finalFilePath, FileMode.Create)))
-                            {
-                                writer.BaseStream.Write(dataArray, 0, dataArray.Length);
+                //            // TODO: Verify Filehash and Database hash!
+                //            //foreach (var dcFile in DCCollector.FileCollector)
+                //            //{
+                //            //    if(file.)
+                //            //}
+                //        }
+                //        catch (Exception e)
+                //        {
+                //            throw;
+                //        }
 
-                                using (var md5 = MD5.Create())
-                                {
-                                    md5.ComputeHash(dataArray, 0, dataArray.Length);
-                                    file.Meta.MD5Hash = md5.Hash;
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Something broke..." + e);
-                        }
+                //        //Extract at load...
+                //        try
+                //        {
+                //            using (StreamWriter writer = new StreamWriter(new FileStream(finalFilePath, FileMode.Create)))
+                //            {
+                //                writer.BaseStream.Write(dataArray, 0, dataArray.Length);
 
-                    }
-                }
+                //                using (var md5 = MD5.Create())
+                //                {
+                //                    md5.ComputeHash(dataArray, 0, dataArray.Length);
+                //                    file.Meta.MD5Hash = md5.Hash;
+                //                }
+                //            }
+                //        }
+                //        catch (Exception e)
+                //        {
+                //            System.Diagnostics.Debug.WriteLine("Something broke..." + e);
+                //        }
 
-                reader.Close();
+                //    }
+                //}
+
+                //reader.Close();
 
                 //Create .shdcache file (for fater loading)
-                try
-                {
-                    string cachePath = Path.ChangeExtension(path, ".shdcache");
-                    using (StreamWriter writer = new StreamWriter(new FileStream(cachePath, FileMode.Create)))
-                    {
-                        BinaryFormatter bf = new BinaryFormatter();
-                        using (var ms = new MemoryStream())
-                        {
-                            var serializeStuff = new DataCollection
-                            {
-                                Header = _actualHeader,
-                                Files = _actualFiles
-                            };
+                //try
+                //{
+                //    string cachePath = Path.ChangeExtension(path, ".shdcache");
+                //    using (StreamWriter writer = new StreamWriter(new FileStream(cachePath, FileMode.Create)))
+                //    {
+                //        BinaryFormatter bf = new BinaryFormatter();
+                //        using (var ms = new MemoryStream())
+                //        {
+                //            var serializeStuff = new DataCollection
+                //            {
+                //                Header = _actualHeader,
+                //                Files = _actualFiles
+                //            };
 
-                            bf.Serialize(ms, serializeStuff);
-                            var msArr = ms.ToArray();
-                            writer.BaseStream.Write(msArr, 0, msArr.Length);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine("Something broke..." + e);
-                }
+                //            bf.Serialize(ms, serializeStuff);
+                //            var msArr = ms.ToArray();
+                //            writer.BaseStream.Write(msArr, 0, msArr.Length);
+                //        }
+                //    }
+                //}
+                //catch (Exception e)
+                //{
+                //    System.Diagnostics.Debug.WriteLine("Something broke..." + e);
+                //}
 
-            }
+            //}
 
             UpdateGUI();
             return _actualFiles;
@@ -187,123 +195,123 @@ namespace ShenmueHDTools.Main
             return _actualFiles;
         }
 
-        public void SaveVFS(string path)
-        {
-            path = Path.ChangeExtension(path, ".tad"); // in case of shdcache import
+        //public void SaveVFS(string path)
+        //{
+        //    path = Path.ChangeExtension(path, ".tad"); // in case of shdcache import
 
-            using (BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create)))
-            {
-                writer.Write(_actualHeader.FileType);
-                writer.Write(_actualHeader.Identifier1);
-                writer.Write(_actualHeader.Identifier2);
-                writer.Write(_actualHeader.Reserved1);
+        //    using (BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create)))
+        //    {
+        //        writer.Write(_actualHeader.FileType);
+        //        writer.Write(_actualHeader.Identifier1);
+        //        writer.Write(_actualHeader.Identifier2);
+        //        writer.Write(_actualHeader.Reserved1);
 
-                writer.Write(_actualHeader.UnixTimestamp);
-                writer.Write(_actualHeader.Reserved2);
+        //        writer.Write(_actualHeader.UnixTimestamp);
+        //        writer.Write(_actualHeader.Reserved2);
 
-                writer.Write(_actualHeader.RenderType);
-                writer.Write(_actualHeader.Reserved3);
+        //        writer.Write(_actualHeader.RenderType);
+        //        writer.Write(_actualHeader.Reserved3);
 
-                writer.Write(_actualHeader.HeaderChecksum);
-                writer.Write(_actualHeader.Reserved4);
+        //        writer.Write(_actualHeader.HeaderChecksum);
+        //        writer.Write(_actualHeader.Reserved4);
 
-                writer.Write(_actualHeader.TacSize);
-                writer.Write(_actualHeader.Reserved5);
+        //        writer.Write(_actualHeader.TacSize);
+        //        writer.Write(_actualHeader.Reserved5);
 
-                writer.Write(_actualHeader.FileCount1);
-                writer.Write(_actualHeader.Reserved6);
+        //        writer.Write(_actualHeader.FileCount1);
+        //        writer.Write(_actualHeader.Reserved6);
 
-                writer.Write(_actualHeader.FileCount2);
+        //        writer.Write(_actualHeader.FileCount2);
 
-                long newPosBuf = 0;
-                foreach (var file in _actualFiles)
-                {
-                    using (BinaryReader vfsReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
-                    {
-                        long actualLength = new FileInfo(file.Meta.FilePath).Length;
-                        long cachedLength = BitConverter.ToInt64(file.FileSize, 0);
+        //        long newPosBuf = 0;
+        //        foreach (var file in _actualFiles)
+        //        {
+        //            using (BinaryReader vfsReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
+        //            {
+        //                long actualLength = new FileInfo(file.Meta.FilePath).Length;
+        //                long cachedLength = BitConverter.ToInt64(file.FileSize, 0);
 
-                        if (cachedLength == actualLength)
-                            System.Diagnostics.Debug.WriteLine("File " + file.Meta.Index + " matches the start pointer size!");
-                        else
-                        {
-                            System.Diagnostics.Debug.WriteLine("File " + file.Meta.Index + " DON'T MATCHES the start pointer size!");
-                            file.Meta.FileModified = true;
-                        }
+        //                if (cachedLength == actualLength)
+        //                    System.Diagnostics.Debug.WriteLine("File " + file.Meta.Index + " matches the start pointer size!");
+        //                else
+        //                {
+        //                    System.Diagnostics.Debug.WriteLine("File " + file.Meta.Index + " DON'T MATCHES the start pointer size!");
+        //                    file.Meta.FileModified = true;
+        //                }
 
-                        long newPos = 0;
-                        long newTemPosBuf = newPosBuf;
-                        bool upperMode = false;
-                        if (cachedLength > actualLength)
-                        {
-                            newPos = cachedLength - actualLength;
-                            newPosBuf -= newPos;
-                            upperMode = false;
-                        }
+        //                long newPos = 0;
+        //                long newTemPosBuf = newPosBuf;
+        //                bool upperMode = false;
+        //                if (cachedLength > actualLength)
+        //                {
+        //                    newPos = cachedLength - actualLength;
+        //                    newPosBuf -= newPos;
+        //                    upperMode = false;
+        //                }
 
-                        if (cachedLength < actualLength)
-                        {
-                            newPos = actualLength - cachedLength;
-                            newPosBuf += newPos;
-                            upperMode = true;
-                        }
+        //                if (cachedLength < actualLength)
+        //                {
+        //                    newPos = actualLength - cachedLength;
+        //                    newPosBuf += newPos;
+        //                    upperMode = true;
+        //                }
 
-                        long pointerMergeIntX = BitConverter.ToInt64(file.FileStart, 0) + newTemPosBuf;
-                        byte[] pointerMergeX = BitConverter.GetBytes(pointerMergeIntX);
+        //                long pointerMergeIntX = BitConverter.ToInt64(file.FileStart, 0) + newTemPosBuf;
+        //                byte[] pointerMergeX = BitConverter.GetBytes(pointerMergeIntX);
 
-                        long pointerMergeIntY = BitConverter.ToInt64(file.Meta.FileEnd, 0) + newPosBuf;
-                        byte[] pointerMergeY = BitConverter.GetBytes(pointerMergeIntY);
+        //                long pointerMergeIntY = BitConverter.ToInt64(file.Meta.FileEnd, 0) + newPosBuf;
+        //                byte[] pointerMergeY = BitConverter.GetBytes(pointerMergeIntY);
 
-                        long pointerMergeIntZ;
-                        if (upperMode)
-                            pointerMergeIntZ = BitConverter.ToInt64(file.FileSize, 0) + newPos;
-                        else
-                            pointerMergeIntZ = BitConverter.ToInt64(file.FileSize, 0) - newPos;
+        //                long pointerMergeIntZ;
+        //                if (upperMode)
+        //                    pointerMergeIntZ = BitConverter.ToInt64(file.FileSize, 0) + newPos;
+        //                else
+        //                    pointerMergeIntZ = BitConverter.ToInt64(file.FileSize, 0) - newPos;
 
-                        byte[] pointerMergeZ = BitConverter.GetBytes(pointerMergeIntZ);
+        //                byte[] pointerMergeZ = BitConverter.GetBytes(pointerMergeIntZ);
 
-                        file.FileStart = pointerMergeX;
-                        file.Meta.FileEnd = pointerMergeY;
-                        file.FileSize = pointerMergeZ;
-                    }
-                }
+        //                file.FileStart = pointerMergeX;
+        //                file.Meta.FileEnd = pointerMergeY;
+        //                file.FileSize = pointerMergeZ;
+        //            }
+        //        }
 
-                //Rebuild "the archive dictonary"
-                foreach (var file in _actualFiles)
-                {
-                    try
-                    {
-                        writer.Write(file.Hash1);
-                        writer.Write(file.Hash2);
-                        writer.Write(file.FileStart);
-                        writer.Write(file.FileSize);
-                    }
-                    catch (Exception e)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Error: " + e);
-                        continue;
-                    }
+        //        //Rebuild "the archive dictonary"
+        //        foreach (var file in _actualFiles)
+        //        {
+        //            try
+        //            {
+        //                writer.Write(file.Hash1);
+        //                writer.Write(file.Hash2);
+        //                writer.Write(file.FileStart);
+        //                writer.Write(file.FileSize);
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                System.Diagnostics.Debug.WriteLine("Error: " + e);
+        //                continue;
+        //            }
 
-                }
+        //        }
 
-                var containerPath = Path.ChangeExtension(path, ".tac");
-                using (BinaryWriter containerWriter = new BinaryWriter(new FileStream(containerPath, FileMode.Create)))
-                {
-                    //Data Stream - write the archive container
-                    foreach (var file in _actualFiles)
-                    {
-                        using (BinaryReader tacVFSReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
-                        {
-                            long sizeInt = BitConverter.ToInt64(file.FileSize, 0);
-                            byte[] dataArray = new byte[sizeInt];
-                            tacVFSReader.Read(dataArray, 0, dataArray.Length);
-                            containerWriter.Write(dataArray);
-                        }
+        //        var containerPath = Path.ChangeExtension(path, ".tac");
+        //        using (BinaryWriter containerWriter = new BinaryWriter(new FileStream(containerPath, FileMode.Create)))
+        //        {
+        //            //Data Stream - write the archive container
+        //            foreach (var file in _actualFiles)
+        //            {
+        //                using (BinaryReader tacVFSReader = new BinaryReader(new FileStream(file.Meta.FilePath, FileMode.Open)))
+        //                {
+        //                    long sizeInt = BitConverter.ToInt64(file.FileSize, 0);
+        //                    byte[] dataArray = new byte[sizeInt];
+        //                    tacVFSReader.Read(dataArray, 0, dataArray.Length);
+        //                    containerWriter.Write(dataArray);
+        //                }
 
-                    }
-                }
-            }
-        }
+        //            }
+        //        }
+        //    }
+        //}
 
         public void Export(string path)
         {
