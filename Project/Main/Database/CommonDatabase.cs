@@ -105,6 +105,12 @@ namespace ShenmueHDTools.Main.Database
                 if (exist)
                 {
                     List<string> images = GetImagesFromUI(buf);
+                    
+                    foreach (string btn in ButtonFilenames)
+                    {
+                        images.Add(String.Format(SuffixUIFormat, btn, 0));
+                    }
+
                     if (images.Count > 0)
                     {
                         foreach (string imageFilename in images)
@@ -123,6 +129,15 @@ namespace ShenmueHDTools.Main.Database
             {
                 uint hash2 = MurmurHash2Shenmue.GetFilenameHashPlain(ldFile);
                 string fFilename = MurmurHash2Shenmue.GetFullFilename(ldFile, hash2);
+                uint hash1 = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fFilename), 0);
+                FilenameDatabase.Add(hash1, hash2, fFilename);
+            }
+
+            //Credits Filenames
+            foreach (string creditFile in GetCreditFilenames())
+            {
+                uint hash2 = MurmurHash2Shenmue.GetFilenameHashPlain(creditFile);
+                string fFilename = MurmurHash2Shenmue.GetFullFilename(creditFile, hash2);
                 uint hash1 = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fFilename), 0);
                 FilenameDatabase.Add(hash1, hash2, fFilename);
             }
@@ -239,6 +254,18 @@ namespace ShenmueHDTools.Main.Database
             return result;
         }
 
+        public static List<string> GetCreditFilenames()
+        {
+            List<string> result = new List<string>(CreditsFilenames);
+
+            for(int i = 0; i < 40; i++)
+            {
+                result.Add(String.Format(CreditsSFFormat, i.ToString()));
+            }
+
+            return result;
+        }
+
         public static string SkyFormat = "/{0}/{1}";
 
         public static List<string> SkyFolders = new List<string>()
@@ -258,6 +285,74 @@ namespace ShenmueHDTools.Main.Database
             "HD_Moon.fbx",
             "HD_skyLayer1.fbx",
             "HD_Corona.fbx",
+        };
+
+        public static string CreditsSFFormat = "/ui/credits/textures/sf_{0}_0.tga";
+
+        public static List<string> CreditsFilenames = new List<string>()
+        {
+            "/ui/credits/data/originalsm1.csv",
+            "/ui/credits/data/originalsm2.csv",
+            "/ui/credits/data/d3t.csv",
+            "/ui/credits/data/sega.csv",
+
+            "/ui/credits/textures/am2_logo.tga?usage=0",
+            "/ui/credits/textures/ys_logo.tga?usage=0",
+            "/ui/credits/textures/YSSignatureSmall.png?usage=0",
+            "/ui/credits/textures/d3tlogo.png?usage=0",
+            "/ui/credits/textures/Yebis_logo.tga?usage=0",
+            "/ui/credits/textures/Oodle.png?usage=0",
+            "/ui/credits/textures/segaLogo.tga?usage=0",
+            "/ui/credits/textures/segaLogo_jp.tga?usage=0",
+            "/ui/credits/textures/TieUpWithSega.tga?usage=0",
+            "/ui/credits/textures/TieUpWithSega_jp.tga?usage=0",
+            "/ui/credits/textures/CSEGA.png?usage=0"
+        };
+
+        public static List<string> ButtonFilenames = new List<string>()
+        {
+            "/ui/common/buttons/B_on.tga",
+            "/ui/common/buttons/A_on.tga",
+            "/ui/common/buttons/X_on.tga",
+            "/ui/common/buttons/Y_on.tga",
+            "/ui/common/buttons/LB_on.tga",
+            "/ui/common/buttons/LT_on.tga",
+            "/ui/common/buttons/RB_on.tga",
+            "/ui/common/buttons/RT_on.tga",
+
+            "/ui/common/buttons/B_off.tga",
+            "/ui/common/buttons/A_off.tga",
+            "/ui/common/buttons/X_off.tga",
+            "/ui/common/buttons/Y_off.tga",
+            "/ui/common/buttons/LB_off.tga",
+            "/ui/common/buttons/LT_off.tga",
+            "/ui/common/buttons/RB_off.tga",
+            "/ui/common/buttons/RT_off.tga",
+
+            "/ui/common/buttons/Thumbstick_L.tga",
+            "/ui/common/buttons/Thumbstick_R.tga",
+
+
+            "/ui/common/buttons/B_on.png",
+            "/ui/common/buttons/A_on.png",
+            "/ui/common/buttons/X_on.png",
+            "/ui/common/buttons/Y_on.png",
+            "/ui/common/buttons/LB_on.png",
+            "/ui/common/buttons/LT_on.png",
+            "/ui/common/buttons/RB_on.png",
+            "/ui/common/buttons/RT_on.png",
+
+            "/ui/common/buttons/B_off.png",
+            "/ui/common/buttons/A_off.png",
+            "/ui/common/buttons/X_off.png",
+            "/ui/common/buttons/Y_off.png",
+            "/ui/common/buttons/LB_off.png",
+            "/ui/common/buttons/LT_off.png",
+            "/ui/common/buttons/RB_off.png",
+            "/ui/common/buttons/RT_off.png",
+
+            "/ui/common/buttons/Thumbstick_L.png",
+            "/ui/common/buttons/Thumbstick_R.png",
         };
 
         public static List<string> LanguageSuffix = new List<string>()
