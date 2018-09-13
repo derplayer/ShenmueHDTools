@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ShenmueHDTools.Main.Database
 {
-    class AudioDatabase
+    public class AudioDatabase
     {
         public static int SceneCount = 3;
         public static string SearchString = "file_";

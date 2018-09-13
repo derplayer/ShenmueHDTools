@@ -11,7 +11,7 @@ using ShenmueHDTools.Main.DataStructure;
 namespace ShenmueHDTools.Main.Database
 {
 
-    class FilenameCrawler
+    public class FilenameCrawler
     {
         private static List<TADFile> m_tadFiles = new List<TADFile>();
         private static List<TACFile> m_tacFiles = new List<TACFile>();

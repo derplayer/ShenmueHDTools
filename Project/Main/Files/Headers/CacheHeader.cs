@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ShenmueHDTools.Main.Files.Headers
 {
-    class CacheHeader
+    public class CacheHeader
     {
         public uint Version { get; set; } = 1;
 

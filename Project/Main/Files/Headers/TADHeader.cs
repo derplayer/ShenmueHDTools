@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ShenmueHDTools.Main.Files.Headers
 {
-    class TADHeader
+    public class TADHeader
     {
         /// <summary>
         /// The TAD header size in bytes.

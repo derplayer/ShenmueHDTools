@@ -10,7 +10,7 @@ using System.IO;
 namespace ShenmueHDTools.Main.Database
 {
     [Serializable]
-    class FilenameDatabaseEntry
+    public class FilenameDatabaseEntry
     {
         public uint FirstHash { get; set; } = 0;
         public uint SecondHash { get; set; } = 0;
@@ -100,6 +100,8 @@ namespace ShenmueHDTools.Main.Database
                         entry.Filename = filename;
 
                         Console.WriteLine("FOUND FILE: [{0}] {1}", dbEntry.FirstHash.ToString("X8"), filename);
+
+                        //There should be a break here
                         break;
                     }
                 }

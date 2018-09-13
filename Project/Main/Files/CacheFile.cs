@@ -9,7 +9,7 @@ using System.IO;
 
 namespace ShenmueHDTools.Main.Files
 {
-    class CacheFile
+    public class CacheFile
     {
         public static readonly string Extension = ".shdcache";
 

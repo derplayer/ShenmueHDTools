@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShenmueHDTools.Main.Database
 {
-    class ShaderDatabase
+    public class ShaderDatabase
     {
         public static string Suffix = "{0}?CAPS={1};";
         public static char Seperator = ';';

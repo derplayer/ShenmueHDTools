@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace ShenmueHDTools.Main.Files
 {
-    class TADFile
+    public class TADFile
     {
         public static readonly string Extension = ".tad";
 
@@ -149,7 +149,7 @@ namespace ShenmueHDTools.Main.Files
     /// <summary>
     /// File entry inside the TAD file (32 Bytes)
     /// </summary>
-    class TADFileEntry
+    public class TADFileEntry
     {
         /// <summary>
         /// The TAD file entry size in bytes.
@@ -177,6 +177,42 @@ namespace ShenmueHDTools.Main.Files
         public bool Modified { get; set; }
 
         #endregion
+
+        #endregion
+
+        #region DataBinding
+
+        public string Hash1
+        {
+            get
+            {
+                return FirstHash.ToString("X8");
+            }
+        }
+
+        public string Hash2
+        {
+            get
+            {
+                return SecondHash.ToString("X8");
+            }
+        }
+
+        public string Hash3
+        {
+            get
+            {
+                return Unknown.ToString("X8");
+            }
+        }
+
+        public string Extension
+        {
+            get
+            {
+                return Path.GetExtension(RelativePath);
+            }
+        }
 
         #endregion
 

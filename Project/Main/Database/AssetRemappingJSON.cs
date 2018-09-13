@@ -73,6 +73,15 @@ namespace ShenmueHDTools.Main.Database
                 }
                 tmp = MurmurHash2Shenmue.GetFullFilename(tmp, false).Substring(1);
                 result.Add(tmp.Substring(0, tmp.Length - 9), filename);
+
+                /*
+                uint hash2_ = MurmurHash2Shenmue.GetFilenameHashPlain(filename);
+                string fFilename = MurmurHash2Shenmue.GetFullFilename(filename, hash2_);
+                uint hash1_ = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fFilename), 0);
+
+                Console.WriteLine("{0} => {1} LocHash: {2:X8} ({2}), FileSize: {3}, HashedFilename: {4} ({5:X8})",
+                    tmp, filename, pair.Key.LocHash, pair.Value.FileSize, fFilename, hash1_);
+                    */
             }
             return result;
         }
@@ -112,13 +121,13 @@ namespace ShenmueHDTools.Main.Database
 
     public class Location
     {
-        public uint LocHash;
+        public ulong LocHash;
         public uint UniqueIdx;
         public uint LocStrIdx;
 
         public Location(dynamic LocHashParam, dynamic UniqueIdxParam, dynamic LocStrIdxParam)
         {
-            LocHash = (uint)LocHashParam.Value;
+            LocHash = (ulong)LocHashParam.Value;
             UniqueIdx = (uint)UniqueIdxParam.Value;
             LocStrIdx = (uint)LocStrIdxParam.Value;
         }

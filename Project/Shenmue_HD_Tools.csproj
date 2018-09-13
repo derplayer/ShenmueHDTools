@@ -72,6 +72,18 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\TADDataTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\TADDataTable.Designer.cs">
+      <DependentUpon>TADDataTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\WulinshuRaymonfDataTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\WulinshuRaymonfDataTable.Designer.cs">
+      <DependentUpon>WulinshuRaymonfDataTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +103,7 @@
     <Compile Include="Main\Core.cs" />
     <Compile Include="Main\Database\FilenameDatabase.cs" />
     <Compile Include="Main\Database\ShaderDatabase.cs" />
+    <Compile Include="Main\Database\WulinshuRaymonfAPI.cs" />
     <Compile Include="Main\DataHelper.cs" />
     <Compile Include="Main\DataLogic.cs" />
     <Compile Include="Main\DataStructure\DataCollection.cs" />
@@ -111,6 +124,12 @@
     <Compile Include="Version.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\TADDataTable.resx">
+      <DependentUpon>TADDataTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\WulinshuRaymonfDataTable.resx">
+      <DependentUpon>WulinshuRaymonfDataTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -160,6 +179,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="GUI\Windows\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ShenmueHDTools.Main.Database
 {
-    class CommonDatabase
+    public class CommonDatabase
     {
         public static string SuffixUIFormat = "{0}?usage={1}";
         public static string SuffixFontdefFormat = "{0}?font={1}&image={2}";
@@ -494,9 +494,48 @@ namespace ShenmueHDTools.Main.Database
             "/ui/splash/Splash.ui",
             "/ui/splash/SplashSecondary.ui",
 
-            //not indexed files
+            //sm2
             "/ui/splash/Splash_jp.ui",
             "/ui/gamehud/GameHudStreetFighter.ui",
+            "/ui/gamehud/GameHudTimer.ui",
+            "/ui/BigKanjiText/BigKanjiText.ui",
+            "/ui/pressstart/PressStart.ui",
+            "/ui/mainmenu_New/SMCollection.ui",
+            "/ui/gamemenu_New/SubMenu_Collection_Maps.ui",
+            "/ui/gamemenu_New/SubMenu_Collection_Pawnshop.ui",
+            "/ui/gamemenu_New/SubMenu_Photos.ui",
+            "/ui/gamemenu_New/SubMenu_Photos_Event.ui",
+            "/ui/gamemenu_New/SubMenu_Photos_Secret.ui",
+            "/ui/gamemenu_New/SubMenu_Photos_Secret_Viewer.ui",
+            "/ui/gamemenu_New/SubMenu_Photos_Snapshot.ui",
+            "/ui/gamemenu_New/SubMenu_Photos_Snapshot_Viewer.ui",
+            "/ui/gamesubmenus/gamemoves/GameMoves_Legacy.ui",
+            "/ui/gamesubmenus/gamecollection/GameCollection.ui",
+            "/ui/gamesubmenus/gamecollection/CollectionMaps.ui",
+            "/ui/gamesubmenus/gamecollection/CollectionPawnshop.ui",
+            "/ui/gamehud/GameDuckRace.ui",
+            "/ui/gamehud/GameHud_Legacy.ui",
+            "/ui/gamehud/GameHudMoney.ui",
+            "/ui/gamesubmenus/gamenotebook/GameNotebook.ui",
+            "/ui/gamesubmenus/gamequit/GameQuit.ui",
+            "/ui/gamesubmenus/gamewatch/GameWatch.ui",
+            "/ui/options/GammaCorrection.ui",
+            "/ui/infobar/InfoBar.ui",
+            "/ui/introcutscene/IntroCutscene.ui",
+            "/ui/mainsubmenus/load/MainLoad.ui",
+            "/ui/mainsubmenus/collection/MainCollectionBackground.ui",
+            "/ui/options/OptionsBackground.ui",
+            "/ui/pawnshop/PawnshopFlyer_Sets.ui",
+            "/ui/pawnshop/PawnshopFlyer_Single.ui",
+            "/ui/pawnshop/PawnshopFlyer_Legacy.ui",
+            "/ui/gamemenu_new/maps/Collection_Maps_EN.ui",
+            "/ui/gamemenu_new/maps/Collection_Maps_JP.ui",
+            "/ui/gamemenu_new/maps/Collection_Maps_FR.ui",
+            "/ui/gamemenu_new/maps/Collection_Maps_DE.ui",
+            "/ui/gamemenu_new/maps/Collection_Maps_KR.ui",
+            "/ui/gamemenu_new/maps/Collection_Maps_TC.ui",
+            "/ui/gamemenu_new/maps/Collection_Maps_SC.ui",
+            "/ui/gamemenu_New/maps/Collection_Maps_Localisation.ui",
         };
 
         public static List<string> HardcodedFilenames = new List<string>()

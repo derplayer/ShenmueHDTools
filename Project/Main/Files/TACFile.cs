@@ -9,7 +9,7 @@ using ShenmueHDTools.Main.Database;
 namespace ShenmueHDTools.Main.Files
 {
 
-    class TACFile
+    public class TACFile
     {
         public static readonly string Extension = ".tac";
 

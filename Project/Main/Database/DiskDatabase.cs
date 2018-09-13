@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ShenmueHDTools.Main.Database
 {
-    class DiskDatabase
+    public class DiskDatabase
     {
         public static void GenerateDiskFilenames()
         {
