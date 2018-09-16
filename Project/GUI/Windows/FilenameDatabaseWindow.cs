@@ -28,6 +28,11 @@ namespace ShenmueHDTools.GUI.Windows
             if (folderDialog.ShowDialog() == DialogResult.OK)
             {
                 FilenameCrawler.GenerateFilenameDatabase(folderDialog.SelectedPath);
+
+                string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
+                string databasePath = Path.GetDirectoryName(executable) + "\\database.bin";
+                FilenameDatabase.Save(databasePath);
+
                 filenameDatabaseDataTable1.UpdateView();
             }
         }

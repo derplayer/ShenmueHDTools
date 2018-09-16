@@ -42,7 +42,10 @@ namespace ShenmueHDTools.Main.Files
 
         public void Export(string tadFilename)
         {
-
+            string tacPath = Path.GetDirectoryName(tadFilename) + "\\" + Path.GetFileName(tadFilename).ToLower().Replace("tad", "tac");
+            string inputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
+            TACFile.Pack(tacPath, inputFolder, TADFile);
+            TADFile.Write(tadFilename);
         }
 
         public void Pack()

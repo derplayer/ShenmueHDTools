@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,13 @@ namespace ShenmueHDTools
         public MainWindow_New()
         {
             InitializeComponent();
+
+            string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
+            string databasePath = Path.GetDirectoryName(executable) + "\\database.bin";
+            if (File.Exists(databasePath))
+            {
+                FilenameDatabase.Load(databasePath);
+            }
         }
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,6 +59,18 @@ namespace ShenmueHDTools
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string tadPath = saveFileDialog.FileName;
+                m_cacheFile.Export(tadPath);
+
+                m_tadFile = new TADFile(tadPath);
+                FilenameDatabase.MapFilenamesToTAD(m_tadFile);
+
+                if (MessageBox.Show("Do you want to unpack the TAC file?", "Unpack TAC", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    m_cacheFile = new CacheFile(m_tadFile);
+                    m_cacheFile.Unpack();
+                }
+
+                tadDataTable1.SetTAD(m_tadFile);
             }
         }
 
