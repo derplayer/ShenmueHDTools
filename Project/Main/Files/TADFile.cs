@@ -12,6 +12,13 @@ using System.Runtime.CompilerServices;
 
 namespace ShenmueHDTools.Main.Files
 {
+    public struct TADStatistic
+    {
+        public int FileCount;
+        public int FilesCovered;
+        public double FileCoverage;
+    }
+
     public class TADFile
     {
         public static readonly string Extension = ".tad";
@@ -90,7 +97,7 @@ namespace ShenmueHDTools.Main.Files
             }
         }
 
-        public double GetStatisticPercentage()
+        public TADStatistic GetStatistic()
         {
             int counter = 0;
             foreach (TADFileEntry entry in FileEntries)
@@ -98,7 +105,15 @@ namespace ShenmueHDTools.Main.Files
                 if (String.IsNullOrEmpty(entry.Filename)) continue;
                 counter++;
             }
-            return Math.Round((float)counter / (float)FileEntries.Count * 100.0f, 2);
+
+            TADStatistic statistic = new TADStatistic()
+            {
+                FileCount = FileEntries.Count,
+                FilesCovered = counter,
+                FileCoverage = Math.Round((float)counter / (float)FileEntries.Count * 100.0f, 2)
+            };
+
+            return statistic;
         }
 
         public void PrintStatistic(bool verbose = false, bool interleaved = false)

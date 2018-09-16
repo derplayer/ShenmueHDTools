@@ -45,9 +45,12 @@ namespace ShenmueHDTools
                 {
                     m_cacheFile = new CacheFile(m_tadFile);
                     m_cacheFile.Unpack();
+                    tadDataTable1.SetCache(m_cacheFile);
                 }
-
-                tadDataTable1.SetTAD(m_tadFile);
+                else
+                {
+                    tadDataTable1.SetTAD(m_tadFile);
+                }
             }
         }
 
@@ -68,9 +71,12 @@ namespace ShenmueHDTools
                 {
                     m_cacheFile = new CacheFile(m_tadFile);
                     m_cacheFile.Unpack();
+                    tadDataTable1.SetCache(m_cacheFile);
                 }
-
-                tadDataTable1.SetTAD(m_tadFile);
+                else
+                {
+                    tadDataTable1.SetTAD(m_tadFile);
+                }
             }
         }
 

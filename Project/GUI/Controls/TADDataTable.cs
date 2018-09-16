@@ -10,13 +10,16 @@ using System.Windows.Forms;
 using ShenmueHDTools.Main.Files;
 using System.Reflection;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace ShenmueHDTools.GUI.Controls
 {
     public partial class TADDataTable : UserControl
     {
         private TADFile m_tadFile;
+        private CacheFile m_cacheFile;
         private ObservableCollection<TADFileEntry> m_entriesView = new ObservableCollection<TADFileEntry>();
+        private readonly string StatisticFormat = "File coverage: {0}/{1} ({2}%)";
 
         public TADDataTable()
         {
@@ -28,7 +31,20 @@ namespace ShenmueHDTools.GUI.Controls
 
         public void SetTAD(TADFile tadFile)
         {
+            button_Refresh.Enabled = false;
             m_tadFile = tadFile;
+            TADStatistic statistic = m_tadFile.GetStatistic();
+            label_Statistic.Text = String.Format(StatisticFormat, statistic.FilesCovered, statistic.FileCount, statistic.FileCoverage);
+            UpdateView();
+        }
+
+        public void SetCache(CacheFile cacheFile)
+        {
+            button_Refresh.Enabled = true;
+            m_cacheFile = cacheFile;
+            m_tadFile = m_cacheFile.TADFile;
+            TADStatistic statistic = m_tadFile.GetStatistic();
+            label_Statistic.Text = String.Format(StatisticFormat, statistic.FilesCovered, statistic.FileCount, statistic.FileCoverage);
             UpdateView();
         }
 
@@ -71,6 +87,16 @@ namespace ShenmueHDTools.GUI.Controls
                 }
                 dataGridView_TAD.Refresh();
             }
+        }
+
+        private void button_Refresh_Click(object sender, EventArgs e)
+        {
+            string outputFolder = Path.GetDirectoryName(m_cacheFile.Filename) + m_cacheFile.Header.RelativeOutputFolder;
+            foreach (TADFileEntry entry in m_tadFile.FileEntries)
+            {
+                entry.CheckMD5(outputFolder + "\\" + entry.RelativePath);
+            }
+            UpdateView();
         }
     }
 }
