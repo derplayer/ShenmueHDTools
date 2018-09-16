@@ -16,6 +16,13 @@ namespace ShenmueHDTools.Main.Database
         public static string SDTextureOverride = "/textureOverride/SDTextureOverride.json";
         public static string AssetRemapping = "/Remap/AssetRemapping.json";
 
+        public static List<string> ImageExtensions = new List<string>()
+        {
+            "dds",
+            "png",
+            "tga"
+        };
+
         public static void GenerateCommonFilenames()
         {
             //AssetRemapping.json
@@ -31,13 +38,54 @@ namespace ShenmueHDTools.Main.Database
             if (exists)
             {
                 AssetRemappingJSON remappingStructure = new AssetRemappingJSON(buffer);
+                List<string> BadMap = new List<string>();
+                List<string> BruteforceFilenames = new List<string>();
                 foreach (KeyValuePair<string, string> filename in remappingStructure.GenerateRMPFilenames())
                 {
                     uint hash2 = MurmurHash2Shenmue.GetFilenameHashPlain(filename.Value);
                     string fFilename = MurmurHash2Shenmue.GetFullFilename(filename.Value, hash2);
                     uint hash1 = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fFilename), 0);
                     FilenameDatabase.Add(hash1, hash2, filename.Key);
+
+                    /*
+                    string[] splitted = filename.Key.Split('/');
+                    string name = splitted[splitted.Length - 1];
+                    splitted = name.Split('.');
+                    name = splitted[0];
+                    if (char.IsDigit(name[name.Length - 1]))
+                    {
+                        string val = filename.Key.Substring(0, filename.Key.Length - 14);
+                        if (!BadMap.Contains(val))
+                        {
+                            BadMap.Add(val);
+                            BruteforceFilenames.Add(filename.Key.Substring(0, filename.Key.Length - 9));
+                        }
+                    }
+                    */
                 }
+
+                /*
+                foreach (string filename in BruteforceFilenames)
+                {
+                    string[] splitted = filename.Split('.');
+                    for (int i = 0; i < 9; i++)
+                    {
+                        string name = splitted[0].Substring(0, splitted[0].Length - 1);
+                        
+                        foreach (string ext in ImageExtensions)
+                        {
+                            string tmp = name + i.ToString() + "." + ext;
+                            tmp = tmp.Remove(0, 12);
+
+                            uint secondHash = MurmurHash2Shenmue.GetFilenameHashPlain(tmp);
+                            string fullFilename = MurmurHash2Shenmue.GetFullFilename(tmp, secondHash);
+                            uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fullFilename), 0);
+                            FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, secondHash, fullFilename);
+                            FilenameDatabase.Add(entry);
+                        }
+                    }
+                }
+                */
             }
 
 

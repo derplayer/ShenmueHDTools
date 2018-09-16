@@ -113,8 +113,16 @@ namespace ShenmueHDTools.Main.Database
             m_tacFiles = new List<TACFile>();
             if (!String.IsNullOrEmpty(dataFolder))
             {
-                //TODO: File Path recrusive search! Because the main files dont need to be in "data"
-                foreach (string archiveFile in ArchiveFiles)
+                List<string> archiveFiles = new List<string>();
+                foreach (string file in Directory.GetFiles(dataFolder))
+                {
+                    if (Path.GetExtension(file) == ".tad")
+                    {
+                        archiveFiles.Add(Path.GetFileName(file).Replace(".tad", ""));
+                    }
+                }
+
+                foreach (string archiveFile in archiveFiles)
                 {
                     string tadFilename = dataFolder + "\\" + archiveFile + ".tad";
                     string tacFilename = dataFolder + "\\" + archiveFile + ".tac";
@@ -159,19 +167,5 @@ namespace ShenmueHDTools.Main.Database
         {
             //throw new NotImplementedException();
         }
-
-        //TODO: More generic, beacuse filenames (ALL) change with every patch
-        public static List<string> ArchiveFiles = new List<string>()
-        {
-            "audio_eng_5b69b0ee",
-            "audio_jap_5b69b0ee",
-            "common_5b6c4cd0",
-            "common_5b69b0ee",
-            "disk_5b69b0ee",
-            "shaders_pc_5b69b0ee",
-            "shaders_xb1_5b69b0ee"
-        };
-
-        
     }
 }
