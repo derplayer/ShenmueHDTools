@@ -1,5 +1,4 @@
-﻿using Shenmue_HD_Tools.ShenmueHD;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 

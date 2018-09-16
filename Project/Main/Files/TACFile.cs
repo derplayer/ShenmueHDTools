@@ -9,7 +9,7 @@ using ShenmueHDTools.Main.Database;
 namespace ShenmueHDTools.Main.Files
 {
 
-    public class TACFile
+    public class TACFile : IProgressable
     {
         public static readonly string Extension = ".tac";
 
@@ -17,6 +17,11 @@ namespace ShenmueHDTools.Main.Files
         public TADFile TADFile { get; set; }
 
         private byte[] m_buffer;
+
+        public event FinishedEventHandler Finished;
+        public event ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event ErrorEventHandler Error;
 
         public byte[] GetFileFromEntry(FilenameDatabaseEntry dbEntry, out bool found)
         {
@@ -67,13 +72,13 @@ namespace ShenmueHDTools.Main.Files
             }
         }
 
-        public static void Unpack(string filename)
+        public void Unpack(string filename)
         {
             string outputFolder = String.Format("{0}\\_{1}_", Path.GetDirectoryName(filename), Path.GetFileName(filename));
             Unpack(filename, outputFolder);
         }
 
-        public static void Unpack(string filename, string outputFolder)
+        public void Unpack(string filename, string outputFolder)
         {
             string tadFilename = String.Format("{0}\\{1}{2}", Path.GetDirectoryName(filename),
                 Path.GetFileNameWithoutExtension(filename),
@@ -89,13 +94,16 @@ namespace ShenmueHDTools.Main.Files
         /// <param name="outputFolder">The extraction output folder.</param>
         /// <param name="tadFile">The TAD file.</param>
         /// <returns></returns>
-        public static bool Unpack(string tacFilename, string outputFolder, TADFile tadFile)
+        public bool Unpack(string tacFilename, string outputFolder, TADFile tadFile)
         {
             if (Path.GetExtension(tacFilename).ToLower() != Extension) return false;
             if (!Directory.Exists(outputFolder))
             {
                 Directory.CreateDirectory(outputFolder);
             }
+
+            DescriptionChanged(this, new DescriptionChangedArgs("Unpacking TAC..."));
+
             using (FileStream tacStream = File.Open(tacFilename, FileMode.Open))
             {
                 int counter = 0;
@@ -133,8 +141,10 @@ namespace ShenmueHDTools.Main.Files
                     }
 
                     counter++;
+                    ProgressChanged(this, new ProgressChangedArgs(counter, tadFile.FileEntries.Count));
                 }
             }
+            Finished(this, new FinishedArgs(true));
             return true;
         }
 
@@ -144,14 +154,21 @@ namespace ShenmueHDTools.Main.Files
         /// <param name="filename">The TAC filename.</param>
         /// <param name="inputFolder">The TAC extraction folder.</param>
         /// <param name="tadFile">The TAD file.</param>
-        public static void Pack(string filename, string inputFolder, TADFile tadFile)
+        public void Pack(string filename, string inputFolder, TADFile tadFile, bool useExport = true)
         {
+            DescriptionChanged(this, new DescriptionChangedArgs("Packing TAC..."));
             using (FileStream tacStream = File.Create(filename))
             {
                 uint fileCount = 0;
+                int counter = 0;
                 foreach (TADFileEntry entry in tadFile.FileEntries)
                 {
-                    if (!entry.Export) continue; //skip tad entries that are not flagged for exporting.
+                    counter++;
+                    ProgressChanged(this, new ProgressChangedArgs(counter, tadFile.FileEntries.Count));
+                    if (useExport)
+                    {
+                        if (!entry.Export) continue; //skip tad entries that are not flagged for exporting.
+                    }
 
                     fileCount++;
 
@@ -179,6 +196,7 @@ namespace ShenmueHDTools.Main.Files
                 tadFile.Header.TacSize = (uint)tacStream.Length;
                 tadFile.Header.UnixTimestamp = DateTime.UtcNow;
             }
+            Finished(this, new FinishedArgs(true));
         }
 
         /// <summary>
@@ -209,6 +227,9 @@ namespace ShenmueHDTools.Main.Files
             }
         }
 
-        
+        public void Abort()
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

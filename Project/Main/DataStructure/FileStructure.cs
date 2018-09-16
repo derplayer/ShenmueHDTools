@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Shenmue_HD_Tools.ShenmueHD;
 using System.IO;
 using ShenmueHDTools.Main.Database;
 
@@ -32,10 +31,6 @@ namespace ShenmueHDTools.Main.DataStructure
             FileSize = reader.ReadBytes(8);
         }
 
-        public byte[] GetFilenameHash()
-        {
-            return DataHelper.GetFilenameHash(this.Meta.FilePath); //TODO: Not tested!
-        }
     }
 
     [Serializable]

@@ -4,14 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using System.Globalization;
 
 namespace ShenmueHDTools
 {
     public static class Version
     {
         //Version
-        public static double actualVerison = 1.2;
-        public static string urlversion = "https://goo.gl/pWe4jg"; //version.json for update messages
+        public static string ApplicationName = "Shenmue HD ModTools";
+        public static string ApplicationTitle
+        {
+            get
+            {
+                return String.Format("{0} v{1}", ApplicationName, ActualVerison.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+        public static double ActualVerison = 1.2;
+        public static string UrlVersion = "https://goo.gl/pWe4jg"; //version.json for update messages
     }
 
     [DataContract]

@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Ookii.Dialogs;
+using System.Threading;
+using ShenmueHDTools.GUI.Dialogs;
 
 namespace ShenmueHDTools.GUI.Windows
 {
@@ -27,7 +29,13 @@ namespace ShenmueHDTools.GUI.Windows
             VistaFolderBrowserDialog folderDialog = new VistaFolderBrowserDialog();
             if (folderDialog.ShowDialog() == DialogResult.OK)
             {
-                FilenameCrawler.GenerateFilenameDatabase(folderDialog.SelectedPath);
+                FilenameCrawler crawler = new FilenameCrawler();
+                LoadingDialog loadingDialog = new LoadingDialog();
+                loadingDialog.SetData(crawler);
+                Thread thread = new Thread(delegate () {
+                    crawler.GenerateFilenameDatabase(folderDialog.SelectedPath);
+                });
+                loadingDialog.ShowDialog(thread);
 
                 string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
                 string databasePath = Path.GetDirectoryName(executable) + "\\database.bin";

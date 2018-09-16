@@ -22,7 +22,7 @@ namespace ShenmueHDTools.Main
         {
             get
             {
-                return (int)((float)Stage / MaxStage * 100.0f);
+                return (int)((float)Stage / (float)MaxStage * 100.0f);
             }
         }
         public int Stage { get; set; }
@@ -60,7 +60,7 @@ namespace ShenmueHDTools.Main
     public delegate void DescriptionChangedEventHandler(object sender, DescriptionChangedArgs e);
     public delegate void ErrorEventHandler(object sender, ErrorArgs e);
 
-    interface IProgressable
+    public interface IProgressable
     {
         event FinishedEventHandler Finished;
         event ProgressChangedEventHandler ProgressChanged;

@@ -32,20 +32,21 @@ namespace ShenmueHDTools.Main.Database
             if (hasHash)
             {
                 entry.Filename = Path.Substring(0, Path.Length - 9);
-                entry.SecondHash = Convert.ToUInt32(Path.Substring(Path.Length - 9));
-                entry.FirstHash = Convert.ToUInt32(Hash);
+                string secondHash = entry.Filename.Substring(entry.Filename.Length - 8);
+                entry.SecondHash = uint.Parse(secondHash, System.Globalization.NumberStyles.HexNumber);
+                entry.FirstHash = uint.Parse(Hash, System.Globalization.NumberStyles.HexNumber);
             }
             else
             {
                 entry.Filename = Path;
-                entry.FirstHash = Convert.ToUInt32(Hash);
+                entry.FirstHash = uint.Parse(Hash, System.Globalization.NumberStyles.HexNumber);
             }
 
             return entry;
         }
     }
 
-    public class WulinshuRaymonfAPI
+    public class WulinshuRaymonfAPI : IProgressable
     {
         private static readonly string Url = "https://wulinshu.raymonf.me";
         private static readonly string GetFormat = "{0}/api/hash/get?page={1}&game={2}";
@@ -58,6 +59,11 @@ namespace ShenmueHDTools.Main.Database
             "sm2",
             "both"
         };
+
+        public event FinishedEventHandler Finished;
+        public event ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event ErrorEventHandler Error;
 
         public static void Read(string filename)
         {
@@ -95,7 +101,12 @@ namespace ShenmueHDTools.Main.Database
             }
         }
 
-        public static void FetchData(string game)
+        public void Abort()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void FetchData(string game)
         {
             Entries.Clear();
 
@@ -115,6 +126,8 @@ namespace ShenmueHDTools.Main.Database
 
             for (int i = 1; i < pageCount; i++)
             {
+                DescriptionChanged(this, new DescriptionChangedArgs(String.Format("Fetching page {0}...", i)));
+                ProgressChanged(this, new ProgressChangedArgs(i, pageCount));
                 url = String.Format(GetFormat, Url, i, game);
                 request = WebRequest.Create(url);
                 response = (HttpWebResponse)request.GetResponse();
@@ -136,6 +149,7 @@ namespace ShenmueHDTools.Main.Database
                     }
                 }
             }
+            Finished(this, new FinishedArgs(true));
         }
 
     }

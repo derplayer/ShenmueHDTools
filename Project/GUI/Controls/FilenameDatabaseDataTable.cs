@@ -43,6 +43,7 @@ namespace ShenmueHDTools.GUI.Controls
             m_entriesView.Clear();
             foreach (FilenameDatabaseEntry entry in FilenameDatabase.Entries)
             {
+                if (entry == null) return;
                 if (entry.Hash1.Contains(textBox_Filter.Text.ToUpper()) ||
                     entry.Filename.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
                     entry.FileSize.ToString().Contains(textBox_Filter.Text) ||

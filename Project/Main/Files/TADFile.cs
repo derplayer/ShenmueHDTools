@@ -291,7 +291,7 @@ namespace ShenmueHDTools.Main.Files
 
             if (includeMeta)
             {
-                MD5Checksum = reader.ReadBytes(32);
+                MD5Checksum = reader.ReadBytes(16);
 
                 uint filenameLength = reader.ReadUInt32();
                 if (filenameLength > 0)

@@ -21,7 +21,9 @@ namespace ShenmueHDTools.GUI.Controls
 
         public void SetData(List<WulinshuRaymonfAPIEntry> entries)
         {
+            dataGridView_Entries.DataSource = null;
             dataGridView_Entries.DataSource = entries;
+            dataGridView_Entries.Refresh();
         }
     }
 }

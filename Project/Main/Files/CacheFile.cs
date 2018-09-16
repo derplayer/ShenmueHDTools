@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ShenmueHDTools.Main.Files.Headers;
 using System.IO;
+using System.Threading;
+using ShenmueHDTools.GUI.Dialogs;
 
 namespace ShenmueHDTools.Main.Files
 {
@@ -23,8 +25,18 @@ namespace ShenmueHDTools.Main.Files
             TADFile = tadFile;
         }
 
+        public void Clean()
+        {
+            string outputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
+            if (Directory.Exists(outputFolder))
+            {
+                Directory.Delete(outputFolder, true);
+            }
+        }
+
         public void Unpack()
         {
+            Clean();
             string tacFilename = Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "tac");
             string tacPath = Path.GetDirectoryName(TADFile.Filename) + "\\" + tacFilename;
             string targetDirectory = Path.GetDirectoryName(tacPath) + "\\" + "_" + tacFilename + "_";
@@ -33,7 +45,13 @@ namespace ShenmueHDTools.Main.Files
             Header.RelativeTACPath = "\\" + Helper.GetRelativePath(tacPath, Path.GetDirectoryName(tacPath));
             Header.RelativeTADPath = "\\" + Helper.GetRelativePath(TADFile.Filename, Path.GetDirectoryName(tacPath));
 
-            TACFile.Unpack(tacPath, targetDirectory, TADFile);
+            TACFile tacFile = new TACFile();
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(tacFile);
+            Thread thread = new Thread(delegate () {
+                tacFile.Unpack(tacPath, targetDirectory, TADFile);
+            });
+            loadingDialog.ShowDialog(thread);
 
             string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "cache");
             Filename = cachePath;
@@ -44,7 +62,15 @@ namespace ShenmueHDTools.Main.Files
         {
             string tacPath = Path.GetDirectoryName(tadFilename) + "\\" + Path.GetFileName(tadFilename).ToLower().Replace("tad", "tac");
             string inputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
-            TACFile.Pack(tacPath, inputFolder, TADFile);
+
+            TACFile tacFile = new TACFile();
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(tacFile);
+            Thread thread = new Thread(delegate () {
+                tacFile.Pack(tacPath, inputFolder, TADFile);
+            });
+            loadingDialog.ShowDialog(thread);
+
             TADFile.Write(tadFilename);
         }
 
@@ -52,7 +78,14 @@ namespace ShenmueHDTools.Main.Files
         {
             string tacPath = Path.GetDirectoryName(Filename) + Header.RelativeTACPath;
             string inputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
-            TACFile.Pack(tacPath, inputFolder, TADFile);
+
+            TACFile tacFile = new TACFile();
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(tacFile);
+            Thread thread = new Thread(delegate () {
+                tacFile.Pack(tacPath, inputFolder, TADFile, false);
+            });
+            loadingDialog.ShowDialog(thread);
         }
 
         public void Read(string filename)
@@ -65,6 +98,7 @@ namespace ShenmueHDTools.Main.Files
                     Header.Read(reader);
                     TADFile = new TADFile();
                     TADFile.Read(reader, true);
+                    TADFile.Filename = Path.GetDirectoryName(Filename) + Header.RelativeTADPath;
                 }
             }
         }

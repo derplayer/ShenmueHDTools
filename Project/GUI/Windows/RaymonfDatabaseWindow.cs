@@ -1,4 +1,6 @@
-﻿using ShenmueHDTools.Main.Database;
+﻿using ShenmueHDTools.GUI.Dialogs;
+using ShenmueHDTools.Main;
+using ShenmueHDTools.Main.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,12 +8,13 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ShenmueHDTools.GUI.Windows
 {
-    public partial class RaymonfDatabaseWindow : Form
+    public partial class RaymonfDatabaseWindow : Form, IProgressable
     {
         public RaymonfDatabaseWindow()
         {
@@ -19,9 +22,20 @@ namespace ShenmueHDTools.GUI.Windows
             wulinshuRaymonfDataTable1.SetData(WulinshuRaymonfAPI.Entries);
         }
 
+        public event FinishedEventHandler Finished;
+        public event Main.ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event ErrorEventHandler Error;
+
         private void button_Fetch_Click(object sender, EventArgs e)
         {
-            WulinshuRaymonfAPI.FetchData("sm1");
+            WulinshuRaymonfAPI api = new WulinshuRaymonfAPI();
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(api);
+            Thread thread = new Thread(delegate () {
+                api.FetchData("sm1");
+            });
+            loadingDialog.ShowDialog(thread);
             wulinshuRaymonfDataTable1.SetData(WulinshuRaymonfAPI.Entries);
         }
 
@@ -48,10 +62,29 @@ namespace ShenmueHDTools.GUI.Windows
 
         private void button_Merge_Click(object sender, EventArgs e)
         {
-            foreach (WulinshuRaymonfAPIEntry entry in WulinshuRaymonfAPI.Entries)
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(this);
+            Thread thread = new Thread(delegate () {
+                Merge();
+            });
+            loadingDialog.ShowDialog(thread);
+        }
+
+        private void Merge()
+        {
+            DescriptionChanged(this, new DescriptionChangedArgs("Merging with filename database..."));
+            for (int i = 0; i < WulinshuRaymonfAPI.Entries.Count; i++)
             {
+                ProgressChanged(this, new ProgressChangedArgs(i, WulinshuRaymonfAPI.Entries.Count));
+                WulinshuRaymonfAPIEntry entry = WulinshuRaymonfAPI.Entries[i];
                 FilenameDatabase.Add(entry.CreateDatabaseEntry());
             }
+            Finished(this, new FinishedArgs(true));
+        }
+
+        public void Abort()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

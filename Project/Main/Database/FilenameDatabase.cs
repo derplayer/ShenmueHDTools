@@ -89,7 +89,6 @@ namespace ShenmueHDTools.Main.Database
             if (FirstHash == entry.FirstHash &&
                 SecondHash == entry.SecondHash &&
                 Unknown == entry.Unknown &&
-                Filename == entry.Filename &&
                 FileSize == entry.FileSize)
             {
                 return true;

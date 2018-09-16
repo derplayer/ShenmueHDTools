@@ -1,16 +1,16 @@
-﻿namespace Shenmue_HD_Tools
+﻿namespace ShenmueHDTools
 {
     partial class MainWindow
     {
         /// <summary>
-        /// Erforderliche Designervariable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Verwendete Ressourcen bereinigen.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,164 +20,151 @@
             base.Dispose(disposing);
         }
 
-        #region Vom Windows Form-Designer generierter Code
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Erforderliche Methode für die Designerunterstützung.
-        /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
-            this.testToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.test1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importExistingProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportAsAModToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gIMOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gIMShowGIMStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.extractVFSRecrusiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cRC32FromLookupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.howToModifyAFileInVFSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filenameDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mapFilenamesToTADToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.wulinshuRaymonfDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.packAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unpackAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tadDataTable1 = new ShenmueHDTools.GUI.Controls.TADDataTable();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.labelMessage = new System.Windows.Forms.Label();
-            this.refreshButton = new System.Windows.Forms.Button();
-            this.listViewMain = new System.Windows.Forms.ListView();
-            this.indexHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.beginHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.sizeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.endHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.hashHeaderOne = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.hashHeaderTwo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.modifiedFlag = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.fileExt = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.hashedPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.dataCollectorBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.mainMenuStrip.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataCollectorBindingSource)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // mainMenuStrip
+            // menuStrip1
             // 
-            this.mainMenuStrip.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem1,
-            this.gIMOptionsToolStripMenuItem,
-            this.otherToolStripMenuItem,
-            this.debugToolStripMenuItem,
-            this.helpToolStripMenuItem,
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.aboutToolStripMenuItem});
-            this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(879, 24);
-            this.mainMenuStrip.TabIndex = 4;
-            this.mainMenuStrip.Text = "mainMenuStrip";
-            this.mainMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mainMenuStrip_ItemClicked);
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // testToolStripMenuItem1
+            // fileToolStripMenuItem
             // 
-            this.testToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.test1ToolStripMenuItem,
-            this.importExistingProjectToolStripMenuItem,
-            this.exportAsAModToolStripMenuItem});
-            this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
-            this.testToolStripMenuItem1.Size = new System.Drawing.Size(113, 20);
-            this.testToolStripMenuItem1.Text = "TAD/TAC Options";
-            this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.importToolStripMenuItem,
+            this.exportToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.packAllToolStripMenuItem,
+            this.unpackAllToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
-            // test1ToolStripMenuItem
+            // importToolStripMenuItem
             // 
-            this.test1ToolStripMenuItem.Name = "test1ToolStripMenuItem";
-            this.test1ToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.test1ToolStripMenuItem.Text = "Create project (from *.tad/*.tac)";
-            this.test1ToolStripMenuItem.Click += new System.EventHandler(this.test1ToolStripMenuItem_Click);
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importToolStripMenuItem.Text = "Import...";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
-            // importExistingProjectToolStripMenuItem
+            // exportToolStripMenuItem
             // 
-            this.importExistingProjectToolStripMenuItem.Name = "importExistingProjectToolStripMenuItem";
-            this.importExistingProjectToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.importExistingProjectToolStripMenuItem.Text = "Import existing project (*.shdcache)";
-            this.importExistingProjectToolStripMenuItem.Click += new System.EventHandler(this.importExistingProjectToolStripMenuItem_Click);
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportToolStripMenuItem.Text = "Export...";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
-            // exportAsAModToolStripMenuItem
+            // toolsToolStripMenuItem
             // 
-            this.exportAsAModToolStripMenuItem.Name = "exportAsAModToolStripMenuItem";
-            this.exportAsAModToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
-            this.exportAsAModToolStripMenuItem.Text = "Export as mod container";
-            this.exportAsAModToolStripMenuItem.Click += new System.EventHandler(this.exportAsAModToolStripMenuItem_Click);
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filenameDatabaseToolStripMenuItem,
+            this.mapFilenamesToTADToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.wulinshuRaymonfDBToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
             // 
-            // gIMOptionsToolStripMenuItem
+            // filenameDatabaseToolStripMenuItem
             // 
-            this.gIMOptionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gIMShowGIMStripMenuItem});
-            this.gIMOptionsToolStripMenuItem.Enabled = false;
-            this.gIMOptionsToolStripMenuItem.Name = "gIMOptionsToolStripMenuItem";
-            this.gIMOptionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.gIMOptionsToolStripMenuItem.Text = "Options";
+            this.filenameDatabaseToolStripMenuItem.Name = "filenameDatabaseToolStripMenuItem";
+            this.filenameDatabaseToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.filenameDatabaseToolStripMenuItem.Text = "Filename Database...";
+            this.filenameDatabaseToolStripMenuItem.Click += new System.EventHandler(this.filenameDatabaseToolStripMenuItem_Click);
             // 
-            // gIMShowGIMStripMenuItem
+            // mapFilenamesToTADToolStripMenuItem
             // 
-            this.gIMShowGIMStripMenuItem.Name = "gIMShowGIMStripMenuItem";
-            this.gIMShowGIMStripMenuItem.Size = new System.Drawing.Size(128, 22);
-            this.gIMShowGIMStripMenuItem.Text = "Show DDS";
-            this.gIMShowGIMStripMenuItem.Click += new System.EventHandler(this.gIMShowGIMStripMenuItem_Click);
+            this.mapFilenamesToTADToolStripMenuItem.Name = "mapFilenamesToTADToolStripMenuItem";
+            this.mapFilenamesToTADToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.mapFilenamesToTADToolStripMenuItem.Text = "Map filenames to TAD";
+            this.mapFilenamesToTADToolStripMenuItem.Click += new System.EventHandler(this.mapFilenamesToTADToolStripMenuItem_Click);
             // 
-            // otherToolStripMenuItem
+            // toolStripMenuItem2
             // 
-            this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.extractVFSRecrusiveToolStripMenuItem});
-            this.otherToolStripMenuItem.Enabled = false;
-            this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-            this.otherToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
-            this.otherToolStripMenuItem.Text = "Other";
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(199, 6);
             // 
-            // extractVFSRecrusiveToolStripMenuItem
+            // wulinshuRaymonfDBToolStripMenuItem
             // 
-            this.extractVFSRecrusiveToolStripMenuItem.Name = "extractVFSRecrusiveToolStripMenuItem";
-            this.extractVFSRecrusiveToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.extractVFSRecrusiveToolStripMenuItem.Text = "Test01";
-            this.extractVFSRecrusiveToolStripMenuItem.Click += new System.EventHandler(this.extractVFSRecrusiveToolStripMenuItem_Click);
+            this.wulinshuRaymonfDBToolStripMenuItem.Name = "wulinshuRaymonfDBToolStripMenuItem";
+            this.wulinshuRaymonfDBToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.wulinshuRaymonfDBToolStripMenuItem.Text = "Wulinshu Raymonf DB...";
+            this.wulinshuRaymonfDBToolStripMenuItem.Click += new System.EventHandler(this.wulinshuRaymonfDBToolStripMenuItem_Click);
             // 
-            // debugToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cRC32FromLookupToolStripMenuItem});
-            this.debugToolStripMenuItem.Enabled = false;
-            this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.debugToolStripMenuItem.Text = "Debug";
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
-            // cRC32FromLookupToolStripMenuItem
+            // packAllToolStripMenuItem
             // 
-            this.cRC32FromLookupToolStripMenuItem.Name = "cRC32FromLookupToolStripMenuItem";
-            this.cRC32FromLookupToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.cRC32FromLookupToolStripMenuItem.Text = "Show";
-            this.cRC32FromLookupToolStripMenuItem.Click += new System.EventHandler(this.cRC32FromLookupToolStripMenuItem_Click);
+            this.packAllToolStripMenuItem.Name = "packAllToolStripMenuItem";
+            this.packAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.packAllToolStripMenuItem.Text = "Pack all";
+            this.packAllToolStripMenuItem.Click += new System.EventHandler(this.packAllToolStripMenuItem_Click);
             // 
-            // helpToolStripMenuItem
+            // unpackAllToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.howToModifyAFileInVFSToolStripMenuItem});
-            this.helpToolStripMenuItem.Enabled = false;
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.unpackAllToolStripMenuItem.Name = "unpackAllToolStripMenuItem";
+            this.unpackAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.unpackAllToolStripMenuItem.Text = "Unpack all";
+            this.unpackAllToolStripMenuItem.Click += new System.EventHandler(this.unpackAllToolStripMenuItem_Click);
             // 
-            // howToModifyAFileInVFSToolStripMenuItem
+            // openToolStripMenuItem
             // 
-            this.howToModifyAFileInVFSToolStripMenuItem.Enabled = false;
-            this.howToModifyAFileInVFSToolStripMenuItem.Name = "howToModifyAFileInVFSToolStripMenuItem";
-            this.howToModifyAFileInVFSToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.howToModifyAFileInVFSToolStripMenuItem.Text = "How to modify my Shenmue files?";
-            this.howToModifyAFileInVFSToolStripMenuItem.Click += new System.EventHandler(this.howToModifyAFileInVFSToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "Open...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // tadDataTable1
+            // 
+            this.tadDataTable1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tadDataTable1.Location = new System.Drawing.Point(12, 35);
+            this.tadDataTable1.Name = "tadDataTable1";
+            this.tadDataTable1.Size = new System.Drawing.Size(776, 403);
+            this.tadDataTable1.TabIndex = 0;
             // 
             // aboutToolStripMenuItem
             // 
@@ -186,192 +173,41 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 324);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(879, 22);
-            this.statusStrip1.TabIndex = 7;
-            this.statusStrip1.Text = "statusStrip1";
-            this.statusStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(42, 17);
-            this.toolStripStatusLabel1.Text = "Ready!";
-            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(829, 324);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(27, 22);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "?";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // labelMessage
-            // 
-            this.labelMessage.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.labelMessage.AutoSize = true;
-            this.labelMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMessage.Location = new System.Drawing.Point(211, 155);
-            this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(446, 39);
-            this.labelMessage.TabIndex = 13;
-            this.labelMessage.Text = "Please load a TAD/TAC file!";
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshButton.Location = new System.Drawing.Point(769, 324);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(54, 22);
-            this.refreshButton.TabIndex = 14;
-            this.refreshButton.Text = "Refresh";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
-            // 
-            // listViewMain
-            // 
-            this.listViewMain.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.listViewMain.AllowColumnReorder = true;
-            this.listViewMain.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.indexHeader,
-            this.beginHeader,
-            this.sizeHeader,
-            this.endHeader,
-            this.hashHeaderOne,
-            this.hashHeaderTwo,
-            this.modifiedFlag,
-            this.fileExt,
-            this.hashedPath});
-            this.listViewMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewMain.FullRowSelect = true;
-            this.listViewMain.HideSelection = false;
-            this.listViewMain.Location = new System.Drawing.Point(0, 24);
-            this.listViewMain.MultiSelect = false;
-            this.listViewMain.Name = "listViewMain";
-            this.listViewMain.ShowItemToolTips = true;
-            this.listViewMain.Size = new System.Drawing.Size(879, 322);
-            this.listViewMain.TabIndex = 6;
-            this.listViewMain.Tag = "";
-            this.listViewMain.UseCompatibleStateImageBehavior = false;
-            this.listViewMain.View = System.Windows.Forms.View.Details;
-            this.listViewMain.Visible = false;
-            this.listViewMain.SelectedIndexChanged += new System.EventHandler(this.listViewMain_SelectedIndexChanged);
-            this.listViewMain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDown);
-            // 
-            // indexHeader
-            // 
-            this.indexHeader.Tag = "";
-            this.indexHeader.Text = "Index";
-            this.indexHeader.Width = 46;
-            // 
-            // beginHeader
-            // 
-            this.beginHeader.Text = "Begin (*)";
-            // 
-            // sizeHeader
-            // 
-            this.sizeHeader.Text = "File Size";
-            // 
-            // endHeader
-            // 
-            this.endHeader.Text = "End (*)";
-            // 
-            // hashHeaderOne
-            // 
-            this.hashHeaderOne.Text = "Hash1";
-            this.hashHeaderOne.Width = 74;
-            // 
-            // hashHeaderTwo
-            // 
-            this.hashHeaderTwo.Text = "Hash2";
-            this.hashHeaderTwo.Width = 71;
-            // 
-            // modifiedFlag
-            // 
-            this.modifiedFlag.Text = "Modified";
-            // 
-            // fileExt
-            // 
-            this.fileExt.Text = "Extenstion";
-            this.fileExt.Width = 80;
-            // 
-            // hashedPath
-            // 
-            this.hashedPath.Text = "Path";
-            this.hashedPath.Width = 78;
-            // 
-            // MainWindow
+            // MainWindow_New
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(879, 346);
-            this.Controls.Add(this.refreshButton);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.listViewMain);
-            this.Controls.Add(this.mainMenuStrip);
-            this.Controls.Add(this.labelMessage);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.mainMenuStrip;
-            this.MinimumSize = new System.Drawing.Size(696, 332);
-            this.Name = "MainWindow";
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.tadDataTable1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
+            this.Name = "MainWindow_New";
             this.ShowIcon = false;
-            this.Text = "Shenmue HD ModTools v";
-            this.Load += new System.EventHandler(this.MainWindow_Load);
-            this.Enter += new System.EventHandler(this.Form1_Enter);
-            this.Leave += new System.EventHandler(this.Form1_Enter);
-            this.mainMenuStrip.ResumeLayout(false);
-            this.mainMenuStrip.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataCollectorBindingSource)).EndInit();
+            this.Text = "MainWindow_New";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip mainMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem test1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cRC32FromLookupToolStripMenuItem;
-        private System.Windows.Forms.BindingSource dataCollectorBindingSource;
-        public System.Windows.Forms.ListView listViewMain;
-        public System.Windows.Forms.ColumnHeader indexHeader;
-        public System.Windows.Forms.ColumnHeader beginHeader;
-        public System.Windows.Forms.ColumnHeader sizeHeader;
-        public System.Windows.Forms.ColumnHeader endHeader;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem howToModifyAFileInVFSToolStripMenuItem;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        public System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        public System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label labelMessage;
+
+        private GUI.Controls.TADDataTable tadDataTable1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filenameDatabaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mapFilenamesToTADToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem wulinshuRaymonfDBToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem packAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem unpackAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem otherToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem extractVFSRecrusiveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gIMOptionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gIMShowGIMStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importExistingProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportAsAModToolStripMenuItem;
-        public System.Windows.Forms.ColumnHeader hashHeaderOne;
-        public System.Windows.Forms.ColumnHeader hashHeaderTwo;
-        public System.Windows.Forms.ColumnHeader hashedPath;
-        private System.Windows.Forms.Button refreshButton;
-        public System.Windows.Forms.ColumnHeader modifiedFlag;
-        public System.Windows.Forms.ColumnHeader fileExt;
-        public ListViewColumnSorterExt listViewColumnSorter;
     }
 }
-

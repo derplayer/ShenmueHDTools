@@ -5,6 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using ShenmueHDTools.Main.DataStructure;
+using ShenmueHDTools.Main.Files;
+using ShenmueHDTools.Main.Database;
+using ShenmueHDTools.GUI.Dialogs;
+using System.Text;
 
 namespace Shenmue_HD_Tools
 {
@@ -19,7 +25,7 @@ namespace Shenmue_HD_Tools
             //Application.SetCompatibleTextRenderingDefault(false);
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                MainWindowCore.debugToolStripMenuItem.Enabled = true;
+                //MainWindowCore.debugToolStripMenuItem.Enabled = true;
             }
             Run();
         }
@@ -27,14 +33,13 @@ namespace Shenmue_HD_Tools
         public static void Run()
         {
             Resources.InitResources();
-            DataHelper.GenerateDCObject();
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
             Application.Run(MainWindowCore);
         }
 
         private static void OnApplicationExit(object sender, EventArgs e)
         {
-            About.StopFromOtherThread("playThread");
+            AboutDialog.Stop("playThread");
         }
     }
 }

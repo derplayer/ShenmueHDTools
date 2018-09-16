@@ -11,11 +11,15 @@ using ShenmueHDTools.Main.DataStructure;
 namespace ShenmueHDTools.Main.Database
 {
 
-    public class FilenameCrawler
+    public class FilenameCrawler : IProgressable
     {
         private static List<TADFile> m_tadFiles = new List<TADFile>();
         private static List<TACFile> m_tacFiles = new List<TACFile>();
 
+        public event FinishedEventHandler Finished;
+        public event ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event ErrorEventHandler Error;
 
         private static bool ValidChar(char character)
         {
@@ -101,7 +105,7 @@ namespace ShenmueHDTools.Main.Database
             return result;
         }
 
-        public static void GenerateFilenameDatabase(string dataFolder = "", bool inRAM = false)
+        public void GenerateFilenameDatabase(string dataFolder = "", bool inRAM = false)
         {
             FilenameDatabase.Clear();
 
@@ -130,14 +134,30 @@ namespace ShenmueHDTools.Main.Database
                     m_tacFiles.Add(tacFile);
                 }
             }
+            int steps = 4;
 
+            DescriptionChanged(this, new DescriptionChangedArgs("Generating audio database..."));
+            ProgressChanged(this, new ProgressChangedArgs(1, steps));
             AudioDatabase.GenerateAudioFilenames();
+            DescriptionChanged(this, new DescriptionChangedArgs("Generating common database..."));
+            ProgressChanged(this, new ProgressChangedArgs(2, steps));
             CommonDatabase.GenerateCommonFilenames();
+            DescriptionChanged(this, new DescriptionChangedArgs("Generating disk database..."));
+            ProgressChanged(this, new ProgressChangedArgs(3, steps));
             DiskDatabase.GenerateDiskFilenames();
+            DescriptionChanged(this, new DescriptionChangedArgs("Generating shader database..."));
+            ProgressChanged(this, new ProgressChangedArgs(4, steps));
             ShaderDatabase.GenerateShaderFilenames();
 
             m_tadFiles.Clear();
             m_tacFiles.Clear();
+
+            Finished(this, new FinishedArgs(true));
+        }
+
+        public void Abort()
+        {
+            //throw new NotImplementedException();
         }
 
         //TODO: More generic, beacuse filenames (ALL) change with every patch

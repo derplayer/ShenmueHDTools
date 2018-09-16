@@ -1,6 +1,6 @@
-﻿namespace Shenmue_HD_Tools
+﻿namespace ShenmueHDTools.GUI.Dialogs
 {
-    partial class About
+    partial class AboutDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -32,35 +32,41 @@
             this.aboutLabel = new System.Windows.Forms.Label();
             this.vmuBox = new System.Windows.Forms.PictureBox();
             this.urlLink = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.vmuBox)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelAbout
             // 
             this.labelAbout.AutoSize = true;
             this.labelAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAbout.Location = new System.Drawing.Point(10, 12);
+            this.labelAbout.Location = new System.Drawing.Point(6, 8);
             this.labelAbout.Name = "labelAbout";
-            this.labelAbout.Size = new System.Drawing.Size(292, 33);
+            this.labelAbout.Size = new System.Drawing.Size(388, 33);
             this.labelAbout.TabIndex = 0;
-            this.labelAbout.Text = "Shenmue HD Tools v";
+            this.labelAbout.Text = "Shenmue HD ModTools v1.0";
+            this.labelAbout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // aboutLabel
             // 
             this.aboutLabel.AutoSize = true;
             this.aboutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aboutLabel.Location = new System.Drawing.Point(13, 47);
+            this.aboutLabel.Location = new System.Drawing.Point(8, 42);
             this.aboutLabel.Name = "aboutLabel";
-            this.aboutLabel.Size = new System.Drawing.Size(277, 20);
+            this.aboutLabel.Size = new System.Drawing.Size(171, 20);
             this.aboutLabel.TabIndex = 1;
-            this.aboutLabel.Text = "Created by Derplayer and PhilYeahz - ";
+            this.aboutLabel.Text = "Created by Derplayer - ";
             // 
             // vmuBox
             // 
             this.vmuBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.vmuBox.Location = new System.Drawing.Point(355, 12);
+            this.vmuBox.Location = new System.Drawing.Point(404, 9);
             this.vmuBox.Name = "vmuBox";
             this.vmuBox.Size = new System.Drawing.Size(48, 32);
+            this.vmuBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.vmuBox.TabIndex = 2;
             this.vmuBox.TabStop = false;
             this.vmuBox.Click += new System.EventHandler(this.vmuBox_Click);
@@ -69,21 +75,56 @@
             // 
             this.urlLink.AutoSize = true;
             this.urlLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.urlLink.Location = new System.Drawing.Point(286, 48);
+            this.urlLink.Location = new System.Drawing.Point(171, 42);
             this.urlLink.Name = "urlLink";
-            this.urlLink.Size = new System.Drawing.Size(38, 20);
+            this.urlLink.Size = new System.Drawing.Size(60, 20);
             this.urlLink.TabIndex = 3;
             this.urlLink.TabStop = true;
-            this.urlLink.Text = "Link";
+            this.urlLink.Text = "GitHub";
             this.urlLink.VisitedLinkColor = System.Drawing.Color.Blue;
             this.urlLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.urlLink_LinkClicked);
             // 
-            // About
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(8, 77);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 20);
+            this.label1.TabIndex = 4;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Location = new System.Drawing.Point(10, 29);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(420, 90);
+            this.richTextBox1.TabIndex = 5;
+            this.richTextBox1.Text = "PhilYeahz\nalex-marko";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.richTextBox1);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(12, 77);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(10);
+            this.groupBox1.Size = new System.Drawing.Size(440, 129);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Contributors";
+            // 
+            // AboutDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.ClientSize = new System.Drawing.Size(415, 76);
+            this.ClientSize = new System.Drawing.Size(464, 218);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.urlLink);
             this.Controls.Add(this.vmuBox);
             this.Controls.Add(this.aboutLabel);
@@ -91,12 +132,14 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "About";
+            this.Name = "AboutDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "About";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.About_FormClosing);
             this.Load += new System.EventHandler(this.About_Load);
             ((System.ComponentModel.ISupportInitialize)(this.vmuBox)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -107,5 +150,8 @@
         public System.Windows.Forms.Label labelAbout;
         private System.Windows.Forms.PictureBox vmuBox;
         private System.Windows.Forms.LinkLabel urlLink;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

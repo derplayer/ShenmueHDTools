@@ -5,11 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
+using System.Runtime.Serialization.Json;
 
 namespace ShenmueHDTools.Main
 {
+    public static class JSONSerializer<TType> where TType : class
+    {
+        /// <summary>
+        /// Deserializes an object from JSON with 100% .net libary (system.runtime.serialization.json)
+        /// </summary>
+        public static TType DeSerialize(string json)
+        {
+            using (var stream = new MemoryStream(Encoding.Default.GetBytes(json)))
+            {
+                var serializer = new DataContractJsonSerializer(typeof(TType));
+                return serializer.ReadObject(stream) as TType;
+            }
+        }
+    }
+
     public class Helper
     {
+        
         public static string Reverse(string text)
         {
             if (text == null) return null;
