@@ -1,6 +1,6 @@
 ﻿namespace ShenmueHDTools.GUI.Controls
 {
-    partial class TADDataTable
+    partial class FilenameDatabaseDataTable
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,53 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView_TAD = new System.Windows.Forms.DataGridView();
+            this.dataGridView_DB = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_Filter = new System.Windows.Forms.TextBox();
             this.label_Count = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.ColumnIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnExport = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnHash1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnHash2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnHash3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnExtension = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnModified = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_TAD)).BeginInit();
+            this.ColumnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_DB)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView_TAD
+            // dataGridView_DB
             // 
-            this.dataGridView_TAD.AllowUserToAddRows = false;
-            this.dataGridView_TAD.AllowUserToDeleteRows = false;
-            this.dataGridView_TAD.AllowUserToOrderColumns = true;
-            this.dataGridView_TAD.AllowUserToResizeRows = false;
-            this.dataGridView_TAD.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dataGridView_DB.AllowUserToAddRows = false;
+            this.dataGridView_DB.AllowUserToDeleteRows = false;
+            this.dataGridView_DB.AllowUserToOrderColumns = true;
+            this.dataGridView_DB.AllowUserToResizeRows = false;
+            this.dataGridView_DB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView_TAD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_TAD.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnIndex,
-            this.ColumnExport,
+            this.dataGridView_DB.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_DB.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnHash1,
             this.ColumnHash2,
             this.ColumnHash3,
-            this.ColumnOffset,
             this.ColumnSize,
-            this.ColumnFilename,
             this.ColumnPath,
-            this.ColumnExtension,
-            this.ColumnModified});
-            this.dataGridView_TAD.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView_TAD.Name = "dataGridView_TAD";
-            this.dataGridView_TAD.Size = new System.Drawing.Size(500, 168);
-            this.dataGridView_TAD.TabIndex = 0;
-            this.dataGridView_TAD.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridView_TAD_KeyUp);
+            this.ColumnType});
+            this.dataGridView_DB.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_DB.Name = "dataGridView_DB";
+            this.dataGridView_DB.Size = new System.Drawing.Size(500, 168);
+            this.dataGridView_DB.TabIndex = 0;
             // 
             // label1
             // 
@@ -92,7 +81,7 @@
             this.textBox_Filter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_Filter.Location = new System.Drawing.Point(53, 3);
             this.textBox_Filter.Name = "textBox_Filter";
-            this.textBox_Filter.Size = new System.Drawing.Size(361, 20);
+            this.textBox_Filter.Size = new System.Drawing.Size(321, 20);
             this.textBox_Filter.TabIndex = 2;
             this.textBox_Filter.TextChanged += new System.EventHandler(this.textBox_Filter_TextChanged);
             // 
@@ -100,9 +89,9 @@
             // 
             this.label_Count.AutoSize = true;
             this.label_Count.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_Count.Location = new System.Drawing.Point(420, 0);
+            this.label_Count.Location = new System.Drawing.Point(380, 0);
             this.label_Count.Name = "label_Count";
-            this.label_Count.Size = new System.Drawing.Size(74, 26);
+            this.label_Count.Size = new System.Drawing.Size(114, 26);
             this.label_Count.TabIndex = 4;
             this.label_Count.Text = "Entries: 0";
             this.label_Count.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -114,7 +103,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel1.Controls.Add(this.label_Count, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox_Filter, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
@@ -124,23 +113,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(497, 26);
             this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // ColumnIndex
-            // 
-            this.ColumnIndex.DataPropertyName = "Index";
-            this.ColumnIndex.FillWeight = 40F;
-            this.ColumnIndex.HeaderText = "";
-            this.ColumnIndex.Name = "ColumnIndex";
-            this.ColumnIndex.ReadOnly = true;
-            this.ColumnIndex.Width = 40;
-            // 
-            // ColumnExport
-            // 
-            this.ColumnExport.DataPropertyName = "Export";
-            this.ColumnExport.FillWeight = 50F;
-            this.ColumnExport.HeaderText = "Export";
-            this.ColumnExport.Name = "ColumnExport";
-            this.ColumnExport.Width = 50;
             // 
             // ColumnHash1
             // 
@@ -169,13 +141,6 @@
             this.ColumnHash3.ReadOnly = true;
             this.ColumnHash3.Width = 80;
             // 
-            // ColumnOffset
-            // 
-            this.ColumnOffset.DataPropertyName = "FileOffset";
-            this.ColumnOffset.HeaderText = "Offset";
-            this.ColumnOffset.Name = "ColumnOffset";
-            this.ColumnOffset.ReadOnly = true;
-            // 
             // ColumnSize
             // 
             this.ColumnSize.DataPropertyName = "FileSize";
@@ -183,51 +148,31 @@
             this.ColumnSize.Name = "ColumnSize";
             this.ColumnSize.ReadOnly = true;
             // 
-            // ColumnFilename
-            // 
-            this.ColumnFilename.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnFilename.DataPropertyName = "Filename";
-            this.ColumnFilename.HeaderText = "Filename";
-            this.ColumnFilename.MinimumWidth = 100;
-            this.ColumnFilename.Name = "ColumnFilename";
-            this.ColumnFilename.ReadOnly = true;
-            // 
             // ColumnPath
             // 
             this.ColumnPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnPath.DataPropertyName = "RelativePath";
-            this.ColumnPath.HeaderText = "Path";
-            this.ColumnPath.MinimumWidth = 100;
+            this.ColumnPath.DataPropertyName = "Filename";
+            this.ColumnPath.HeaderText = "Filename";
+            this.ColumnPath.MinimumWidth = 50;
             this.ColumnPath.Name = "ColumnPath";
             this.ColumnPath.ReadOnly = true;
             // 
-            // ColumnExtension
+            // ColumnType
             // 
-            this.ColumnExtension.DataPropertyName = "Extension";
-            this.ColumnExtension.FillWeight = 80F;
-            this.ColumnExtension.HeaderText = "Extension";
-            this.ColumnExtension.Name = "ColumnExtension";
-            this.ColumnExtension.ReadOnly = true;
-            this.ColumnExtension.Width = 80;
+            this.ColumnType.DataPropertyName = "Type";
+            this.ColumnType.HeaderText = "Archive";
+            this.ColumnType.Name = "ColumnType";
+            this.ColumnType.ReadOnly = true;
             // 
-            // ColumnModified
-            // 
-            this.ColumnModified.DataPropertyName = "Modified";
-            this.ColumnModified.FillWeight = 60F;
-            this.ColumnModified.HeaderText = "Modified";
-            this.ColumnModified.Name = "ColumnModified";
-            this.ColumnModified.ReadOnly = true;
-            this.ColumnModified.Width = 60;
-            // 
-            // TADDataTable
+            // FilenameDatabaseDataTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.dataGridView_TAD);
-            this.Name = "TADDataTable";
+            this.Controls.Add(this.dataGridView_DB);
+            this.Name = "FilenameDatabaseDataTable";
             this.Size = new System.Drawing.Size(500, 200);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_TAD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_DB)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -236,21 +181,16 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView_TAD;
+        private System.Windows.Forms.DataGridView dataGridView_DB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_Filter;
         private System.Windows.Forms.Label label_Count;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnIndex;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnExport;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHash1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHash2;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHash3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnOffset;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFilename;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPath;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtension;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnModified;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnType;
     }
 }

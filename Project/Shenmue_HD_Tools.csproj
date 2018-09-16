@@ -28,7 +28,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -37,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,6 +51,9 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.WindowsForms.1.0\lib\net35\Ookii.Dialogs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,6 +76,12 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\FilenameDatabaseDataTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\FilenameDatabaseDataTable.Designer.cs">
+      <DependentUpon>FilenameDatabaseDataTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\TADDataTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,6 +94,18 @@
     <Compile Include="GUI\Controls\WulinshuRaymonfDataTable.Designer.cs">
       <DependentUpon>WulinshuRaymonfDataTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Windows\FilenameDatabaseWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Windows\FilenameDatabaseWindow.Designer.cs">
+      <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Windows\RaymonfDatabaseWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Windows\RaymonfDatabaseWindow.Designer.cs">
+      <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +117,12 @@
     </Compile>
     <Compile Include="Loading.Designer.cs">
       <DependentUpon>Loading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow_New.Designer.cs">
+      <DependentUpon>MainWindow_New.cs</DependentUpon>
     </Compile>
     <Compile Include="Main\Database\AudioDatabase.cs" />
     <Compile Include="Main\Database\CommonDatabase.cs" />
@@ -116,6 +144,7 @@
     <Compile Include="Main\Files\CacheFile.cs" />
     <Compile Include="Main\Files\TACFile.cs" />
     <Compile Include="Main\Files\TADFile.cs" />
+    <Compile Include="Main\IProgressable.cs" />
     <Compile Include="Main\MurmurHash2.cs" />
     <Compile Include="Main\Helper.cs" />
     <Compile Include="Program.cs" />
@@ -125,17 +154,29 @@
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\FilenameDatabaseDataTable.resx">
+      <DependentUpon>FilenameDatabaseDataTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\TADDataTable.resx">
       <DependentUpon>TADDataTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\WulinshuRaymonfDataTable.resx">
       <DependentUpon>WulinshuRaymonfDataTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Windows\FilenameDatabaseWindow.resx">
+      <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Windows\RaymonfDatabaseWindow.resx">
+      <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow_New.resx">
+      <DependentUpon>MainWindow_New.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -179,7 +220,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GUI\Windows\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>

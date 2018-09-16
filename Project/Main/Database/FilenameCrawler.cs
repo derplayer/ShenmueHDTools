@@ -16,6 +16,7 @@ namespace ShenmueHDTools.Main.Database
         private static List<TADFile> m_tadFiles = new List<TADFile>();
         private static List<TACFile> m_tacFiles = new List<TACFile>();
 
+
         private static bool ValidChar(char character)
         {
             return (Char.IsLetterOrDigit(character) || character == '-' || character == '_' ||

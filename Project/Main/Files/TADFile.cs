@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using ShenmueHDTools.Main.Files.Headers;
 using System.IO;
 using System.Security.Cryptography;
+using ShenmueHDTools.Main;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace ShenmueHDTools.Main.Files
 {
@@ -15,10 +18,12 @@ namespace ShenmueHDTools.Main.Files
 
         public List<TADFileEntry> FileEntries = new List<TADFileEntry>();
         public TADHeader Header = new TADHeader();
+        public string Filename { get; set; } = "";
 
         public TADFile() { }
         public TADFile(string filename)
         {
+            Filename = filename;
             Read(filename);
         }
 
@@ -30,6 +35,7 @@ namespace ShenmueHDTools.Main.Files
         {
             if (Path.GetExtension(filename).ToLower() != Extension) return false;
             if (!File.Exists(filename)) return false;
+            Filename = filename;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -53,6 +59,7 @@ namespace ShenmueHDTools.Main.Files
             {
                 TADFileEntry entry = new TADFileEntry();
                 entry.Read(reader, includeMeta);
+                entry.Index = i;
                 FileEntries.Add(entry);
             }
         }
@@ -75,8 +82,10 @@ namespace ShenmueHDTools.Main.Files
         public void Write(BinaryWriter writer, bool includeMeta = false)
         {
             Header.Write(writer);
-            foreach (TADFileEntry entry in FileEntries)
+
+            for (int i = 0; i < FileEntries.Count; i++)
             {
+                TADFileEntry entry = FileEntries[i];
                 entry.Write(writer, includeMeta);
             }
         }
@@ -149,12 +158,15 @@ namespace ShenmueHDTools.Main.Files
     /// <summary>
     /// File entry inside the TAD file (32 Bytes)
     /// </summary>
-    public class TADFileEntry
+    public class TADFileEntry : INotifyPropertyChanged
     {
         /// <summary>
         /// The TAD file entry size in bytes.
         /// </summary>
         public static readonly ushort TADEntrySize = 32;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public uint FirstHash { get; set; }
         public uint SecondHash { get; set; }
         public uint Unknown { get; set; }
@@ -167,12 +179,12 @@ namespace ShenmueHDTools.Main.Files
 
         #region MetaData
 
-        public byte[] MD5Checksum { get; set; } = new byte[32];
+        public byte[] MD5Checksum { get; set; } = new byte[16];
         public string Filename { get; set; } = "";
         public string RelativePath { get; set; } = "";
 
-        #region Runtime Flags
-
+        #region Runtime
+        public int Index { get; set; }
         public bool Export { get; set; }
         public bool Modified { get; set; }
 
@@ -314,7 +326,7 @@ namespace ShenmueHDTools.Main.Files
             byte[] result = new byte[TADEntrySize];
             if (includeMeta)
             {
-                int metaDataSize = 32 + 4 + Filename.Length + 4 + RelativePath.Length;
+                int metaDataSize = 16 + 4 + Filename.Length + 4 + RelativePath.Length;
                 result = new byte[TADEntrySize + metaDataSize];
             }
             using (MemoryStream stream = new MemoryStream(result))
@@ -332,7 +344,7 @@ namespace ShenmueHDTools.Main.Files
 
                     if (includeMeta)
                     {
-                        writer.Write(MD5Checksum, 0, 32);
+                        writer.Write(MD5Checksum, 0, 16);
 
                         byte[] filenameBytes = Encoding.ASCII.GetBytes(Filename);
                         writer.Write((uint)filenameBytes.Length);
@@ -366,5 +378,19 @@ namespace ShenmueHDTools.Main.Files
                     Unknown.ToString("X8"), FileOffset, FileSize, Filename);
             }
         }
+
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(storage, value)) return false;
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

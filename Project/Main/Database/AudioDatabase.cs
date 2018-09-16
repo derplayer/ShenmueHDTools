@@ -11,7 +11,7 @@ namespace ShenmueHDTools.Main.Database
     {
         public static int SceneCount = 3;
         public static string SearchString = "file_";
-        public static string AudioStreamFormatString = "SCENE/{0:D2}/STREAM/PC/{1}/{2}.{3}";
+        public static string AudioStreamFormatString = "/SCENE/{0:D2}/STREAM/PC/{1}/{2}.{3}";
 
 
         private static bool SearchFile(byte[] buffer, int index)
@@ -87,7 +87,7 @@ namespace ShenmueHDTools.Main.Database
                         {
                             string filename = String.Format(AudioStreamFormatString, i, lang, file, extension);
                             uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(filename, false), 0);
-                            FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, 0, filename);
+                            FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, 0, filename, ArchiveTypes.Audio);
                             FilenameDatabase.Add(entry);
                         }
                     }

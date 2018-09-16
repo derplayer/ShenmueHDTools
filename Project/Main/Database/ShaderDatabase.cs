@@ -22,7 +22,8 @@ namespace ShenmueHDTools.Main.Database
                 uint secondHash = MurmurHash2Shenmue.GetFilenameHashPlain(filename);
                 string fullFilename = MurmurHash2Shenmue.GetFullFilename(filename, secondHash);
                 uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fullFilename), 0);
-                FilenameDatabase.Add(hash, secondHash, fullFilename);
+                FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, secondHash, fullFilename, ArchiveTypes.Shader);
+                FilenameDatabase.Add(entry);
             }
 
             /*

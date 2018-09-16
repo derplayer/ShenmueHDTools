@@ -9,6 +9,17 @@ using System.IO;
 
 namespace ShenmueHDTools.Main.Database
 {
+    [Flags]
+    public enum ArchiveTypes
+    {
+        None = 0,
+        Disk = 1,
+        Audio = 2,
+        Shader = 4,
+        Common = 8,
+        Any = 15
+    }
+
     [Serializable]
     public class FilenameDatabaseEntry
     {
@@ -17,20 +28,73 @@ namespace ShenmueHDTools.Main.Database
         public uint Unknown { get; set; } = 0;
         public string Filename { get; set; } = "";
         public uint FileSize { get; set; } = 0;
+        public ArchiveTypes ArchiveType { get; set; } = ArchiveTypes.Any;
+
+        #region Data Binding
+
+        public string Type
+        {
+            get
+            {
+                return String.Format("{0:G}", ArchiveType);
+            }
+        }
+
+        public string Hash1
+        {
+            get
+            {
+                return FirstHash.ToString("X8");
+            }
+        }
+
+        public string Hash2
+        {
+            get
+            {
+                return SecondHash.ToString("X8");
+            }
+        }
+
+        public string Hash3
+        {
+            get
+            {
+                return Unknown.ToString("X8");
+            }
+        }
+
+        #endregion
+
 
         public FilenameDatabaseEntry() { }
-        public FilenameDatabaseEntry(uint firstHash, uint secondHash, string filename)
+        public FilenameDatabaseEntry(uint firstHash, uint secondHash, string filename, ArchiveTypes type = ArchiveTypes.Any)
         {
             FirstHash = firstHash;
             SecondHash = secondHash;
             Filename = filename;
+            ArchiveType = type;
         }
 
-        public FilenameDatabaseEntry(uint firstHash, string filename, uint fileSize)
+        public FilenameDatabaseEntry(uint firstHash, string filename, uint fileSize, ArchiveTypes type = ArchiveTypes.Any)
         {
             FirstHash = firstHash;
             FileSize = fileSize;
             Filename = filename;
+            ArchiveType = type;
+        }
+
+        public bool Compare(FilenameDatabaseEntry entry)
+        {
+            if (FirstHash == entry.FirstHash &&
+                SecondHash == entry.SecondHash &&
+                Unknown == entry.Unknown &&
+                Filename == entry.Filename &&
+                FileSize == entry.FileSize)
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool Compare(TADFileEntry tadFileEntry)
@@ -108,14 +172,30 @@ namespace ShenmueHDTools.Main.Database
             }
         }
 
+        private static bool Exists(FilenameDatabaseEntry entry)
+        {
+            foreach (FilenameDatabaseEntry e in Entries)
+            {
+                if (e.Compare(entry)) return true;
+            }
+            return false;
+        }
+
         public static void Add(uint firstHash, uint secondHash, string filename)
         {
-            Entries.Add(new FilenameDatabaseEntry(firstHash, secondHash, filename));
+            FilenameDatabaseEntry entry = new FilenameDatabaseEntry(firstHash, secondHash, filename);
+            if (!Exists(entry))
+            {
+                Entries.Add(entry);
+            }
         }
 
         public static void Add(FilenameDatabaseEntry entry)
         {
-            Entries.Add(entry);
+            if (!Exists(entry))
+            {
+                Entries.Add(entry);
+            }
         }
 
         public static void Clear()

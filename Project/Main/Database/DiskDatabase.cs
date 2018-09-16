@@ -37,7 +37,7 @@ namespace ShenmueHDTools.Main.Database
             string fName = "/misc/SegaLogo.wav";
             uint fSize = 480044;
             uint fHash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(fName, false), 0);
-            FilenameDatabaseEntry e = new FilenameDatabaseEntry(fHash, fName, fSize);
+            FilenameDatabaseEntry e = new FilenameDatabaseEntry(fHash, fName, fSize, ArchiveTypes.Disk);
             FilenameDatabase.Add(e);
 
             foreach (string filename in HarrierFilenames)
@@ -45,7 +45,7 @@ namespace ShenmueHDTools.Main.Database
                 string hFilename = filename.Replace("\\", "/");
                 uint fileSize = 0;
                 uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(hFilename, false), 0);
-                FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, hFilename, fileSize);
+                FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, hFilename, fileSize, ArchiveTypes.Disk);
                 FilenameDatabase.Add(entry);
             }
 
@@ -56,7 +56,7 @@ namespace ShenmueHDTools.Main.Database
                 {
                     string filename = String.Format(ScenarioFormat, i, scene);
                     uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(filename, false), 0);
-                    FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, 0, filename);
+                    FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, 0, filename, ArchiveTypes.Disk);
                     FilenameDatabase.Add(entry);
                 }
             }
@@ -76,7 +76,7 @@ namespace ShenmueHDTools.Main.Database
                             string filename = lineArr[0].Replace("\\", "/");
                             uint fileSize = Convert.ToUInt32(lineArr[1]);
                             uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(filename, false), 0);
-                            FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, filename, fileSize);
+                            FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, filename, fileSize, ArchiveTypes.Disk);
                             FilenameDatabase.Add(entry);
                         }
 

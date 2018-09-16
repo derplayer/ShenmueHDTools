@@ -15,10 +15,46 @@ namespace ShenmueHDTools.Main.Files
 
         public CacheHeader Header { get; set; } = new CacheHeader();
         public TADFile TADFile { get; set; }
+        public string Filename { get; set; }
 
+        public CacheFile() { }
+        public CacheFile(TADFile tadFile)
+        {
+            TADFile = tadFile;
+        }
+
+        public void Unpack()
+        {
+            string tacFilename = Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "tac");
+            string tacPath = Path.GetDirectoryName(TADFile.Filename) + "\\" + tacFilename;
+            string targetDirectory = Path.GetDirectoryName(tacPath) + "\\" + "_" + tacFilename + "_";
+
+            Header.RelativeOutputFolder = "\\" + Helper.GetRelativePath(targetDirectory, Path.GetDirectoryName(tacPath));
+            Header.RelativeTACPath = "\\" + Helper.GetRelativePath(tacPath, Path.GetDirectoryName(tacPath));
+            Header.RelativeTADPath = "\\" + Helper.GetRelativePath(TADFile.Filename, Path.GetDirectoryName(tacPath));
+
+            TACFile.Unpack(tacPath, targetDirectory, TADFile);
+
+            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "cache");
+            Filename = cachePath;
+            Write(cachePath);
+        }
+
+        public void Export(string tadFilename)
+        {
+
+        }
+
+        public void Pack()
+        {
+            string tacPath = Path.GetDirectoryName(Filename) + Header.RelativeTACPath;
+            string inputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
+            TACFile.Pack(tacPath, inputFolder, TADFile);
+        }
 
         public void Read(string filename)
         {
+            Filename = filename;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 using (BinaryReader reader = new BinaryReader(stream))

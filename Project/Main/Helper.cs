@@ -190,5 +190,16 @@ namespace ShenmueHDTools.Main
 
             return fileExt;
         }
+
+        public static string GetRelativePath(string filename, string folder)
+        {
+            Uri pathUri = new Uri(filename);
+            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                folder += Path.DirectorySeparatorChar;
+            }
+            Uri folderUri = new Uri(folder);
+            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+        }
     }
 }
