@@ -35,6 +35,12 @@ namespace ShenmueHDTools.Main
             return new String(array);
         }
 
+        public static uint ReverseBytes(uint value)
+        {
+            return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 |
+                (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
+        }
+
         public static uint HashReverse(uint x)
         {
             // swap adjacent 16-bit blocks
@@ -72,6 +78,7 @@ namespace ShenmueHDTools.Main
             return true;
         }
 
+
         public static byte[] MD5Hash(byte[] data)
         {
             using (var md5 = MD5.Create())
@@ -80,6 +87,16 @@ namespace ShenmueHDTools.Main
                 return md5.Hash;
             }
         }
+
+        public static byte[] MD5Hash(FileStream stream)
+        {
+            using (var md5 = MD5.Create())
+            {
+                md5.ComputeHash(stream);
+                return md5.Hash;
+            }
+        }
+
 
         public static string ExtensionFinder(byte[] dataArray)
         {

@@ -11,15 +11,25 @@ using ShenmueHDTools.Main.Files;
 using System.Reflection;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Diagnostics;
+using System.Threading;
+using ShenmueHDTools.GUI.Dialogs;
+using ShenmueHDTools.Main;
 
 namespace ShenmueHDTools.GUI.Controls
 {
-    public partial class TADDataTable : UserControl
+    public partial class TADDataTable : UserControl, IProgressable
     {
         private TADFile m_tadFile;
         private CacheFile m_cacheFile;
         private ObservableCollection<TADFileEntry> m_entriesView = new ObservableCollection<TADFileEntry>();
         private readonly string StatisticFormat = "File coverage: {0}/{1} ({2}%)";
+        private Thread m_thread;
+
+        public event FinishedEventHandler Finished;
+        public event Main.ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event Main.ErrorEventHandler Error;
 
         public TADDataTable()
         {
@@ -50,23 +60,25 @@ namespace ShenmueHDTools.GUI.Controls
 
         public void UpdateView()
         {
-            dataGridView_TAD.DataSource = null;
-            m_entriesView.Clear();
-            foreach (TADFileEntry entry in m_tadFile.FileEntries)
-            {
-                if (entry.RelativePath.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
-                    entry.Hash1.Contains(textBox_Filter.Text.ToUpper()) ||
-                    entry.Filename.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
-                    entry.FileOffset.ToString().Contains(textBox_Filter.Text) ||
-                    entry.FileSize.ToString().Contains(textBox_Filter.Text) ||
-                    entry.Hash2.Contains(textBox_Filter.Text.ToUpper()) ||
-                    entry.Hash3.Contains(textBox_Filter.Text.ToUpper()))
+            Invoke((MethodInvoker)delegate {
+                dataGridView_TAD.DataSource = null;
+                m_entriesView.Clear();
+                foreach (TADFileEntry entry in m_tadFile.FileEntries)
                 {
-                    m_entriesView.Add(entry);
+                    if (entry.RelativePath.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
+                        entry.Hash1.Contains(textBox_Filter.Text.ToUpper()) ||
+                        entry.Filename.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
+                        entry.FileOffset.ToString().Contains(textBox_Filter.Text) ||
+                        entry.FileSize.ToString().Contains(textBox_Filter.Text) ||
+                        entry.Hash2.Contains(textBox_Filter.Text.ToUpper()) ||
+                        entry.Hash3.Contains(textBox_Filter.Text.ToUpper()))
+                    {
+                        m_entriesView.Add(entry);
+                    }
                 }
-            }
-            dataGridView_TAD.DataSource = m_entriesView;
-            label_Count.Text = "Entries: " + m_entriesView.Count.ToString();
+                dataGridView_TAD.DataSource = m_entriesView;
+                label_Count.Text = "Entries: " + m_entriesView.Count.ToString();
+            });
         }
 
         private void textBox_Filter_TextChanged(object sender, EventArgs e)
@@ -89,14 +101,35 @@ namespace ShenmueHDTools.GUI.Controls
             }
         }
 
-        private void button_Refresh_Click(object sender, EventArgs e)
+        private void RefreshModified()
         {
+            DescriptionChanged(this, new DescriptionChangedArgs("Calculating hashes..."));
             string outputFolder = Path.GetDirectoryName(m_cacheFile.Filename) + m_cacheFile.Header.RelativeOutputFolder;
-            foreach (TADFileEntry entry in m_tadFile.FileEntries)
+            for (int i = 0; i < m_tadFile.FileEntries.Count; i++)
             {
+                ProgressChanged(this, new ProgressChangedArgs(i, m_tadFile.FileEntries.Count));
+                TADFileEntry entry = m_tadFile.FileEntries[i];
                 entry.CheckMD5(outputFolder + "\\" + entry.RelativePath);
             }
             UpdateView();
+            Finished(this, new FinishedArgs(true));
+        }
+
+        private void button_Refresh_Click(object sender, EventArgs e)
+        {
+
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(this);
+            Thread thread = new Thread(delegate ()
+            {
+                RefreshModified();
+            });
+            loadingDialog.ShowDialog(thread);
+        }
+
+        public void Abort()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

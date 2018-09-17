@@ -16,10 +16,12 @@ namespace ShenmueHDTools.GUI.Dialogs
     {
         private IProgressable m_progressable;
         private Thread m_thread;
+        private readonly Random m_random = new Random();
 
         public LoadingDialog()
         {
             InitializeComponent();
+            vmuBox.Image = Resources.load[m_random.Next(0, Resources.load.Count)];
         }
 
         private const int CP_NOCLOSE_BUTTON = 0x200;
@@ -65,8 +67,14 @@ namespace ShenmueHDTools.GUI.Dialogs
         {
             if (Visible)
                 Invoke((MethodInvoker)delegate {
+                    if (progressBar_Progress.Value == e.Progress) return;
+                    if (e.Progress < 100) progressBar_Progress.Value = e.Progress + 1;
                     progressBar_Progress.Value = e.Progress;
-            });
+                    if (e.Progress % 25 == 0)
+                    {
+                        vmuBox.Image = Resources.load[m_random.Next(0, Resources.load.Count)];
+                    }
+                });
         }
 
         private void Progressable_DescriptionChanged(object sender, DescriptionChangedArgs e)

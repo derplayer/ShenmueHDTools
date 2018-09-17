@@ -34,12 +34,12 @@ namespace ShenmueHDTools.Main.Database
                 entry.Filename = Path.Substring(0, Path.Length - 9);
                 string secondHash = entry.Filename.Substring(entry.Filename.Length - 8);
                 entry.SecondHash = uint.Parse(secondHash, System.Globalization.NumberStyles.HexNumber);
-                entry.FirstHash = uint.Parse(Hash, System.Globalization.NumberStyles.HexNumber);
+                entry.FirstHash = Helper.ReverseBytes(uint.Parse(Hash, System.Globalization.NumberStyles.HexNumber));
             }
             else
             {
                 entry.Filename = Path;
-                entry.FirstHash = uint.Parse(Hash, System.Globalization.NumberStyles.HexNumber);
+                entry.FirstHash = Helper.ReverseBytes(uint.Parse(Hash, System.Globalization.NumberStyles.HexNumber));
             }
 
             return entry;

@@ -38,6 +38,12 @@ namespace ShenmueHDTools
                 FilenameDatabase.Load(databasePath);
             }
 
+            string raymonfPath = Path.GetDirectoryName(executable) + "\\raymonf.json";
+            if (File.Exists(raymonfPath))
+            {
+                WulinshuRaymonfAPI.Read(raymonfPath);
+            }
+
             CheckUpdates();
         }
 

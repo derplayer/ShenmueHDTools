@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,7 +26,7 @@ namespace ShenmueHDTools.GUI.Windows
         public event FinishedEventHandler Finished;
         public event Main.ProgressChangedEventHandler ProgressChanged;
         public event DescriptionChangedEventHandler DescriptionChanged;
-        public event ErrorEventHandler Error;
+        public event Main.ErrorEventHandler Error;
 
         private void button_Fetch_Click(object sender, EventArgs e)
         {
@@ -36,6 +37,11 @@ namespace ShenmueHDTools.GUI.Windows
                 api.FetchData("sm1");
             });
             loadingDialog.ShowDialog(thread);
+
+            string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
+            string raymonfPath = Path.GetDirectoryName(executable) + "\\raymonf.json";
+            WulinshuRaymonfAPI.Write(raymonfPath);
+
             wulinshuRaymonfDataTable1.SetData(WulinshuRaymonfAPI.Entries);
         }
 

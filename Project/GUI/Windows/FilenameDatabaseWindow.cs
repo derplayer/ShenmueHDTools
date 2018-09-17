@@ -65,5 +65,11 @@ namespace ShenmueHDTools.GUI.Windows
                 FilenameDatabase.Save(saveFileDialog.FileName);
             }
         }
+
+        private void button_Clear_Click(object sender, EventArgs e)
+        {
+            FilenameDatabase.Clear();
+            filenameDatabaseDataTable1.UpdateView();
+        }
     }
 }

@@ -32,6 +32,7 @@
             this.filenameDatabaseDataTable1 = new ShenmueHDTools.GUI.Controls.FilenameDatabaseDataTable();
             this.button_Load = new System.Windows.Forms.Button();
             this.button_Save = new System.Windows.Forms.Button();
+            this.button_Clear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Generate
@@ -74,11 +75,24 @@
             this.button_Save.UseVisualStyleBackColor = true;
             this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
             // 
+            // button_Clear
+            // 
+            this.button_Clear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Clear.Location = new System.Drawing.Point(713, 12);
+            this.button_Clear.Name = "button_Clear";
+            this.button_Clear.Size = new System.Drawing.Size(75, 23);
+            this.button_Clear.TabIndex = 4;
+            this.button_Clear.Text = "Clear";
+            this.button_Clear.UseVisualStyleBackColor = true;
+            this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
+            // 
             // FilenameDatabaseWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button_Clear);
             this.Controls.Add(this.button_Save);
             this.Controls.Add(this.button_Load);
             this.Controls.Add(this.button_Generate);
@@ -96,5 +110,6 @@
         private System.Windows.Forms.Button button_Generate;
         private System.Windows.Forms.Button button_Load;
         private System.Windows.Forms.Button button_Save;
+        private System.Windows.Forms.Button button_Clear;
     }
 }
