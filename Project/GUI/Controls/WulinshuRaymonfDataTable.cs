@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ShenmueHDTools.Main.Database;
+using ShenmueHDTools.Main;
 
 namespace ShenmueHDTools.GUI.Controls
 {
@@ -16,6 +17,7 @@ namespace ShenmueHDTools.GUI.Controls
         public WulinshuRaymonfDataTable()
         {
             InitializeComponent();
+            dataGridView_Entries = Helper.DoubleBuffered(this.dataGridView_Entries, true);
             dataGridView_Entries.AutoGenerateColumns = false;
         }
 

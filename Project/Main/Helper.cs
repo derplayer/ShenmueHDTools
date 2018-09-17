@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
 using System.Runtime.Serialization.Json;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace ShenmueHDTools.Main
 {
@@ -26,7 +28,16 @@ namespace ShenmueHDTools.Main
 
     public class Helper
     {
-        
+        public static DataGridView DoubleBuffered(DataGridView dgv, bool setting)
+        {
+            Type dgvType = dgv.GetType();
+            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
+                  BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgv, setting, null);
+
+            return dgv;
+        }
+
         public static string Reverse(string text)
         {
             if (text == null) return null;

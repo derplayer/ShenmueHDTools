@@ -34,6 +34,8 @@ namespace ShenmueHDTools.GUI.Controls
         public TADDataTable()
         {
             InitializeComponent();
+
+            dataGridView_TAD = Helper.DoubleBuffered(this.dataGridView_TAD, true);
             dataGridView_TAD.AutoGenerateColumns = false;
             dataGridView_TAD.RowHeadersWidth = 15;
             dataGridView_TAD.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;

@@ -11,6 +11,7 @@ using ShenmueHDTools.Main.Files;
 using System.Reflection;
 using System.Collections.ObjectModel;
 using ShenmueHDTools.Main.Database;
+using ShenmueHDTools.Main;
 
 namespace ShenmueHDTools.GUI.Controls
 {
@@ -22,6 +23,7 @@ namespace ShenmueHDTools.GUI.Controls
         public FilenameDatabaseDataTable()
         {
             InitializeComponent();
+            dataGridView_DB = Helper.DoubleBuffered(this.dataGridView_DB, true);
             dataGridView_DB.AutoGenerateColumns = false;
             dataGridView_DB.RowHeadersWidth = 15;
             dataGridView_DB.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
