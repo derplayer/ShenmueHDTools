@@ -12,6 +12,7 @@ namespace ShenmueHDTools.Main.Files
     public class TACFile : IProgressable
     {
         public static readonly string Extension = ".tac";
+        public static readonly string UnknownFilesPath = "\\_UNKNOWN\\";
 
         public string Filename { get; set; }
         public TADFile TADFile { get; set; }
@@ -117,9 +118,15 @@ namespace ShenmueHDTools.Main.Files
                     string fileEntryPath = "";
                     if (String.IsNullOrEmpty(entry.Filename))
                     {
+                        string unknownDir = outputFolder + UnknownFilesPath;
+                        if (!Directory.Exists(unknownDir))
+                        {
+                            Directory.CreateDirectory(unknownDir);
+                        }
+
                         string Extension = Helper.ExtensionFinder(fileBuffer);
-                        string fileEntryName = String.Format("{0}{1}", counter.ToString(), Extension);
-                        fileEntryPath = Path.Combine(outputFolder, fileEntryName);
+                        string fileEntryName = String.Format("{0}{1}{2}", UnknownFilesPath, counter.ToString(), Extension);
+                        fileEntryPath = outputFolder + fileEntryName;
                     }
                     else
                     {
@@ -133,6 +140,7 @@ namespace ShenmueHDTools.Main.Files
                             Directory.CreateDirectory(dir);
                         }
                     }
+                    
                     
                     using (FileStream fileEntryStream = File.Create(fileEntryPath))
                     {
