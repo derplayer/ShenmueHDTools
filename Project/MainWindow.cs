@@ -119,6 +119,7 @@ namespace ShenmueHDTools
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (m_cacheFile == null) return;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Archive Dictonary file (*.tad)|*.tad";
 
@@ -166,11 +167,13 @@ namespace ShenmueHDTools
 
         private void packAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (m_cacheFile == null) return;
             m_cacheFile.Pack();
         }
 
         private void unpackAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (m_cacheFile == null) return;
             m_cacheFile.Unpack();
         }
 
