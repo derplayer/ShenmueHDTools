@@ -61,6 +61,15 @@ namespace ShenmueHDTools.Main.Database
                 }
             }
 
+            //TODO: Test 99 scenes
+            foreach (string scene in ScenarioNames)
+            {
+                string filename = String.Format(ScenarioFormat, 99, scene);
+                uint hash = BitConverter.ToUInt32(MurmurHash2Shenmue.GetFilenameHash(filename, false), 0);
+                FilenameDatabaseEntry entry = new FilenameDatabaseEntry(hash, 0, filename, ArchiveTypes.Disk);
+                FilenameDatabase.Add(entry);
+            }
+
 
             foreach (var disc in discCollection)
             {
