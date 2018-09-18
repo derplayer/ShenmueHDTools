@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.dataGridView_TAD = new System.Windows.Forms.DataGridViewEx();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox_Filter = new System.Windows.Forms.TextBox();
+            this.label_Count = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label_Statistic = new System.Windows.Forms.Label();
+            this.button_Refresh = new System.Windows.Forms.Button();
             this.ColumnIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnExport = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.ColumnHash1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,14 +45,9 @@
             this.ColumnFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnExtension = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnModified = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox_Filter = new System.Windows.Forms.TextBox();
-            this.label_Count = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label_Statistic = new System.Windows.Forms.Label();
-            this.button_Refresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_TAD)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -72,6 +73,7 @@
             this.ColumnFilename,
             this.ColumnPath,
             this.ColumnExtension,
+            this.ColumnCategory,
             this.ColumnDescription,
             this.ColumnModified});
             this.dataGridView_TAD.Location = new System.Drawing.Point(0, 0);
@@ -83,6 +85,81 @@
             this.dataGridView_TAD.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_TAD_CellMouseClick);
             this.dataGridView_TAD.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_TAD_ColumnHeaderMouseClick);
             this.dataGridView_TAD.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridView_TAD_KeyUp);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(84, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 26);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Search:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox_Filter
+            // 
+            this.textBox_Filter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox_Filter.Location = new System.Drawing.Point(134, 3);
+            this.textBox_Filter.Name = "textBox_Filter";
+            this.textBox_Filter.Size = new System.Drawing.Size(157, 20);
+            this.textBox_Filter.TabIndex = 2;
+            this.textBox_Filter.TextChanged += new System.EventHandler(this.textBox_Filter_TextChanged);
+            // 
+            // label_Count
+            // 
+            this.label_Count.AutoSize = true;
+            this.label_Count.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_Count.Location = new System.Drawing.Point(297, 0);
+            this.label_Count.Name = "label_Count";
+            this.label_Count.Size = new System.Drawing.Size(74, 26);
+            this.label_Count.TabIndex = 4;
+            this.label_Count.Text = "Entries: 0";
+            this.label_Count.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.label_Count, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textBox_Filter, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label_Statistic, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button_Refresh, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 171);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(497, 26);
+            this.tableLayoutPanel1.TabIndex = 5;
+            // 
+            // label_Statistic
+            // 
+            this.label_Statistic.AutoSize = true;
+            this.label_Statistic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label_Statistic.Location = new System.Drawing.Point(377, 0);
+            this.label_Statistic.Name = "label_Statistic";
+            this.label_Statistic.Size = new System.Drawing.Size(117, 26);
+            this.label_Statistic.TabIndex = 5;
+            this.label_Statistic.Text = "File coverage: 0/0 (0%)";
+            this.label_Statistic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button_Refresh
+            // 
+            this.button_Refresh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Refresh.Location = new System.Drawing.Point(3, 3);
+            this.button_Refresh.Name = "button_Refresh";
+            this.button_Refresh.Size = new System.Drawing.Size(75, 20);
+            this.button_Refresh.TabIndex = 6;
+            this.button_Refresh.Text = "Refresh";
+            this.button_Refresh.UseVisualStyleBackColor = true;
+            this.button_Refresh.Click += new System.EventHandler(this.button_Refresh_Click);
             // 
             // ColumnIndex
             // 
@@ -169,6 +246,14 @@
             this.ColumnExtension.ReadOnly = true;
             this.ColumnExtension.Width = 80;
             // 
+            // ColumnCategory
+            // 
+            this.ColumnCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnCategory.DataPropertyName = "Category";
+            this.ColumnCategory.HeaderText = "Category";
+            this.ColumnCategory.MinimumWidth = 100;
+            this.ColumnCategory.Name = "ColumnCategory";
+            // 
             // ColumnDescription
             // 
             this.ColumnDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -185,81 +270,6 @@
             this.ColumnModified.Name = "ColumnModified";
             this.ColumnModified.ReadOnly = true;
             this.ColumnModified.Width = 60;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(84, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 26);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Search:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox_Filter
-            // 
-            this.textBox_Filter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_Filter.Location = new System.Drawing.Point(134, 3);
-            this.textBox_Filter.Name = "textBox_Filter";
-            this.textBox_Filter.Size = new System.Drawing.Size(157, 20);
-            this.textBox_Filter.TabIndex = 2;
-            this.textBox_Filter.TextChanged += new System.EventHandler(this.textBox_Filter_TextChanged);
-            // 
-            // label_Count
-            // 
-            this.label_Count.AutoSize = true;
-            this.label_Count.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_Count.Location = new System.Drawing.Point(297, 0);
-            this.label_Count.Name = "label_Count";
-            this.label_Count.Size = new System.Drawing.Size(74, 26);
-            this.label_Count.TabIndex = 4;
-            this.label_Count.Text = "Entries: 0";
-            this.label_Count.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 5;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.label_Count, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox_Filter, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label_Statistic, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button_Refresh, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 171);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(497, 26);
-            this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // label_Statistic
-            // 
-            this.label_Statistic.AutoSize = true;
-            this.label_Statistic.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_Statistic.Location = new System.Drawing.Point(377, 0);
-            this.label_Statistic.Name = "label_Statistic";
-            this.label_Statistic.Size = new System.Drawing.Size(117, 26);
-            this.label_Statistic.TabIndex = 5;
-            this.label_Statistic.Text = "File coverage: 0/0 (0%)";
-            this.label_Statistic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button_Refresh
-            // 
-            this.button_Refresh.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Refresh.Location = new System.Drawing.Point(3, 3);
-            this.button_Refresh.Name = "button_Refresh";
-            this.button_Refresh.Size = new System.Drawing.Size(75, 20);
-            this.button_Refresh.TabIndex = 6;
-            this.button_Refresh.Text = "Refresh";
-            this.button_Refresh.UseVisualStyleBackColor = true;
-            this.button_Refresh.Click += new System.EventHandler(this.button_Refresh_Click);
             // 
             // TADDataTable
             // 
@@ -295,6 +305,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFilename;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtension;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCategory;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDescription;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnModified;
     }

@@ -183,7 +183,8 @@ namespace ShenmueHDTools.Main.Files
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string m_description = "";
-        
+        private string m_category = "";
+
 
         public uint FirstHash { get; set; }
         public uint SecondHash { get; set; }
@@ -215,6 +216,25 @@ namespace ShenmueHDTools.Main.Files
                 else
                 {
                     m_description = value;
+                }
+            }
+        }
+
+        public string Category
+        {
+            get
+            {
+                return m_category;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    m_category = "";
+                }
+                else
+                {
+                    m_category = value;
                 }
             }
         }
@@ -334,6 +354,13 @@ namespace ShenmueHDTools.Main.Files
                     byte[] descriptionBuffer = reader.ReadBytes((int)descriptionLength);
                     Description = Encoding.ASCII.GetString(descriptionBuffer);
                 }
+
+                uint categoryLength = reader.ReadUInt32();
+                if (categoryLength > 0)
+                {
+                    byte[] categoryBuffer = reader.ReadBytes((int)categoryLength);
+                    Category = Encoding.ASCII.GetString(categoryBuffer);
+                }
             }
         }
 
@@ -369,7 +396,8 @@ namespace ShenmueHDTools.Main.Files
             byte[] result = new byte[TADEntrySize];
             if (includeMeta)
             {
-                int metaDataSize = 16 + 4 + Filename.Length + 4 + RelativePath.Length + 4 + Description.Length;
+                int metaDataSize = 16 + 4 + Filename.Length + 4 + RelativePath.Length
+                    + 4 + Description.Length + 4 + Category.Length;
                 result = new byte[TADEntrySize + metaDataSize];
             }
             using (MemoryStream stream = new MemoryStream(result))
@@ -408,6 +436,13 @@ namespace ShenmueHDTools.Main.Files
                         if (descriptionBytes.Length > 0)
                         {
                             writer.Write(descriptionBytes, 0, descriptionBytes.Length);
+                        }
+
+                        byte[] categoryBytes = Encoding.ASCII.GetBytes(Category);
+                        writer.Write((uint)categoryBytes.Length);
+                        if (categoryBytes.Length > 0)
+                        {
+                            writer.Write(categoryBytes, 0, categoryBytes.Length);
                         }
                     }
                 }
