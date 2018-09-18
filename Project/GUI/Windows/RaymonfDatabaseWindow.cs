@@ -34,7 +34,7 @@ namespace ShenmueHDTools.GUI.Windows
             LoadingDialog loadingDialog = new LoadingDialog();
             loadingDialog.SetData(api);
             Thread thread = new Thread(delegate () {
-                api.FetchData("sm1");
+                api.FetchData("both");
             });
             loadingDialog.ShowDialog(thread);
 

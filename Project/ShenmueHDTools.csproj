@@ -188,6 +188,7 @@
     <EmbeddedResource Include="Resources\load" />
     <EmbeddedResource Include="Resources\mid" />
     <EmbeddedResource Include="Resources\gfx" />
+    <None Include="Resources\WulinshuRaymonf\backup.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

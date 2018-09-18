@@ -577,5 +577,15 @@ namespace ShenmueHDTools.Properties {
                 return ResourceManager.GetString("WS_D1", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] Wulinshu_Raymonf_Backup {
+            get {
+                object obj = ResourceManager.GetObject("Wulinshu_Raymonf_Backup", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

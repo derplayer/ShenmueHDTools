@@ -113,6 +113,30 @@ namespace ShenmueHDTools.Main.Database
             string url = String.Format(GetFormat, Url, 1, game);
             WebRequest request = WebRequest.Create(url);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            if (response == null || response.StatusCode != HttpStatusCode.OK)
+            {
+                using (MemoryStream stream = new MemoryStream(Properties.Resources.Wulinshu_Raymonf_Backup))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string json = reader.ReadToEnd();
+                    JArray entries = (JArray)JsonConvert.DeserializeObject(json);
+                    foreach (JToken token in entries.Children())
+                    {
+                        WulinshuRaymonfAPIEntry entry = new WulinshuRaymonfAPIEntry
+                        {
+                            Path = token.SelectToken("Path").Value<string>(),
+                            Hash = token.SelectToken("Hash").Value<string>(),
+                            Matches = token.SelectToken("Matches").Value<int>(),
+                            Game = token.SelectToken("Game").Value<string>()
+                        };
+                        Entries.Add(entry);
+                    }
+                }
+                Finished(this, new FinishedArgs(true));
+                return;
+            }
+
             string text;
 
             int pageCount = 1;
