@@ -88,6 +88,10 @@ namespace ShenmueHDTools.Main.Files
             loadingDialog.ShowDialog(thread);
 
             TADFile.Write(tadFilename);
+
+            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "cache");
+            Filename = cachePath;
+            Write(cachePath);
         }
 
         public void Pack()
@@ -102,6 +106,10 @@ namespace ShenmueHDTools.Main.Files
                 tacFile.Pack(tacPath, inputFolder, TADFile, false);
             });
             loadingDialog.ShowDialog(thread);
+
+            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "cache");
+            Filename = cachePath;
+            Write(cachePath);
         }
 
         public void Read(string filename)

@@ -197,6 +197,7 @@ namespace ShenmueHDTools.Main.Files
         public byte[] MD5Checksum { get; set; } = new byte[16];
         public string Filename { get; set; } = "";
         public string RelativePath { get; set; } = "";
+        public string Description { get; set; } = "";
 
         #region Runtime
         public int Index { get; set; }
@@ -306,6 +307,13 @@ namespace ShenmueHDTools.Main.Files
                     byte[] relativePathBuffer = reader.ReadBytes((int)relativePathLength);
                     RelativePath = Encoding.ASCII.GetString(relativePathBuffer);
                 }
+
+                uint descriptionLength = reader.ReadUInt32();
+                if (descriptionLength > 0)
+                {
+                    byte[] descriptionBuffer = reader.ReadBytes((int)descriptionLength);
+                    Description = Encoding.ASCII.GetString(descriptionBuffer);
+                }
             }
         }
 
@@ -341,7 +349,7 @@ namespace ShenmueHDTools.Main.Files
             byte[] result = new byte[TADEntrySize];
             if (includeMeta)
             {
-                int metaDataSize = 16 + 4 + Filename.Length + 4 + RelativePath.Length;
+                int metaDataSize = 16 + 4 + Filename.Length + 4 + RelativePath.Length + 4 + Description.Length;
                 result = new byte[TADEntrySize + metaDataSize];
             }
             using (MemoryStream stream = new MemoryStream(result))
@@ -373,6 +381,13 @@ namespace ShenmueHDTools.Main.Files
                         if (relativePathBytes.Length > 0)
                         {
                             writer.Write(relativePathBytes, 0, relativePathBytes.Length);
+                        }
+
+                        byte[] descriptionBytes = Encoding.ASCII.GetBytes(Description);
+                        writer.Write((uint)descriptionBytes.Length);
+                        if (descriptionBytes.Length > 0)
+                        {
+                            writer.Write(descriptionBytes, 0, descriptionBytes.Length);
                         }
                     }
                 }
