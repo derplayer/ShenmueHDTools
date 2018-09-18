@@ -120,17 +120,30 @@ namespace ShenmueHDTools.Main.Database
     class FilenameDatabase
     {
         public static List<FilenameDatabaseEntry> Entries { get; set; } = new List<FilenameDatabaseEntry>();
+        public static readonly string LocalFilename = "database.bin";
 
-        public static void Load(string filename)
+        public static void Load(string filename = "")
         {
+            if (String.IsNullOrEmpty(filename))
+            {
+                string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
+                filename = Path.GetDirectoryName(executable) + "\\" + LocalFilename;
+                if (!File.Exists(filename)) return;
+            }
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 Entries = (List<FilenameDatabaseEntry>)formatter.Deserialize(stream);
             }
         }
-        public static void Save(string filename)
+        public static void Save(string filename = "")
         {
+            if (String.IsNullOrEmpty(filename))
+            {
+                string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
+                filename = Path.GetDirectoryName(executable) + "\\" + LocalFilename;
+                if (!File.Exists(filename)) return;
+            }
             using (FileStream stream = File.Create(filename))
             {
                 BinaryFormatter formatter = new BinaryFormatter();

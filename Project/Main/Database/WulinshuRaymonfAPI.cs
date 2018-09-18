@@ -50,6 +50,7 @@ namespace ShenmueHDTools.Main.Database
     {
         private static readonly string Url = "https://wulinshu.raymonf.me";
         private static readonly string GetFormat = "{0}/api/hash/get?page={1}&game={2}";
+        public static readonly string LocalFilename = "raymonf.json";
 
         public static List<WulinshuRaymonfAPIEntry> Entries = new List<WulinshuRaymonfAPIEntry>();
 
@@ -65,9 +66,15 @@ namespace ShenmueHDTools.Main.Database
         public event DescriptionChangedEventHandler DescriptionChanged;
         public event ErrorEventHandler Error;
 
-        public static void Read(string filename)
+        public static void Read(string filename = "")
         {
             Entries.Clear();
+            if (String.IsNullOrEmpty(filename))
+            {
+                string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
+                filename = Path.GetDirectoryName(executable) + "\\" + LocalFilename;
+                if (!File.Exists(filename)) return;
+            }
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 using (StreamReader reader = new StreamReader(stream))
@@ -89,8 +96,14 @@ namespace ShenmueHDTools.Main.Database
             }
         }
 
-        public static void Write(string filename)
+        public static void Write(string filename = "")
         {
+            if (String.IsNullOrEmpty(filename))
+            {
+                string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
+                filename = Path.GetDirectoryName(executable) + "\\" + LocalFilename;
+                if (!File.Exists(filename)) return;
+            }
             using (FileStream stream = File.Create(filename))
             {
                 using (StreamWriter writer = new StreamWriter(stream))

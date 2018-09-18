@@ -37,11 +37,7 @@ namespace ShenmueHDTools.GUI.Windows
                 api.FetchData("both");
             });
             loadingDialog.ShowDialog(thread);
-
-            string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
-            string raymonfPath = Path.GetDirectoryName(executable) + "\\raymonf.json";
-            WulinshuRaymonfAPI.Write(raymonfPath);
-
+            WulinshuRaymonfAPI.Write();
             wulinshuRaymonfDataTable1.SetData(WulinshuRaymonfAPI.Entries);
         }
 
@@ -85,6 +81,7 @@ namespace ShenmueHDTools.GUI.Windows
                 WulinshuRaymonfAPIEntry entry = WulinshuRaymonfAPI.Entries[i];
                 FilenameDatabase.Add(entry.CreateDatabaseEntry());
             }
+            FilenameDatabase.Save();
             Finished(this, new FinishedArgs(true));
         }
 

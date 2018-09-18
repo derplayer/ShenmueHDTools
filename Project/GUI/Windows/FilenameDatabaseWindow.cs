@@ -37,10 +37,7 @@ namespace ShenmueHDTools.GUI.Windows
                 });
                 loadingDialog.ShowDialog(thread);
 
-                string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
-                string databasePath = Path.GetDirectoryName(executable) + "\\database.bin";
-                FilenameDatabase.Save(databasePath);
-
+                FilenameDatabase.Save();
                 filenameDatabaseDataTable1.UpdateView();
             }
         }

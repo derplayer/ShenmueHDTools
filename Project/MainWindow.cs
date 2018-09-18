@@ -31,18 +31,8 @@ namespace ShenmueHDTools
             InitializeComponent();
             Text = Version.ApplicationTitle;
 
-            string executable = System.Reflection.Assembly.GetEntryAssembly().Location;
-            string databasePath = Path.GetDirectoryName(executable) + "\\database.bin";
-            if (File.Exists(databasePath))
-            {
-                FilenameDatabase.Load(databasePath);
-            }
-
-            string raymonfPath = Path.GetDirectoryName(executable) + "\\raymonf.json";
-            if (File.Exists(raymonfPath))
-            {
-                WulinshuRaymonfAPI.Read(raymonfPath);
-            }
+            FilenameDatabase.Load();
+            WulinshuRaymonfAPI.Read();
 
             CheckUpdates();
         }
