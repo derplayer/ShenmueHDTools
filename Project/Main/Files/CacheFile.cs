@@ -11,9 +11,14 @@ using ShenmueHDTools.GUI.Dialogs;
 
 namespace ShenmueHDTools.Main.Files
 {
-    public class CacheFile
+    public class CacheFile : IProgressable
     {
         public static readonly string Extension = ".shdcache";
+
+        public event FinishedEventHandler Finished;
+        public event ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event ErrorEventHandler Error;
 
         public CacheHeader Header { get; set; } = new CacheHeader();
         public TADFile TADFile { get; set; }
@@ -58,10 +63,21 @@ namespace ShenmueHDTools.Main.Files
             Write(cachePath);
         }
 
-        public void Export(string tadFilename)
+        public void Export(string tadFilename, bool exportModified = true)
         {
             string tacPath = Path.GetDirectoryName(tadFilename) + "\\" + Path.GetFileName(tadFilename).ToLower().Replace("tad", "tac");
             string inputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
+
+            if (exportModified)
+            {
+                LoadingDialog loadingDialogHash = new LoadingDialog();
+                loadingDialogHash.SetData(this);
+                Thread threadHash = new Thread(delegate ()
+                {
+                    CalculateHashes();
+                });
+                loadingDialogHash.ShowDialog(threadHash);
+            }
 
             TACFile tacFile = new TACFile();
             LoadingDialog loadingDialog = new LoadingDialog();
@@ -115,6 +131,19 @@ namespace ShenmueHDTools.Main.Files
             }
         }
 
+        public void CalculateHashes()
+        {
+            DescriptionChanged(this, new DescriptionChangedArgs("Calculating hashes..."));
+            string outputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
+            for (int i = 0; i < TADFile.FileEntries.Count; i++)
+            {
+                ProgressChanged(this, new ProgressChangedArgs(i, TADFile.FileEntries.Count));
+                TADFileEntry entry = TADFile.FileEntries[i];
+                entry.CheckMD5(outputFolder + "\\" + entry.RelativePath);
+            }
+            Finished(this, new FinishedArgs(true));
+        }
+
         public void ConvertLegacy(DataCollection dataCollection)
         {
             TADFile = new TADFile();
@@ -145,6 +174,11 @@ namespace ShenmueHDTools.Main.Files
 
                 TADFile.FileEntries.Add(entry);
             }
+        }
+
+        public void Abort()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

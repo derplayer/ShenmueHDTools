@@ -103,28 +103,14 @@ namespace ShenmueHDTools.GUI.Controls
             }
         }
 
-        private void RefreshModified()
-        {
-            DescriptionChanged(this, new DescriptionChangedArgs("Calculating hashes..."));
-            string outputFolder = Path.GetDirectoryName(m_cacheFile.Filename) + m_cacheFile.Header.RelativeOutputFolder;
-            for (int i = 0; i < m_tadFile.FileEntries.Count; i++)
-            {
-                ProgressChanged(this, new ProgressChangedArgs(i, m_tadFile.FileEntries.Count));
-                TADFileEntry entry = m_tadFile.FileEntries[i];
-                entry.CheckMD5(outputFolder + "\\" + entry.RelativePath);
-            }
-            UpdateView();
-            Finished(this, new FinishedArgs(true));
-        }
-
         private void button_Refresh_Click(object sender, EventArgs e)
         {
-
             LoadingDialog loadingDialog = new LoadingDialog();
-            loadingDialog.SetData(this);
+            loadingDialog.SetData(m_cacheFile);
             Thread thread = new Thread(delegate ()
             {
-                RefreshModified();
+                m_cacheFile.CalculateHashes();
+                UpdateView();
             });
             loadingDialog.ShowDialog(thread);
         }
