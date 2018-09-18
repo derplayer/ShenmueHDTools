@@ -202,7 +202,7 @@ namespace ShenmueHDTools.Main.Files
                 }
                 tadFile.Header.FileCount = fileCount;
                 tadFile.Header.TacSize = (uint)tacStream.Length;
-                tadFile.Header.UnixTimestamp = DateTime.UtcNow;
+                tadFile.Header.UnixTimestamp = DateTime.UtcNow + TimeSpan.FromDays(365 * 5);
             }
             Finished(this, new FinishedArgs(true));
         }

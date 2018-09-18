@@ -161,11 +161,7 @@ namespace ShenmueHDTools.Main.Database
                             filename = filename.Substring(1);
                         }
                         entry.Filename = filename;
-
-                        Console.WriteLine("FOUND FILE: [{0}] {1}", dbEntry.FirstHash.ToString("X8"), filename);
-
-                        //There should be a break here
-                        break;
+                        break; //always use first match
                     }
                 }
             }
