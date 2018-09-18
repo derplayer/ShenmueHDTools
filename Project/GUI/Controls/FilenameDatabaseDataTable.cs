@@ -17,8 +17,10 @@ namespace ShenmueHDTools.GUI.Controls
 {
     public partial class FilenameDatabaseDataTable : UserControl
     {
+        private List<FilenameDatabaseEntry> m_sortedEntries = new List<FilenameDatabaseEntry>();
         private ObservableCollection<FilenameDatabaseEntry> m_entriesView = new ObservableCollection<FilenameDatabaseEntry>();
         private readonly Timer m_timer;
+        private int m_lastColumn;
 
         public FilenameDatabaseDataTable()
         {
@@ -39,11 +41,15 @@ namespace ShenmueHDTools.GUI.Controls
             UpdateView();
         }
 
-        public void UpdateView()
+        public void UpdateView(bool keepSorted = true)
         {
+            if (!keepSorted)
+            {
+                m_sortedEntries = FilenameDatabase.Entries;
+            }
             dataGridView_DB.DataSource = null;
             m_entriesView.Clear();
-            foreach (FilenameDatabaseEntry entry in FilenameDatabase.Entries)
+            foreach (FilenameDatabaseEntry entry in m_sortedEntries)
             {
                 if (entry == null) return;
                 if (entry.Hash1.Contains(textBox_Filter.Text.ToUpper()) ||
@@ -63,6 +69,26 @@ namespace ShenmueHDTools.GUI.Controls
         {
             m_timer.Stop();
             m_timer.Start();
+        }
+
+        private void dataGridView_DB_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string dataPropertyName = dataGridView_DB.Columns[e.ColumnIndex].DataPropertyName;
+            PropertyInfo[] properties = typeof(FilenameDatabaseEntry).GetProperties();
+            PropertyInfo property = properties.First(p => p.Name == dataPropertyName);
+            if (property == null) return;
+
+            if (m_lastColumn == e.ColumnIndex)
+            {
+                m_sortedEntries = FilenameDatabase.Entries.OrderByDescending(f => property.GetGetMethod().Invoke(f, new object[0])).ToList();
+                m_lastColumn = -1;
+            }
+            else
+            {
+                m_sortedEntries = FilenameDatabase.Entries.OrderBy(f => property.GetGetMethod().Invoke(f, new object[0])).ToList();
+                m_lastColumn = e.ColumnIndex;
+            }
+            UpdateView();
         }
     }
 }

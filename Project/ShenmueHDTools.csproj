@@ -126,6 +126,9 @@
     <Compile Include="Main\Database\FilenameDatabase.cs" />
     <Compile Include="Main\Database\ShaderDatabase.cs" />
     <Compile Include="Main\Database\WulinshuRaymonfAPI.cs" />
+    <Compile Include="Main\DataGridViewEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Main\DataStructure\DataCollection.cs" />
     <Compile Include="Main\DataStructure\FileStructure.cs" />
     <Compile Include="Main\DataStructure\HeaderStructure.cs" />
@@ -138,6 +141,7 @@
     <Compile Include="Main\IProgressable.cs" />
     <Compile Include="Main\MurmurHash2.cs" />
     <Compile Include="Main\Helper.cs" />
+    <Compile Include="Main\ShellContextMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />

@@ -19,7 +19,7 @@ namespace ShenmueHDTools.Main.Database
         {
             ID = id;
             Name = name;
-            ModelID = modelId
+            ModelID = modelId;
         }
     }
 
@@ -41,7 +41,9 @@ namespace ShenmueHDTools.Main.Database
                     if (line != null)
                     {
                         var lineArr = line.Split(';');
-                        DescriptionDatabaseEntry entry = new DescriptionDatabaseEntry(lineArr[0], lineArr[1].Substring(0, 4));
+                        if (lineArr.Length < 2) continue;
+                        if (lineArr[1].Length < 4) continue;
+                        DescriptionDatabaseEntry entry = new DescriptionDatabaseEntry(lineArr[1].Substring(0, 4), lineArr[0]);
                         Entries.Add(entry);
                     }
                 } while (line != null);
@@ -56,7 +58,9 @@ namespace ShenmueHDTools.Main.Database
                     if (line != null)
                     {
                         var lineArr = line.Split(';');
-                        DescriptionDatabaseEntry entry = new DescriptionDatabaseEntry(lineArr[0], lineArr[1].Substring(0, 4), lineArr[2].Replace(" ", ""));
+                        if (lineArr.Length < 2) continue;
+                        if (lineArr[1].Length < 4) continue;
+                        DescriptionDatabaseEntry entry = new DescriptionDatabaseEntry(lineArr[1].Substring(0, 4), lineArr[0], lineArr[2].Replace(" ", ""));
                         Entries.Add(entry);
                     }
 
@@ -70,9 +74,10 @@ namespace ShenmueHDTools.Main.Database
             {
                 foreach (DescriptionDatabaseEntry e in Entries)
                 {
-                    if (entry.Filename.Contains(e.ID) || entry.Filename.Contains(e.ModelID))
+                    if (entry.Filename.Contains(e.ID) || (!String.IsNullOrEmpty(e.ModelID) && entry.Filename.Contains(e.ModelID)))
                     {
                         entry.Description = e.Name;
+                        continue;
                     }
                 }
             }

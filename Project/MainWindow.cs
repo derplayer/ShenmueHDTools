@@ -33,6 +33,7 @@ namespace ShenmueHDTools
 
             FilenameDatabase.Load();
             WulinshuRaymonfAPI.Read();
+            DescriptionDatabase.GenerateDatabase();
 
             CheckUpdates();
         }
@@ -205,6 +206,24 @@ namespace ShenmueHDTools
         {
             AboutDialog AboutWindow = new AboutDialog();
             AboutWindow.ShowDialog();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_cacheFile == null) return;
+            m_cacheFile.Write(m_cacheFile.Filename);
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_cacheFile == null) return;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Cache file (*.cache)|*.cache";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                m_cacheFile.Write(saveFileDialog.FileName);
+            }
         }
     }
 }

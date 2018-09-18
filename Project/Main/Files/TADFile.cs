@@ -182,6 +182,9 @@ namespace ShenmueHDTools.Main.Files
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private string m_description = "";
+        
+
         public uint FirstHash { get; set; }
         public uint SecondHash { get; set; }
         public uint Unknown { get; set; }
@@ -197,7 +200,24 @@ namespace ShenmueHDTools.Main.Files
         public byte[] MD5Checksum { get; set; } = new byte[16];
         public string Filename { get; set; } = "";
         public string RelativePath { get; set; } = "";
-        public string Description { get; set; } = "";
+        public string Description
+        {
+            get
+            {
+                return m_description;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    m_description = "";
+                }
+                else
+                {
+                    m_description = value;
+                }
+            }
+        }
 
         #region Runtime
         public int Index { get; set; }

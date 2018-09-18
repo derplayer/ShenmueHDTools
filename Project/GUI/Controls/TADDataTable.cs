@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using System.Reflection;
 using ShenmueHDTools.GUI.Dialogs;
 using ShenmueHDTools.Main;
 
@@ -22,14 +23,19 @@ namespace ShenmueHDTools.GUI.Controls
     {
         private TADFile m_tadFile;
         private CacheFile m_cacheFile;
+        private List<TADFileEntry> m_sortedEntries = new List<TADFileEntry>();
         private ObservableCollection<TADFileEntry> m_entriesView = new ObservableCollection<TADFileEntry>();
         private readonly string StatisticFormat = "File coverage: {0}/{1} ({2}%)";
         private Thread m_thread;
+        private int m_lastColumn;
+        private bool m_suspendSpacebar = false;
 
         public event FinishedEventHandler Finished;
         public event Main.ProgressChangedEventHandler ProgressChanged;
         public event DescriptionChangedEventHandler DescriptionChanged;
         public event Main.ErrorEventHandler Error;
+
+
 
         public TADDataTable()
         {
@@ -47,6 +53,7 @@ namespace ShenmueHDTools.GUI.Controls
             m_tadFile = tadFile;
             TADStatistic statistic = m_tadFile.GetStatistic();
             label_Statistic.Text = String.Format(StatisticFormat, statistic.FilesCovered, statistic.FileCount, statistic.FileCoverage);
+            m_sortedEntries = tadFile.FileEntries;
             UpdateView();
         }
 
@@ -57,6 +64,7 @@ namespace ShenmueHDTools.GUI.Controls
             m_tadFile = m_cacheFile.TADFile;
             TADStatistic statistic = m_tadFile.GetStatistic();
             label_Statistic.Text = String.Format(StatisticFormat, statistic.FilesCovered, statistic.FileCount, statistic.FileCoverage);
+            m_sortedEntries = m_tadFile.FileEntries;
             UpdateView();
         }
 
@@ -65,7 +73,7 @@ namespace ShenmueHDTools.GUI.Controls
             Invoke((MethodInvoker)delegate {
                 dataGridView_TAD.DataSource = null;
                 m_entriesView.Clear();
-                foreach (TADFileEntry entry in m_tadFile.FileEntries)
+                foreach (TADFileEntry entry in m_sortedEntries)
                 {
                     if (entry.RelativePath.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
                         entry.Hash1.Contains(textBox_Filter.Text.ToUpper()) ||
@@ -92,6 +100,7 @@ namespace ShenmueHDTools.GUI.Controls
         {
             if (e.KeyCode == Keys.Space)
             {
+                if (m_suspendSpacebar) return;
                 if (dataGridView_TAD.SelectedRows.Count < 1) return;
                 bool firstSelectedEntryValue = m_entriesView[dataGridView_TAD.SelectedRows[0].Index].Export;
                 for (int i = 0; i < dataGridView_TAD.SelectedRows.Count; i++)
@@ -118,6 +127,53 @@ namespace ShenmueHDTools.GUI.Controls
         public void Abort()
         {
             //throw new NotImplementedException();
+        }
+
+        private void dataGridView_TAD_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (m_tadFile == null) return;
+            string dataPropertyName = dataGridView_TAD.Columns[e.ColumnIndex].DataPropertyName;
+            PropertyInfo[] properties = typeof(TADFileEntry).GetProperties();
+            PropertyInfo property = properties.First(p => p.Name == dataPropertyName);
+            if (property == null) return;
+
+            if (m_lastColumn == e.ColumnIndex)
+            {
+                m_sortedEntries = m_tadFile.FileEntries.OrderByDescending(f => property.GetGetMethod().Invoke(f, new object[0])).ToList();
+                m_lastColumn = -1;
+            }
+            else
+            {
+                m_sortedEntries = m_tadFile.FileEntries.OrderBy(f => property.GetGetMethod().Invoke(f, new object[0])).ToList();
+                m_lastColumn = e.ColumnIndex;
+            }
+            UpdateView();
+        }
+
+        private void dataGridView_TAD_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            m_suspendSpacebar = false;
+        }
+
+        private void dataGridView_TAD_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            m_suspendSpacebar = true;
+        }
+
+        private void dataGridView_TAD_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1 || e.ColumnIndex == -1) return;
+            if (e.Button != MouseButtons.Right) return;
+
+            TADFileEntry entry = m_entriesView[e.RowIndex];
+            string filename = Path.GetDirectoryName(m_cacheFile.Filename) + m_cacheFile.Header.RelativeOutputFolder + "\\" + entry.RelativePath;
+
+            Point point = dataGridView_TAD.PointToClient(Cursor.Position);
+
+            ShellContextMenu ctxMnu = new ShellContextMenu();
+            FileInfo[] arrFI = new FileInfo[1];
+            arrFI[0] = new FileInfo(filename);
+            ctxMnu.ShowContextMenu(arrFI, point);
         }
     }
 }

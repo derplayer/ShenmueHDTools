@@ -21,7 +21,7 @@ namespace ShenmueHDTools.GUI.Windows
         public FilenameDatabaseWindow()
         {
             InitializeComponent();
-            filenameDatabaseDataTable1.UpdateView();
+            filenameDatabaseDataTable1.UpdateView(false);
         }
 
         private void button_Generate_Click(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace ShenmueHDTools.GUI.Windows
                 loadingDialog.ShowDialog(thread);
 
                 FilenameDatabase.Save();
-                filenameDatabaseDataTable1.UpdateView();
+                filenameDatabaseDataTable1.UpdateView(false);
             }
         }
 
@@ -49,7 +49,7 @@ namespace ShenmueHDTools.GUI.Windows
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FilenameDatabase.Load(openFileDialog.FileName);
-                filenameDatabaseDataTable1.UpdateView();
+                filenameDatabaseDataTable1.UpdateView(false);
             }
         }
 
@@ -66,7 +66,7 @@ namespace ShenmueHDTools.GUI.Windows
         private void button_Clear_Click(object sender, EventArgs e)
         {
             FilenameDatabase.Clear();
-            filenameDatabaseDataTable1.UpdateView();
+            filenameDatabaseDataTable1.UpdateView(false);
         }
     }
 }
