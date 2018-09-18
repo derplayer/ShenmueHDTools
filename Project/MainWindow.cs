@@ -101,6 +101,7 @@ namespace ShenmueHDTools
             {
                 m_tadFile = new TADFile(openFileDialog.FileName);
                 FilenameDatabase.MapFilenamesToTAD(m_tadFile);
+                DescriptionDatabase.MapDescriptionToTAD(m_tadFile);
 
                 if (MessageBox.Show("Do you want to unpack the TAC file?", "Unpack TAC", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -127,6 +128,7 @@ namespace ShenmueHDTools
 
                 m_tadFile = new TADFile(tadPath);
                 FilenameDatabase.MapFilenamesToTAD(m_tadFile);
+                DescriptionDatabase.MapDescriptionToTAD(m_tadFile);
 
                 if (MessageBox.Show("Do you want to unpack the TAC file?", "Unpack TAC", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
@@ -157,6 +159,7 @@ namespace ShenmueHDTools
         {
             if (m_tadFile == null) return;
             FilenameDatabase.MapFilenamesToTAD(m_tadFile);
+            DescriptionDatabase.MapDescriptionToTAD(m_tadFile);
             tadDataTable1.SetTAD(m_tadFile);
         }
 

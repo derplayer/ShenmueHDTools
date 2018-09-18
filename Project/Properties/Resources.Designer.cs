@@ -176,6 +176,37 @@ namespace ShenmueHDTools.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Character Name;ID;Model Name;Major Location;Major Store;BIO                              |
+        /// Akemi Sato ; AKMI ; HOS_L; Dobuita; Bar Yokosuka ; [Akemi Sato ](http://shenmue.neoseeker.com/wiki/Akemi_Sato);
+        /// Akihiro Ishida ; ISDA ; JMC_L;Harbor;Outside Worker; [Akihiro Ishida ](http://shenmue.neoseeker.com/wiki/Akihiro_Ishida) ;
+        /// Akihisa Shigematsu ;; NVC_S;Harbor;Mad Angels; [Mad Angels](http://shenmue.neoseeker.com/wiki/Mad_Angels#Mad_Angels_Members) ;
+        /// Akihito Anzai; TKNB ; PAN_L; Dobuita;Residence ; [A [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string desc_chars_sm1 {
+            get {
+                return ResourceManager.GetString("desc_chars_sm1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die NAME;ID;LOCATION;APPERANCE;ENTRY POINTS
+        ///Abe Store Candy Shop ;JABE ;Sakuragaoka ;SCENE 01 ; 
+        ///Ajiichi Chinese Restaurant ;DCHA ;Dobuita ;SCENE 01 ; 
+        ///Alpha Trading Office ;MFSY --&gt; ALPHA (IPAC) ;Harbor ;SCENE 03 ;N/A Sub IPAC Data for Harbor 
+        ///Antique Shop ;DKTY ;Dobuita ;SCENE 01 ; 
+        ///Asia Travel Company ;ARAR ;Dobuita ;SCENE 01 ;ALL Ticket Cutscene 
+        ///Asia Travel Company ;DAZA ;Dobuita ;SCENE 01 ;Unknown duplicate 
+        ///Bar Linda ;DSLI ;Dobuita ;SCENE 01 ; 
+        ///Bar Yokosuka ;DBYO ;Dobuita ;SCENE 01 ; 
+        ///Bob&apos;s Pizz [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string desc_maps_sm1 {
+            get {
+                return ResourceManager.GetString("desc_maps_sm1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die \0GDTEX.PVR 131100 
         ///\1ST_READ.BIN 2755492 
         ///\DISCNUM.BIN 2048 
