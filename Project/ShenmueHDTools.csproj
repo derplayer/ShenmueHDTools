@@ -193,6 +193,7 @@
     <EmbeddedResource Include="Resources\load" />
     <EmbeddedResource Include="Resources\mid" />
     <EmbeddedResource Include="Resources\gfx" />
+    <None Include="Resources\Descriptions\desc_audio_sm1.csv" />
     <None Include="Resources\Descriptions\desc_chars_sm1.csv" />
     <None Include="Resources\Descriptions\desc_maps_sm1.csv" />
     <None Include="Resources\WulinshuRaymonf\backup.json" />

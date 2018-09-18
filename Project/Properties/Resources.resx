@@ -187,4 +187,7 @@
   <data name="Wulinshu_Raymonf_Backup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WulinshuRaymonf\backup.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="desc_audio_sm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Descriptions\desc_audio_sm1.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>
