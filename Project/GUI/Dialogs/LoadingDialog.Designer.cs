@@ -31,6 +31,7 @@
             this.progressBar_Progress = new System.Windows.Forms.ProgressBar();
             this.label_Description = new System.Windows.Forms.Label();
             this.vmuBox = new System.Windows.Forms.PictureBox();
+            this.button_Abort = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.vmuBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,17 +62,28 @@
             this.vmuBox.TabStop = false;
             this.vmuBox.UseWaitCursor = true;
             // 
+            // button_Abort
+            // 
+            this.button_Abort.Location = new System.Drawing.Point(12, 57);
+            this.button_Abort.Name = "button_Abort";
+            this.button_Abort.Size = new System.Drawing.Size(312, 23);
+            this.button_Abort.TabIndex = 3;
+            this.button_Abort.Text = "Abort";
+            this.button_Abort.UseVisualStyleBackColor = true;
+            this.button_Abort.Click += new System.EventHandler(this.button_Abort_Click);
+            // 
             // LoadingDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 62);
+            this.ClientSize = new System.Drawing.Size(334, 87);
+            this.Controls.Add(this.button_Abort);
             this.Controls.Add(this.vmuBox);
             this.Controls.Add(this.label_Description);
             this.Controls.Add(this.progressBar_Progress);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(350, 100);
-            this.MinimumSize = new System.Drawing.Size(350, 100);
+            this.MaximumSize = new System.Drawing.Size(350, 125);
+            this.MinimumSize = new System.Drawing.Size(350, 125);
             this.Name = "LoadingDialog";
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -88,5 +100,6 @@
         private System.Windows.Forms.ProgressBar progressBar_Progress;
         private System.Windows.Forms.Label label_Description;
         private System.Windows.Forms.PictureBox vmuBox;
+        private System.Windows.Forms.Button button_Abort;
     }
 }

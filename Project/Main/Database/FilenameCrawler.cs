@@ -16,6 +16,8 @@ namespace ShenmueHDTools.Main.Database
         private static List<TADFile> m_tadFiles = new List<TADFile>();
         private static List<TACFile> m_tacFiles = new List<TACFile>();
 
+        public bool IsAbortable { get { return false; } }
+
         public event FinishedEventHandler Finished;
         public event ProgressChangedEventHandler ProgressChanged;
         public event DescriptionChangedEventHandler DescriptionChanged;

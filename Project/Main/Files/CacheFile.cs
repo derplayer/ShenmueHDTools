@@ -8,12 +8,15 @@ using ShenmueHDTools.Main.Files.Headers;
 using System.IO;
 using System.Threading;
 using ShenmueHDTools.GUI.Dialogs;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ShenmueHDTools.Main.Files
 {
     public class CacheFile : IProgressable
     {
         public static readonly string Extension = ".shdcache";
+
+        public bool IsAbortable { get { return false; } }
 
         public event FinishedEventHandler Finished;
         public event ProgressChangedEventHandler ProgressChanged;
@@ -23,6 +26,23 @@ namespace ShenmueHDTools.Main.Files
         public CacheHeader Header { get; set; } = new CacheHeader();
         public TADFile TADFile { get; set; }
         public string Filename { get; set; }
+
+        public string OutputFolder
+        {
+            get
+            {
+                return Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
+            }
+        }
+
+        public string OutputUnknownFolder
+        {
+            get
+            {
+                return OutputFolder + TACFile.UnknownFilesPath;
+            }
+        }
+
 
         public CacheFile() { }
         public CacheFile(TADFile tadFile)
@@ -42,7 +62,7 @@ namespace ShenmueHDTools.Main.Files
         public void Unpack()
         {
             Clean();
-            string tacFilename = Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "tac");
+            string tacFilename = Path.GetFileName(TADFile.Filename).ToLower().Replace(".tad", ".tac");
             string tacPath = Path.GetDirectoryName(TADFile.Filename) + "\\" + tacFilename;
             string targetDirectory = Path.GetDirectoryName(tacPath) + "\\" + "_" + tacFilename + "_";
 
@@ -58,14 +78,14 @@ namespace ShenmueHDTools.Main.Files
             });
             loadingDialog.ShowDialog(thread);
 
-            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "cache");
+            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace(".tad", "..cache");
             Filename = cachePath;
             Write(cachePath);
         }
 
         public void Export(string tadFilename, bool exportModified = true)
         {
-            string tacPath = Path.GetDirectoryName(tadFilename) + "\\" + Path.GetFileName(tadFilename).ToLower().Replace("tad", "tac");
+            string tacPath = Path.GetDirectoryName(tadFilename) + "\\" + Path.GetFileName(tadFilename).ToLower().Replace(".tad", ".tac");
             string inputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
 
             if (exportModified)
@@ -89,7 +109,7 @@ namespace ShenmueHDTools.Main.Files
 
             TADFile.Write(tadFilename);
 
-            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "cache");
+            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace(".tad", ".cache");
             Filename = cachePath;
             Write(cachePath);
         }
@@ -107,7 +127,7 @@ namespace ShenmueHDTools.Main.Files
             });
             loadingDialog.ShowDialog(thread);
 
-            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace("tad", "cache");
+            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace(".tad", ".cache");
             Filename = cachePath;
             Write(cachePath);
         }
@@ -152,19 +172,43 @@ namespace ShenmueHDTools.Main.Files
             Finished(this, new FinishedArgs(true));
         }
 
-        public void ConvertLegacy(DataCollection dataCollection)
+        public void ConvertLegacy(string filename)
         {
+            DataCollection dataCollection;
+            using (FileStream reader = new FileStream(filename, FileMode.Open))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                dataCollection = (DataCollection)binaryFormatter.Deserialize(reader);
+            }
+            if (dataCollection == null) return;
+
+            Filename = filename.Replace(".shdcache", ".cache");
+            
             TADFile = new TADFile();
+            TADFile.Filename = filename.Replace(".shdcache", ".tad");
             TADFile.Header.FileCount = BitConverter.ToUInt32(dataCollection.Header.FileCount1, 0);
             TADFile.Header.HeaderChecksum = BitConverter.ToUInt32(dataCollection.Header.HeaderChecksum, 0);
             TADFile.Header.TacSize = BitConverter.ToUInt32(dataCollection.Header.TacSize, 0);
             TADFile.Header.UnixTimestamp = new DateTime(1970, 1, 1).AddSeconds(BitConverter.ToInt32(dataCollection.Header.UnixTimestamp, 0));
+
+            string fileDir = Path.GetDirectoryName(Filename);
+            string dir = fileDir;
+            if (dataCollection.Files.Count > 0)
+            {
+                dir = Path.GetDirectoryName(dataCollection.Files[0].Meta.FilePath);
+            }
+            
+            Header.RelativeOutputFolder = "\\" + Helper.GetRelativePath(dir, fileDir);
+            Header.RelativeTADPath = "\\" + Helper.GetRelativePath(TADFile.Filename, fileDir);
+            Header.RelativeTACPath = "\\" + Helper.GetRelativePath(TADFile.Filename.Replace(".tad", ".tac"), fileDir);
 
             foreach (FileStructure file in dataCollection.Files)
             {
                 TADFileEntry entry = new TADFileEntry();
                 entry.FileOffset = BitConverter.ToUInt32(file.FileStart, 0);
                 entry.FileSize = BitConverter.ToUInt32(file.FileSize, 0);
+                entry.RelativePath = Helper.GetRelativePath(file.Meta.FilePath, dir);
+                entry.Index = file.Meta.Index;
 
                 byte[] firstHash = new byte[4];
                 Array.Copy(file.Hash1, firstHash, 4);
@@ -182,6 +226,7 @@ namespace ShenmueHDTools.Main.Files
 
                 TADFile.FileEntries.Add(entry);
             }
+            Write(Filename);
         }
 
         public void Abort()

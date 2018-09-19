@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using ShenmueHDTools.Main;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using ShenmueHDTools.Main.Database;
 
 namespace ShenmueHDTools.Main.Files
 {
@@ -377,6 +378,46 @@ namespace ShenmueHDTools.Main.Files
                     Read(reader);
                 }
             }
+        }
+
+        public void RenameAndMoveFile(CacheFile cacheFile, FilenameDatabaseEntry entry)
+        {
+            string filename = entry.Filename;
+            if (filename[0] == '.')
+            {
+                filename = filename.Substring(1);
+            }
+            Filename = filename;
+
+            /*
+            string outputFolder = cacheFile.OutputFolder;
+
+            string fileEntryPath = "";
+            if (String.IsNullOrEmpty(entry.Filename))
+            {
+                string unknownDir = cacheFile.OutputUnknownFolder;
+                if (!Directory.Exists(unknownDir))
+                {
+                    Directory.CreateDirectory(unknownDir);
+                }
+
+                string Extension = Helper.ExtensionFinder(fileBuffer);
+                string fileEntryName = String.Format("{0}{1}{2}", TACFile.UnknownFilesPath, Index.ToString(), Extension);
+                fileEntryPath = outputFolder + fileEntryName;
+            }
+            else
+            {
+                fileEntryPath = entry.Filename.Replace('/', '\\');
+                fileEntryPath = outputFolder + "\\" + fileEntryPath;
+                fileEntryPath = SwitchExtension(fileEntryPath);
+
+                string dir = Path.GetDirectoryName(fileEntryPath);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+            }
+            */
         }
 
         /// <summary>

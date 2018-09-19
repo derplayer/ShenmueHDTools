@@ -117,10 +117,18 @@ namespace ShenmueHDTools.Main.Database
         }
     }
 
-    class FilenameDatabase
+    class FilenameDatabase : IProgressable
     {
         public static List<FilenameDatabaseEntry> Entries { get; set; } = new List<FilenameDatabaseEntry>();
+
+        public bool IsAbortable { get { return false; } }
+
         public static readonly string LocalFilename = "database.bin";
+
+        public event FinishedEventHandler Finished;
+        public event ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event ErrorEventHandler Error;
 
         public static void Load(string filename = "")
         {
@@ -158,6 +166,25 @@ namespace ShenmueHDTools.Main.Database
                 if (entry.Compare(tadFileEntry)) return entry.Filename;
             }
             return "";
+        }
+
+        public void MapFilenamesToTADInstance(CacheFile cacheFile)
+        {
+            DescriptionChanged(this, new DescriptionChangedArgs("Mapping filenames to TAD..."));
+            for (int i = 0; i < cacheFile.TADFile.FileEntries.Count; i++)
+            {
+                ProgressChanged(this, new ProgressChangedArgs(i, cacheFile.TADFile.FileEntries.Count));
+                TADFileEntry entry = cacheFile.TADFile.FileEntries[i];
+                foreach (FilenameDatabaseEntry dbEntry in Entries)
+                {
+                    if (dbEntry.Compare(entry))
+                    {
+                        entry.RenameAndMoveFile(cacheFile, dbEntry);
+                        break; //always use first match
+                    }
+                }
+            }
+            Finished(this, new FinishedArgs(true));
         }
 
         public static void MapFilenamesToTAD(TADFile tadFile)
@@ -209,6 +236,11 @@ namespace ShenmueHDTools.Main.Database
         public static void Clear()
         {
             Entries.Clear();
+        }
+
+        public void Abort()
+        {
+            //throw new NotImplementedException();
         }
     }
 }
