@@ -133,7 +133,7 @@ namespace ShenmueHDTools.Main.Files
                     {
                         fileEntryPath = entry.Filename.Replace('/', '\\');
                         fileEntryPath = outputFolder + "\\" + fileEntryPath;
-                        fileEntryPath = SwitchExtension(fileEntryPath);
+                        fileEntryPath = Helper.SwitchExtension(fileEntryPath);
 
                         string dir = Path.GetDirectoryName(fileEntryPath);
                         if (!Directory.Exists(dir))
@@ -205,34 +205,6 @@ namespace ShenmueHDTools.Main.Files
                 tadFile.Header.UnixTimestamp = DateTime.UtcNow + TimeSpan.FromDays(365 * 5);
             }
             Finished(this, new FinishedArgs(true));
-        }
-
-        /// <summary>
-        /// Switches the extension with the hash vice versa
-        /// </summary>
-        private static string SwitchExtension(string input)
-        {
-            string originalInput = input;
-            int cutOffLength = input.LastIndexOf('.');
-            if (input.Substring(cutOffLength).Length == 9)
-            {
-                string hash = input.Substring(cutOffLength + 1);
-                input = input.Substring(0, cutOffLength);
-                string extension = Path.GetExtension(input);
-                cutOffLength = input.LastIndexOf('.');
-                input = input.Substring(0, cutOffLength + 1) + hash + extension;
-                return input;
-            }
-            else
-            {
-                string extension = input.Substring(cutOffLength + 1);
-                input = input.Substring(0, cutOffLength);
-                string hash = Path.GetExtension(input);
-                if (hash.Length != 9) return originalInput;
-                cutOffLength = input.LastIndexOf('.');
-                input = input.Substring(0, cutOffLength + 1) + extension + hash;
-                return input;
-            }
         }
 
         public void Abort()

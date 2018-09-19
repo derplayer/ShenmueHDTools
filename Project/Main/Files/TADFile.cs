@@ -382,18 +382,21 @@ namespace ShenmueHDTools.Main.Files
 
         public void RenameAndMoveFile(CacheFile cacheFile, FilenameDatabaseEntry entry)
         {
-            string filename = entry.Filename;
-            if (filename[0] == '.')
+            if (entry != null)
             {
-                filename = filename.Substring(1);
+                string filename = entry.Filename;
+                if (filename[0] == '.')
+                {
+                    filename = filename.Substring(1);
+                }
+                Filename = filename;
             }
-            Filename = filename;
 
-            /*
             string outputFolder = cacheFile.OutputFolder;
+            string oldFileEntryPath = outputFolder + "\\" + RelativePath;
 
             string fileEntryPath = "";
-            if (String.IsNullOrEmpty(entry.Filename))
+            if (String.IsNullOrEmpty(Filename))
             {
                 string unknownDir = cacheFile.OutputUnknownFolder;
                 if (!Directory.Exists(unknownDir))
@@ -401,15 +404,15 @@ namespace ShenmueHDTools.Main.Files
                     Directory.CreateDirectory(unknownDir);
                 }
 
-                string Extension = Helper.ExtensionFinder(fileBuffer);
+                string Extension = Helper.ExtensionFinder(oldFileEntryPath);
                 string fileEntryName = String.Format("{0}{1}{2}", TACFile.UnknownFilesPath, Index.ToString(), Extension);
                 fileEntryPath = outputFolder + fileEntryName;
             }
             else
             {
-                fileEntryPath = entry.Filename.Replace('/', '\\');
+                fileEntryPath = Filename.Replace('/', '\\');
                 fileEntryPath = outputFolder + "\\" + fileEntryPath;
-                fileEntryPath = SwitchExtension(fileEntryPath);
+                fileEntryPath = Helper.SwitchExtension(fileEntryPath);
 
                 string dir = Path.GetDirectoryName(fileEntryPath);
                 if (!Directory.Exists(dir))
@@ -417,7 +420,16 @@ namespace ShenmueHDTools.Main.Files
                     Directory.CreateDirectory(dir);
                 }
             }
-            */
+            fileEntryPath = fileEntryPath.Replace("\\\\", "\\");
+            oldFileEntryPath = oldFileEntryPath.Replace("\\\\", "\\");
+
+            RelativePath = "\\" + Helper.GetRelativePath(fileEntryPath, outputFolder);
+            if (fileEntryPath == oldFileEntryPath) return;
+            if (File.Exists(fileEntryPath))
+            {
+                File.Delete(fileEntryPath);
+            }
+            File.Move(oldFileEntryPath, fileEntryPath);
         }
 
         /// <summary>

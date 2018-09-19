@@ -175,14 +175,16 @@ namespace ShenmueHDTools.Main.Database
             {
                 ProgressChanged(this, new ProgressChangedArgs(i, cacheFile.TADFile.FileEntries.Count));
                 TADFileEntry entry = cacheFile.TADFile.FileEntries[i];
-                foreach (FilenameDatabaseEntry dbEntry in Entries)
+                FilenameDatabaseEntry dbEntry = null;
+                foreach (FilenameDatabaseEntry e in Entries)
                 {
-                    if (dbEntry.Compare(entry))
+                    if (e.Compare(entry))
                     {
-                        entry.RenameAndMoveFile(cacheFile, dbEntry);
+                        dbEntry = e;  
                         break; //always use first match
                     }
                 }
+                entry.RenameAndMoveFile(cacheFile, dbEntry);
             }
             Finished(this, new FinishedArgs(true));
         }

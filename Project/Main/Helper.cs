@@ -28,6 +28,34 @@ namespace ShenmueHDTools.Main
 
     public class Helper
     {
+        /// <summary>
+        /// Switches the extension with the hash vice versa
+        /// </summary>
+        public static string SwitchExtension(string input)
+        {
+            string originalInput = input;
+            int cutOffLength = input.LastIndexOf('.');
+            if (input.Substring(cutOffLength).Length == 9)
+            {
+                string hash = input.Substring(cutOffLength + 1);
+                input = input.Substring(0, cutOffLength);
+                string extension = Path.GetExtension(input);
+                cutOffLength = input.LastIndexOf('.');
+                input = input.Substring(0, cutOffLength + 1) + hash + extension;
+                return input;
+            }
+            else
+            {
+                string extension = input.Substring(cutOffLength + 1);
+                input = input.Substring(0, cutOffLength);
+                string hash = Path.GetExtension(input);
+                if (hash.Length != 9) return originalInput;
+                cutOffLength = input.LastIndexOf('.');
+                input = input.Substring(0, cutOffLength + 1) + extension + hash;
+                return input;
+            }
+        }
+
         public static string Reverse(string text)
         {
             if (text == null) return null;
@@ -98,6 +126,21 @@ namespace ShenmueHDTools.Main
             }
         }
 
+        public static string ExtensionFinder(string filename)
+        {
+            int minBytes = 256;
+            if (!File.Exists(filename)) return "";
+            using (FileStream stream = File.Open(filename, FileMode.Open))
+            {
+                if (stream.Length < 256)
+                {
+                    minBytes = (int)stream.Length;
+                }
+                byte[] buffer = new byte[minBytes];
+                stream.Read(buffer, 0, minBytes);
+                return ExtensionFinder(buffer);
+            }
+        }
 
         public static string ExtensionFinder(byte[] dataArray)
         {
