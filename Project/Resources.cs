@@ -11,14 +11,26 @@ using System.Threading.Tasks;
 
 namespace ShenmueHDTools
 {
+    public class ZipFile
+    {
+        public string Filename { get; set; }
+        public byte[] Content { get; set; }
+    }
+
     public static class Resources
     {
         public static List<Image> gfx = new List<Image>();
         public static List<Image> load = new List<Image>();
+        public static Dictionary<string, string> data = new Dictionary<string, string>();
 
-        public static List<byte[]> Unzip(byte[] zippedBuffer)
+        /// <summary>
+        /// Hacky way to unzip a embedded resource (smaller executeable)
+        /// </summary>
+        /// <param name="zippedBuffer"></param>
+        /// <returns></returns>
+        public static ZipFile[] Unzip(byte[] zippedBuffer)
         {
-            List<byte[]> tempList = new List<byte[]>();
+            List<ZipFile> tempList = new List<ZipFile>();
 
             using (var zippedStream = new MemoryStream(zippedBuffer))
             {
@@ -32,18 +44,24 @@ namespace ShenmueHDTools
                             {
                                 unzippedEntryStream.CopyTo(ms);
                                 var unzippedArray = ms.ToArray();
-                                tempList.Add(unzippedArray);
+                                tempList.Add(new ZipFile
+                                {
+                                    Filename = entry.Name,
+                                    Content = unzippedArray
+                                });
                             }
                         }
                     }
 
-                    return tempList;
+                    return tempList.ToArray();
                 }
             }
         }
 
         public static void InitResources()
         {
+            var test = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShenmueHDTools.Resources.gfx"))
             {
                 byte[] bytes = new byte[stream.Length]; stream.Position = 0; stream.Read(bytes, 0, (int)stream.Length);
@@ -52,7 +70,7 @@ namespace ShenmueHDTools
                 foreach (var Item in Res)
                 {
                         TypeConverter tc = TypeDescriptor.GetConverter(typeof(Image));
-                        Image newImage = (Image)tc.ConvertFrom(Item);
+                        Image newImage = (Image)tc.ConvertFrom(Item.Content);
                         gfx.Add(newImage);
                 }
             }
@@ -65,8 +83,19 @@ namespace ShenmueHDTools
                 foreach (var Item in Res)
                 {
                     TypeConverter tc = TypeDescriptor.GetConverter(typeof(Image));
-                    Image newImage = (Image)tc.ConvertFrom(Item);
+                    Image newImage = (Image)tc.ConvertFrom(Item.Content);
                     load.Add(newImage);
+                }
+            }
+
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShenmueHDTools.Resources.database"))
+            {
+                byte[] bytes = new byte[stream.Length]; stream.Position = 0; stream.Read(bytes, 0, (int)stream.Length);
+                var Res = Unzip(bytes);
+
+                foreach (var Item in Res)
+                {
+                    data.Add(Path.GetFileNameWithoutExtension(Item.Filename), System.Text.Encoding.UTF8.GetString(Item.Content));
                 }
             }
 
@@ -81,7 +110,7 @@ namespace ShenmueHDTools
                     string filePath = Path.Combine(Path.GetTempPath(), i + ".bin");
                     using (BinaryWriter writer = new BinaryWriter(new FileStream(filePath, FileMode.Create)))
                     {
-                        writer.Write(Item, 0, Item.Length);
+                        writer.Write(Item.Content, 0, Item.Content.Length);
                         i++;
                     }
                 }

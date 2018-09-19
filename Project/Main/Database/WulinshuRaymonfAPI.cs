@@ -129,8 +129,7 @@ namespace ShenmueHDTools.Main.Database
 
             if (response == null || response.StatusCode != HttpStatusCode.OK)
             {
-                using (MemoryStream stream = new MemoryStream(Properties.Resources.Wulinshu_Raymonf_Backup))
-                using (StreamReader reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(Resources.data["backup.json"]))
                 {
                     string json = reader.ReadToEnd();
                     JArray entries = (JArray)JsonConvert.DeserializeObject(json);

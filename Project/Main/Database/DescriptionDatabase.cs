@@ -32,7 +32,7 @@ namespace ShenmueHDTools.Main.Database
         {
             Entries.Clear();
 
-            using (StringReader reader = new StringReader(Properties.Resources.desc_maps_sm1))
+            using (StringReader reader = new StringReader(Resources.data["desc_maps_sm1"]))
             {
                 string line = string.Empty;
                 line = reader.ReadLine();
@@ -50,7 +50,7 @@ namespace ShenmueHDTools.Main.Database
                 } while (line != null);
             }
 
-            using (StringReader reader = new StringReader(Properties.Resources.desc_chars_sm1))
+            using (StringReader reader = new StringReader(Resources.data["desc_chars_sm1"]))
             {
                 string line = string.Empty;
                 line = reader.ReadLine();
@@ -69,7 +69,7 @@ namespace ShenmueHDTools.Main.Database
                 } while (line != null);
             }
 
-            using (StringReader reader = new StringReader(Properties.Resources.desc_audio_sm1))
+            using (StringReader reader = new StringReader(Resources.data["desc_audio_sm1"]))
             {
                 string line = string.Empty;
                 line = reader.ReadLine();

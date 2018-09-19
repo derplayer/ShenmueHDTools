@@ -94,8 +94,9 @@ namespace ShenmueHDTools.GUI.Windows
 
         private void MergeFallback()
         {
-            byte[] fallback = Properties.Resources.Wulinshu_Raymonf_Backup;
-            string json = System.Text.Encoding.UTF8.GetString(fallback, 0, fallback.Length);
+            //byte[] fallback = Properties.Resources.Wulinshu_Raymonf_Backup;
+            //string json = System.Text.Encoding.UTF8.GetString(fallback, 0, fallback.Length);
+            string json = Resources.data["backup.json"];
             JArray entries = (JArray)JsonConvert.DeserializeObject(json);
 
             foreach (JToken token in entries.Children())

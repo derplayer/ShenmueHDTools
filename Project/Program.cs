@@ -16,16 +16,13 @@ namespace Shenmue_HD_Tools
 {
     static class Program
     {
-        public static MainWindow MainWindowCore = new MainWindow();
-
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                //MainWindowCore.debugToolStripMenuItem.Enabled = true;
+                ShenmueHDTools.Version.ApplicationName += " (Debug)";
             }
             Run();
         }
@@ -34,7 +31,7 @@ namespace Shenmue_HD_Tools
         {
             Resources.InitResources();
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
-            Application.Run(MainWindowCore);
+            Application.Run(new MainWindow());
         }
 
         private static void OnApplicationExit(object sender, EventArgs e)
