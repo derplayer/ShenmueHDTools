@@ -45,9 +45,9 @@
             this.labelAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelAbout.Location = new System.Drawing.Point(6, 8);
             this.labelAbout.Name = "labelAbout";
-            this.labelAbout.Size = new System.Drawing.Size(388, 33);
+            this.labelAbout.Size = new System.Drawing.Size(325, 33);
             this.labelAbout.TabIndex = 0;
-            this.labelAbout.Text = "Shenmue HD ModTools v1.0";
+            this.labelAbout.Text = "Shenmue HD ModTools";
             this.labelAbout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // aboutLabel
@@ -103,7 +103,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(420, 90);
             this.richTextBox1.TabIndex = 5;
-            this.richTextBox1.Text = "PhilYeahz\nalex-marko";
+            this.richTextBox1.Text = "PhilYeahz\nalex-marko\nRaymonf (Wulinshu database)\nReeceMix";
             // 
             // groupBox1
             // 
@@ -115,7 +115,7 @@
             this.groupBox1.Size = new System.Drawing.Size(440, 129);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Contributors";
+            this.groupBox1.Text = "Contributors and credits";
             // 
             // AboutDialog
             // 
