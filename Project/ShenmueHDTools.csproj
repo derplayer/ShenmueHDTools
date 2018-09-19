@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,8 +28,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -75,6 +75,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\Controls\DataGridViewEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\Dialogs\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,9 +134,6 @@
     <Compile Include="Main\Database\FilenameDatabase.cs" />
     <Compile Include="Main\Database\ShaderDatabase.cs" />
     <Compile Include="Main\Database\WulinshuRaymonfAPI.cs" />
-    <Compile Include="GUI\Controls\DataGridViewEx.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Main\DataStructure\DataCollection.cs" />
     <Compile Include="Main\DataStructure\FileStructure.cs" />
     <Compile Include="Main\DataStructure\HeaderStructure.cs" />
@@ -251,6 +251,9 @@
     <Content Include="Resources\Shenmue_v1_007_JAP\JAP_D2.txt" />
     <Content Include="Resources\Shenmue_v1_007_JAP\JAP_D3.txt" />
     <Content Include="Resources\Shenmue_v1_007_JAP\JAP_PASS.txt" />
+    <Content Include="Resources\UI\BG01.GIF" />
+    <Content Include="Resources\UI\ICON_RYOU.GIF" />
+    <Content Include="Resources\UI\ICON_RYOU.ico" />
     <Content Include="Resources\Whats_Shemue\WS_D1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

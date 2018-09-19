@@ -59,5 +59,35 @@ namespace ShenmueHDTools.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap BG01 {
+            get {
+                object obj = ResourceManager.GetObject("BG01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+        /// </summary>
+        public static System.Drawing.Icon ICON_RYOU {
+            get {
+                object obj = ResourceManager.GetObject("ICON_RYOU", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ICON_RYOU1 {
+            get {
+                object obj = ResourceManager.GetObject("ICON_RYOU1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
