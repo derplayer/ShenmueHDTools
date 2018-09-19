@@ -92,7 +92,6 @@ namespace ShenmueHDTools
                 }
             }
         }
-    
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -105,16 +104,18 @@ namespace ShenmueHDTools
                 FilenameDatabase.MapFilenamesToTAD(m_tadFile);
                 DescriptionDatabase.MapDescriptionToTAD(m_tadFile);
 
-                if (MessageBox.Show("Do you want to unpack the TAC file?", "Unpack TAC", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (System.Diagnostics.Debugger.IsAttached)
                 {
-                    m_cacheFile = new CacheFile(m_tadFile);
-                    m_cacheFile.Unpack();
-                    tadDataTable1.SetCache(m_cacheFile);
+                    if (MessageBox.Show("Do you want to unpack the TAC file?", "Unpack TAC", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        tadDataTable1.SetTAD(m_tadFile);
+                        return;
+                    }
                 }
-                else
-                {
-                    tadDataTable1.SetTAD(m_tadFile);
-                }
+
+                m_cacheFile = new CacheFile(m_tadFile);
+                m_cacheFile.Unpack();
+                tadDataTable1.SetCache(m_cacheFile);
             }
         }
 
@@ -133,16 +134,17 @@ namespace ShenmueHDTools
                 FilenameDatabase.MapFilenamesToTAD(m_tadFile);
                 DescriptionDatabase.MapDescriptionToTAD(m_tadFile);
 
-                if (MessageBox.Show("Do you want to unpack the TAC file?", "Unpack TAC", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (System.Diagnostics.Debugger.IsAttached)
                 {
-                    m_cacheFile = new CacheFile(m_tadFile);
-                    m_cacheFile.Unpack();
-                    tadDataTable1.SetCache(m_cacheFile);
+                    if (MessageBox.Show("Do you want to unpack the TAC file?", "Unpack TAC", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        tadDataTable1.SetTAD(m_tadFile);
+                    }
                 }
-                else
-                {
-                    tadDataTable1.SetTAD(m_tadFile);
-                }
+
+                m_cacheFile = new CacheFile(m_tadFile);
+                m_cacheFile.Unpack();
+                tadDataTable1.SetCache(m_cacheFile);
             }
         }
 
@@ -165,7 +167,8 @@ namespace ShenmueHDTools
             FilenameDatabase filenameDB = new FilenameDatabase();
             LoadingDialog loadingDialog = new LoadingDialog();
             loadingDialog.SetData(filenameDB);
-            Thread thread = new Thread(delegate () {
+            Thread thread = new Thread(delegate ()
+            {
                 filenameDB.MapFilenamesToTADInstance(m_cacheFile);
             });
             loadingDialog.ShowDialog(thread);
@@ -173,7 +176,8 @@ namespace ShenmueHDTools
             DescriptionDatabase descDB = new DescriptionDatabase();
             loadingDialog = new LoadingDialog();
             loadingDialog.SetData(descDB);
-            thread = new Thread(delegate () {
+            thread = new Thread(delegate ()
+            {
                 descDB.MapDescriptionToTADInstance(m_tadFile);
             });
             loadingDialog.ShowDialog(thread);
