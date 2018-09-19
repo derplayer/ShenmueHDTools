@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Ookii.Dialogs;
 using System.Threading;
 using ShenmueHDTools.GUI.Dialogs;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ShenmueHDTools.GUI.Windows
 {
@@ -67,6 +68,24 @@ namespace ShenmueHDTools.GUI.Windows
         {
             FilenameDatabase.Clear();
             filenameDatabaseDataTable1.UpdateView(false);
+        }
+
+        private void button_Merge_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Filename Database Dump (*.bin)|*.bin";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (FileStream stream = File.Open(openFileDialog.FileName, FileMode.Open))
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    List<FilenameDatabaseEntry> newEntries = (List<FilenameDatabaseEntry>)formatter.Deserialize(stream);
+                    foreach(FilenameDatabaseEntry entry in newEntries)
+                    {
+                        FilenameDatabase.Add(entry);
+                    }
+                }
+            }
         }
     }
 }

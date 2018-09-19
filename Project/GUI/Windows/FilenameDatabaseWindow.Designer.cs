@@ -33,6 +33,7 @@
             this.button_Load = new System.Windows.Forms.Button();
             this.button_Save = new System.Windows.Forms.Button();
             this.button_Clear = new System.Windows.Forms.Button();
+            this.button_Merge = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Generate
@@ -87,11 +88,22 @@
             this.button_Clear.UseVisualStyleBackColor = true;
             this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
             // 
+            // button_Merge
+            // 
+            this.button_Merge.Location = new System.Drawing.Point(306, 12);
+            this.button_Merge.Name = "button_Merge";
+            this.button_Merge.Size = new System.Drawing.Size(104, 23);
+            this.button_Merge.TabIndex = 5;
+            this.button_Merge.Text = "Merge with...";
+            this.button_Merge.UseVisualStyleBackColor = true;
+            this.button_Merge.Click += new System.EventHandler(this.button_Merge_Click);
+            // 
             // FilenameDatabaseWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button_Merge);
             this.Controls.Add(this.button_Clear);
             this.Controls.Add(this.button_Save);
             this.Controls.Add(this.button_Load);
@@ -111,5 +123,6 @@
         private System.Windows.Forms.Button button_Load;
         private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.Button button_Clear;
+        private System.Windows.Forms.Button button_Merge;
     }
 }
