@@ -420,7 +420,11 @@ namespace ShenmueHDTools.Main.Files
                     Directory.CreateDirectory(dir);
                 }
             }
+            fileEntryPath = fileEntryPath.Replace("\\\\", "\\");
+            oldFileEntryPath = oldFileEntryPath.Replace("\\\\", "\\");
+
             RelativePath = "\\" + Helper.GetRelativePath(fileEntryPath, outputFolder);
+            if (fileEntryPath == oldFileEntryPath) return;
             if (File.Exists(fileEntryPath))
             {
                 File.Delete(fileEntryPath);
