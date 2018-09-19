@@ -1,4 +1,6 @@
-﻿using ShenmueHDTools.GUI.Dialogs;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ShenmueHDTools.GUI.Dialogs;
 using ShenmueHDTools.Main;
 using ShenmueHDTools.Main.Database;
 using System;
@@ -72,6 +74,11 @@ namespace ShenmueHDTools.GUI.Windows
             loadingDialog.ShowDialog(thread);
         }
 
+        private void button_Local_Click(object sender, EventArgs e)
+        {
+            MergeFallback();
+        }
+
         private void Merge()
         {
             DescriptionChanged(this, new DescriptionChangedArgs("Merging with filename database..."));
@@ -83,6 +90,28 @@ namespace ShenmueHDTools.GUI.Windows
             }
             FilenameDatabase.Save();
             Finished(this, new FinishedArgs(true));
+        }
+
+        private void MergeFallback()
+        {
+            byte[] fallback = Properties.Resources.Wulinshu_Raymonf_Backup;
+            string json = System.Text.Encoding.UTF8.GetString(fallback, 0, fallback.Length);
+            JArray entries = (JArray)JsonConvert.DeserializeObject(json);
+
+            foreach (JToken token in entries.Children())
+            {
+                WulinshuRaymonfAPIEntry entry = new WulinshuRaymonfAPIEntry
+                {
+                    Path = token.SelectToken("Path").Value<string>(),
+                    Hash = token.SelectToken("Hash").Value<string>(),
+                    Matches = token.SelectToken("Matches").Value<int>(),
+                    Game = token.SelectToken("Game").Value<string>()
+                };
+
+                WulinshuRaymonfAPI.Entries.Add(entry);
+            }
+
+            wulinshuRaymonfDataTable1.SetData(WulinshuRaymonfAPI.Entries);
         }
 
         public void Abort()

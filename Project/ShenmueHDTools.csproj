@@ -223,6 +223,11 @@
     <Content Include="Resources\Shenmue_BETA_v0_400\B_D2.txt" />
     <Content Include="Resources\Shenmue_BETA_v0_400\B_D3.txt" />
     <Content Include="Resources\Shenmue_BETA_v0_400\B_PASS.txt" />
+    <EmbeddedResource Include="Resources\Shenmue_IIx_v1.00_US\US_2x_DVD.txt" />
+    <EmbeddedResource Include="Resources\Shenmue_II_v1.001_EU\EU_2_D1.txt" />
+    <EmbeddedResource Include="Resources\Shenmue_II_v1.001_EU\EU_2_D2.txt" />
+    <EmbeddedResource Include="Resources\Shenmue_II_v1.001_EU\EU_2_D3.txt" />
+    <EmbeddedResource Include="Resources\Shenmue_II_v1.001_EU\EU_2_PASS.txt" />
     <Content Include="Resources\Shenmue_v1_001_EU\EU_D1.txt" />
     <Content Include="Resources\Shenmue_v1_001_EU\EU_D2.txt" />
     <Content Include="Resources\Shenmue_v1_001_EU\EU_D3.txt" />

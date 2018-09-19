@@ -28,22 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.wulinshuRaymonfDataTable1 = new ShenmueHDTools.GUI.Controls.WulinshuRaymonfDataTable();
             this.button_Load = new System.Windows.Forms.Button();
             this.button_Save = new System.Windows.Forms.Button();
             this.button_Fetch = new System.Windows.Forms.Button();
             this.button_Merge = new System.Windows.Forms.Button();
+            this.button_Local = new System.Windows.Forms.Button();
+            this.wulinshuRaymonfDataTable1 = new ShenmueHDTools.GUI.Controls.WulinshuRaymonfDataTable();
             this.SuspendLayout();
-            // 
-            // wulinshuRaymonfDataTable1
-            // 
-            this.wulinshuRaymonfDataTable1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.wulinshuRaymonfDataTable1.Location = new System.Drawing.Point(12, 41);
-            this.wulinshuRaymonfDataTable1.Name = "wulinshuRaymonfDataTable1";
-            this.wulinshuRaymonfDataTable1.Size = new System.Drawing.Size(776, 397);
-            this.wulinshuRaymonfDataTable1.TabIndex = 0;
             // 
             // button_Load
             // 
@@ -77,19 +68,40 @@
             // 
             // button_Merge
             // 
-            this.button_Merge.Location = new System.Drawing.Point(288, 12);
+            this.button_Merge.Location = new System.Drawing.Point(586, 12);
             this.button_Merge.Name = "button_Merge";
             this.button_Merge.Size = new System.Drawing.Size(202, 23);
             this.button_Merge.TabIndex = 4;
-            this.button_Merge.Text = "Merge  with Filename Database";
+            this.button_Merge.Text = "Merge with Filename Database";
             this.button_Merge.UseVisualStyleBackColor = true;
             this.button_Merge.Click += new System.EventHandler(this.button_Merge_Click);
+            // 
+            // button_Local
+            // 
+            this.button_Local.Location = new System.Drawing.Point(288, 12);
+            this.button_Local.Name = "button_Local";
+            this.button_Local.Size = new System.Drawing.Size(202, 23);
+            this.button_Local.TabIndex = 5;
+            this.button_Local.Text = "Fetch offline fallback Database";
+            this.button_Local.UseVisualStyleBackColor = true;
+            this.button_Local.Click += new System.EventHandler(this.button_Local_Click);
+            // 
+            // wulinshuRaymonfDataTable1
+            // 
+            this.wulinshuRaymonfDataTable1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.wulinshuRaymonfDataTable1.Location = new System.Drawing.Point(12, 41);
+            this.wulinshuRaymonfDataTable1.Name = "wulinshuRaymonfDataTable1";
+            this.wulinshuRaymonfDataTable1.Size = new System.Drawing.Size(776, 397);
+            this.wulinshuRaymonfDataTable1.TabIndex = 0;
             // 
             // RaymonfDatabaseWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button_Local);
             this.Controls.Add(this.button_Merge);
             this.Controls.Add(this.button_Fetch);
             this.Controls.Add(this.button_Save);
@@ -109,5 +121,6 @@
         private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.Button button_Fetch;
         private System.Windows.Forms.Button button_Merge;
+        private System.Windows.Forms.Button button_Local;
     }
 }

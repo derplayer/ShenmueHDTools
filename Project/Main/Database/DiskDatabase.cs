@@ -11,27 +11,42 @@ namespace ShenmueHDTools.Main.Database
     {
         public static void GenerateDiskFilenames()
         {
+            //Swap between Shenmue 1 and 2 to improve the hash perfrmance a bit
             List<string> discCollection = new List<string>();
+            //Shenmue v1.001 EU
             discCollection.Add(Properties.Resources.EU_D1);
             discCollection.Add(Properties.Resources.EU_D2);
             discCollection.Add(Properties.Resources.EU_D3);
             discCollection.Add(Properties.Resources.EU_PASS);
 
+            //Shenmue IIx US
+            discCollection.Add(Properties.Resources.US_2x_DVD);
+
+            //Shenmue II v1.001 EU
+            discCollection.Add(Properties.Resources.EU_2_D1);
+            discCollection.Add(Properties.Resources.EU_2_D2);
+            discCollection.Add(Properties.Resources.EU_2_D3);
+            discCollection.Add(Properties.Resources.EU_2_PASS);
+
+            //Shenmue v1.007 JAP
             discCollection.Add(Properties.Resources.JAP_D1);
             discCollection.Add(Properties.Resources.JAP_D2);
             discCollection.Add(Properties.Resources.JAP_D3);
             discCollection.Add(Properties.Resources.JAP_PASS);
 
+            //Shenmue v1.003 US
             discCollection.Add(Properties.Resources.US_D1);
             discCollection.Add(Properties.Resources.US_D2);
             discCollection.Add(Properties.Resources.US_D3);
             discCollection.Add(Properties.Resources.US_PASS);
 
+            //Shenmue BETA v0.400
             discCollection.Add(Properties.Resources.B_D1);
             discCollection.Add(Properties.Resources.B_D2);
             discCollection.Add(Properties.Resources.B_D3);
             discCollection.Add(Properties.Resources.B_PASS);
 
+            //What's Shemue - JP
             discCollection.Add(Properties.Resources.WS_D1);
 
             string fName = "/misc/SegaLogo.wav";

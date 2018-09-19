@@ -190,4 +190,19 @@
   <data name="desc_audio_sm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Descriptions\desc_audio_sm1.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="EU_2_D1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\shenmue_ii_v1.001_eu\eu_2_d1.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="EU_2_D2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\shenmue_ii_v1.001_eu\eu_2_d2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="EU_2_D3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\shenmue_ii_v1.001_eu\eu_2_d3.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="US_2x_DVD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\shenmue_iix_v1.00_us\us_2x_dvd.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="EU_2_PASS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\shenmue_ii_v1.001_eu\eu_2_pass.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>
