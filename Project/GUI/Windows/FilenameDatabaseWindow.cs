@@ -18,13 +18,20 @@ using ShenmueHDTools.Main;
 
 namespace ShenmueHDTools.GUI.Windows
 {
-    public partial class FilenameDatabaseWindow : Form
+    public partial class FilenameDatabaseWindow : Form, IProgressable
     {
+        public bool IsAbortable { get { return false; } }
+
         public FilenameDatabaseWindow()
         {
             InitializeComponent();
             filenameDatabaseDataTable1.UpdateView(false);
         }
+
+        public event FinishedEventHandler Finished;
+        public event Main.ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event Main.ErrorEventHandler Error;
 
         private void button_Generate_Click(object sender, EventArgs e)
         {
@@ -71,6 +78,18 @@ namespace ShenmueHDTools.GUI.Windows
             filenameDatabaseDataTable1.UpdateView(false);
         }
 
+        private void Merge(List<FilenameDatabaseEntry> entries)
+        {
+            DescriptionChanged(this, new DescriptionChangedArgs("Merging file with database..."));
+            for (int i = 0; i < entries.Count; i++)
+            {
+                ProgressChanged(this, new ProgressChangedArgs(i, entries.Count));
+                FilenameDatabaseEntry entry = entries[i];
+                FilenameDatabase.Add(entry);
+            }
+            Finished(this, new FinishedArgs(true));
+        }
+
         private void button_Merge_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -78,18 +97,28 @@ namespace ShenmueHDTools.GUI.Windows
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 if (!Helper.IsFileValid(openFileDialog.FileName)) return;
+
+                List<FilenameDatabaseEntry> newEntries;
                 using (FileStream stream = File.Open(openFileDialog.FileName, FileMode.Open))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();
-                    List<FilenameDatabaseEntry> newEntries = (List<FilenameDatabaseEntry>)formatter.Deserialize(stream);
-                    foreach(FilenameDatabaseEntry entry in newEntries)
-                    {
-                        FilenameDatabase.Add(entry);
-                    }
+                    newEntries = (List<FilenameDatabaseEntry>)formatter.Deserialize(stream);
                 }
+
+                LoadingDialog loadingDialog = new LoadingDialog();
+                loadingDialog.SetData(this);
+                Thread thread = new Thread(delegate () {
+                    Merge(newEntries);
+                });
+                loadingDialog.ShowDialog(thread);
             }
             FilenameDatabase.Save();
             filenameDatabaseDataTable1.UpdateView(false);
+        }
+
+        public void Abort()
+        {
+            throw new NotImplementedException();
         }
     }
 }
