@@ -98,7 +98,7 @@ namespace ShenmueHDTools.GUI.Windows
         {
             //byte[] fallback = Properties.Resources.Wulinshu_Raymonf_Backup;
             //string json = System.Text.Encoding.UTF8.GetString(fallback, 0, fallback.Length);
-            string json = Resources.data["backup.json"];
+            string json = Resources.data["backup"];
             JArray entries = (JArray)JsonConvert.DeserializeObject(json);
 
             foreach (JToken token in entries.Children())

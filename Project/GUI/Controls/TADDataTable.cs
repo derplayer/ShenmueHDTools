@@ -174,15 +174,14 @@ namespace ShenmueHDTools.GUI.Controls
             if (e.RowIndex == -1 || e.ColumnIndex == -1) return;
             if (e.Button != MouseButtons.Right) return;
 
+            this.dataGridView_TAD.CurrentCell = this.dataGridView_TAD.Rows[e.RowIndex].Cells[e.ColumnIndex];
             TADFileEntry entry = m_entriesView[e.RowIndex];
             string filename = Path.GetDirectoryName(m_cacheFile.Filename) + m_cacheFile.Header.RelativeOutputFolder + "\\" + entry.RelativePath;
-
-            Point point = dataGridView_TAD.PointToClient(Cursor.Position);
 
             ShellContextMenu ctxMnu = new ShellContextMenu();
             FileInfo[] arrFI = new FileInfo[1];
             arrFI[0] = new FileInfo(filename);
-            ctxMnu.ShowContextMenu(arrFI, point);
+            ctxMnu.ShowContextMenu(arrFI, Cursor.Position);
         }
     }
 }

@@ -136,7 +136,7 @@ namespace ShenmueHDTools.Main.Database
 
             if (response == null || response.StatusCode != HttpStatusCode.OK)
             {
-                using (StreamReader reader = new StreamReader(Resources.data["backup.json"]))
+                using (StreamReader reader = new StreamReader(Resources.data["backup"]))
                 {
                     string json = reader.ReadToEnd();
                     JArray entries = (JArray)JsonConvert.DeserializeObject(json);
