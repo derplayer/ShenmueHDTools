@@ -131,7 +131,7 @@
     <Compile Include="Main\Database\FilenameDatabase.cs" />
     <Compile Include="Main\Database\ShaderDatabase.cs" />
     <Compile Include="Main\Database\WulinshuRaymonfAPI.cs" />
-    <Compile Include="Main\DataGridViewEx.cs">
+    <Compile Include="GUI\Controls\DataGridViewEx.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Main\DataStructure\DataCollection.cs" />

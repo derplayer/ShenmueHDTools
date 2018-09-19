@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace System.Windows.Forms
+namespace ShenmueHDTools.GUI.Controls
 {
     public class DataGridViewEx : DataGridView
     {
@@ -14,6 +14,7 @@ namespace System.Windows.Forms
             DoubleBuffered = true;
         }
 
+        
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
         {
             if (keyData == (System.Windows.Forms.Keys.Space | System.Windows.Forms.Keys.Shift))
@@ -45,5 +46,6 @@ namespace System.Windows.Forms
             public static extern int SetKeyboardState(byte[] keystate);
 
         }
+        
     }
 }

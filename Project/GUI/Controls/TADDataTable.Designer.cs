@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView_TAD = new System.Windows.Forms.DataGridViewEx();
+            this.dataGridView_TAD = new ShenmueHDTools.GUI.Controls.DataGridViewEx();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_Filter = new System.Windows.Forms.TextBox();
             this.label_Count = new System.Windows.Forms.Label();
@@ -288,7 +288,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridViewEx dataGridView_TAD;
+        private ShenmueHDTools.GUI.Controls.DataGridViewEx dataGridView_TAD;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_Filter;
         private System.Windows.Forms.Label label_Count;
