@@ -196,7 +196,7 @@ namespace ShenmueHDTools
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Cache file (*.cache)|*.cache|Old cache file (*.shdcache)|*.shdcache";
+            openFileDialog.Filter = "Cache file (*.cache, *.shdcache)|*.cache;*.shdcache";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
