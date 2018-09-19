@@ -30,6 +30,8 @@ namespace ShenmueHDTools.GUI.Controls
         private int m_lastColumn;
         private bool m_suspendSpacebar = false;
 
+        public bool IsAbortable { get { return false; } }
+
         public event FinishedEventHandler Finished;
         public event Main.ProgressChangedEventHandler ProgressChanged;
         public event DescriptionChangedEventHandler DescriptionChanged;
@@ -41,7 +43,6 @@ namespace ShenmueHDTools.GUI.Controls
         {
             InitializeComponent();
 
-            dataGridView_TAD = Helper.DoubleBuffered(this.dataGridView_TAD, true);
             dataGridView_TAD.AutoGenerateColumns = false;
             dataGridView_TAD.RowHeadersWidth = 15;
             dataGridView_TAD.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
@@ -51,6 +52,7 @@ namespace ShenmueHDTools.GUI.Controls
         {
             button_Refresh.Enabled = false;
             m_tadFile = tadFile;
+            m_cacheFile = null;
             TADStatistic statistic = m_tadFile.GetStatistic();
             label_Statistic.Text = String.Format(StatisticFormat, statistic.FilesCovered, statistic.FileCount, statistic.FileCoverage);
             m_sortedEntries = tadFile.FileEntries;
@@ -114,6 +116,7 @@ namespace ShenmueHDTools.GUI.Controls
 
         private void button_Refresh_Click(object sender, EventArgs e)
         {
+            if (m_cacheFile == null) return;
             LoadingDialog loadingDialog = new LoadingDialog();
             loadingDialog.SetData(m_cacheFile);
             Thread thread = new Thread(delegate ()

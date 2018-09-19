@@ -25,6 +25,8 @@ namespace ShenmueHDTools.GUI.Windows
             wulinshuRaymonfDataTable1.SetData(WulinshuRaymonfAPI.Entries);
         }
 
+        public bool IsAbortable { get { return false; } }
+
         public event FinishedEventHandler Finished;
         public event Main.ProgressChangedEventHandler ProgressChanged;
         public event DescriptionChangedEventHandler DescriptionChanged;

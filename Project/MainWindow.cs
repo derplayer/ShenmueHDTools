@@ -18,6 +18,7 @@ using ShenmueHDTools.GUI.Dialogs;
 using System.Runtime.Serialization.Formatters.Binary;
 using ShenmueHDTools.Main.DataStructure;
 using ShenmueHDTools.Main;
+using System.Threading;
 
 namespace ShenmueHDTools
 {
@@ -159,10 +160,25 @@ namespace ShenmueHDTools
 
         private void mapFilenamesToTADToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (m_tadFile == null) return;
-            FilenameDatabase.MapFilenamesToTAD(m_tadFile);
-            DescriptionDatabase.MapDescriptionToTAD(m_tadFile);
-            tadDataTable1.SetTAD(m_tadFile);
+            if (m_cacheFile == null || m_tadFile == null) return;
+
+            FilenameDatabase filenameDB = new FilenameDatabase();
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(filenameDB);
+            Thread thread = new Thread(delegate () {
+                filenameDB.MapFilenamesToTADInstance(m_cacheFile);
+            });
+            loadingDialog.ShowDialog(thread);
+
+            DescriptionDatabase descDB = new DescriptionDatabase();
+            loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(descDB);
+            thread = new Thread(delegate () {
+                descDB.MapDescriptionToTADInstance(m_tadFile);
+            });
+            loadingDialog.ShowDialog(thread);
+
+            tadDataTable1.SetCache(m_cacheFile);
         }
 
         private void packAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -187,20 +203,13 @@ namespace ShenmueHDTools
                 m_cacheFile = new CacheFile();
                 if (Path.GetExtension(openFileDialog.FileName) == ".shdcache")
                 {
-                    using (FileStream reader = new FileStream(openFileDialog.FileName, FileMode.Open))
-                    {
-                        BinaryFormatter binaryFormatter = new BinaryFormatter();
-                        DataCollection deserializedCache = (DataCollection)binaryFormatter.Deserialize(reader);
-                        m_cacheFile.ConvertLegacy(deserializedCache);
-                        m_cacheFile.Filename = openFileDialog.FileName.Replace(".shdcache", ".cache");
-                        m_cacheFile.Write(m_cacheFile.Filename);
-                        m_cacheFile.TADFile.Filename = openFileDialog.FileName.Replace(".shdcache", ".tad");
-                    }
+                    m_cacheFile.ConvertLegacy(openFileDialog.FileName);
                 }
                 else
                 {
                     m_cacheFile.Read(openFileDialog.FileName);
                 }
+                m_tadFile = m_cacheFile.TADFile;
                 tadDataTable1.SetCache(m_cacheFile);
             }
         }

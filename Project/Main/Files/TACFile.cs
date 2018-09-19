@@ -16,6 +16,7 @@ namespace ShenmueHDTools.Main.Files
 
         public string Filename { get; set; }
         public TADFile TADFile { get; set; }
+        public bool IsAbortable { get { return false; } }
 
         private byte[] m_buffer;
 
@@ -140,7 +141,6 @@ namespace ShenmueHDTools.Main.Files
                             Directory.CreateDirectory(dir);
                         }
                     }
-                    
                     
                     using (FileStream fileEntryStream = File.Create(fileEntryPath))
                     {

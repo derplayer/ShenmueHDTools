@@ -67,6 +67,8 @@ namespace ShenmueHDTools.Main
         event DescriptionChangedEventHandler DescriptionChanged;
         event ErrorEventHandler Error;
 
+        bool IsAbortable { get; }
+
         void Abort();
     }
 }

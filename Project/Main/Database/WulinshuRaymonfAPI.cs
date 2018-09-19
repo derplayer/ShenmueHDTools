@@ -52,6 +52,9 @@ namespace ShenmueHDTools.Main.Database
         private static readonly string GetFormat = "{0}/api/hash/get?page={1}&game={2}";
         public static readonly string LocalFilename = "raymonf.json";
 
+        public bool IsAbortable { get { return true; } }
+        private bool aborted = false;
+
         public static List<WulinshuRaymonfAPIEntry> Entries = new List<WulinshuRaymonfAPIEntry>();
 
         private static List<string> Games = new List<string>()
@@ -81,6 +84,7 @@ namespace ShenmueHDTools.Main.Database
                 {
                     string json = reader.ReadToEnd();
                     JArray entries = (JArray)JsonConvert.DeserializeObject(json);
+                    if (entries == null) return;
                     foreach(JToken token in entries.Children())
                     {
                         WulinshuRaymonfAPIEntry entry = new WulinshuRaymonfAPIEntry
@@ -116,11 +120,12 @@ namespace ShenmueHDTools.Main.Database
 
         public void Abort()
         {
-            //throw new NotImplementedException();
+            aborted = true;
         }
 
         public void FetchData(string game)
         {
+            aborted = false;
             Entries.Clear();
 
             string url = String.Format(GetFormat, Url, 1, game);
@@ -162,6 +167,11 @@ namespace ShenmueHDTools.Main.Database
 
             for (int i = 1; i < pageCount; i++)
             {
+                if (aborted)
+                {
+                    Finished(this, new FinishedArgs(false));
+                    return;
+                }
                 DescriptionChanged(this, new DescriptionChangedArgs(String.Format("Fetching page {0}...", i)));
                 ProgressChanged(this, new ProgressChangedArgs(i, pageCount));
                 url = String.Format(GetFormat, Url, i, game);

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView_Entries = new System.Windows.Forms.DataGridView();
+            this.dataGridView_Entries = new System.Windows.Forms.DataGridViewEx();
             this.ColumnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnHash = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnMatches = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -95,7 +95,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView_Entries;
+        private System.Windows.Forms.DataGridViewEx dataGridView_Entries;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHash;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnMatches;

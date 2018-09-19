@@ -23,10 +23,17 @@ namespace ShenmueHDTools.Main.Database
         }
     }
 
-    class DescriptionDatabase
+    class DescriptionDatabase : IProgressable
     {
 
         public static List<DescriptionDatabaseEntry> Entries = new List<DescriptionDatabaseEntry>();
+
+        public bool IsAbortable { get { return false; } }
+
+        public event FinishedEventHandler Finished;
+        public event ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event ErrorEventHandler Error;
 
         public static void GenerateDatabase()
         {
@@ -87,6 +94,25 @@ namespace ShenmueHDTools.Main.Database
             }
         }
 
+        public void MapDescriptionToTADInstance(TADFile tadFile)
+        {
+            DescriptionChanged(this, new DescriptionChangedArgs("Mapping descriptions to TAD..."));
+            for (int i = 0; i < tadFile.FileEntries.Count; i++)
+            {
+                ProgressChanged(this, new ProgressChangedArgs(i, tadFile.FileEntries.Count));
+                TADFileEntry entry = tadFile.FileEntries[i];
+                foreach (DescriptionDatabaseEntry e in Entries)
+                {
+                    if (entry.Filename.Contains(e.ID) || (!String.IsNullOrEmpty(e.ModelID) && entry.Filename.Contains(e.ModelID)))
+                    {
+                        entry.Description = e.Name;
+                        continue;
+                    }
+                }
+            }
+            Finished(this, new FinishedArgs(true));
+        }
+
         public static void MapDescriptionToTAD(TADFile tadFile)
         {
             foreach (TADFileEntry entry in tadFile.FileEntries)
@@ -100,6 +126,11 @@ namespace ShenmueHDTools.Main.Database
                     }
                 }
             }
+        }
+
+        public void Abort()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

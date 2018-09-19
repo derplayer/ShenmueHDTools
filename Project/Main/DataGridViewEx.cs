@@ -9,6 +9,11 @@ namespace System.Windows.Forms
 {
     public class DataGridViewEx : DataGridView
     {
+        public DataGridViewEx()
+        { 
+            DoubleBuffered = true;
+        }
+
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
         {
             if (keyData == (System.Windows.Forms.Keys.Space | System.Windows.Forms.Keys.Shift))

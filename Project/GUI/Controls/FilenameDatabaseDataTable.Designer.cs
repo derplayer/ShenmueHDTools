@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView_DB = new System.Windows.Forms.DataGridView();
+            this.dataGridView_DB = new System.Windows.Forms.DataGridViewEx();
             this.ColumnHash1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnHash2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnHash3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -182,7 +182,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView_DB;
+        private System.Windows.Forms.DataGridViewEx dataGridView_DB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_Filter;
         private System.Windows.Forms.Label label_Count;

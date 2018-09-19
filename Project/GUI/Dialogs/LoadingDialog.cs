@@ -43,6 +43,18 @@ namespace ShenmueHDTools.GUI.Dialogs
 
         public void SetData(IProgressable progressable)
         {
+            if (progressable.IsAbortable)
+            {
+                MinimumSize = new Size(350, 125);
+                MaximumSize = new Size(350, 125);
+                button_Abort.Visible = true;
+            }
+            else
+            {
+                MinimumSize = new Size(350, 100);
+                MaximumSize = new Size(350, 100);
+                button_Abort.Visible = false;
+            }
             m_progressable = progressable;
             progressable.Finished += Progressable_Finished;
             progressable.DescriptionChanged += Progressable_DescriptionChanged;
@@ -85,14 +97,15 @@ namespace ShenmueHDTools.GUI.Dialogs
             });
         }
 
-        private void button_Abort_Click(object sender, EventArgs e)
-        {
-            m_progressable.Abort();
-        }
 
         private void LoadingDialog_Shown(object sender, EventArgs e)
         {
             m_thread.Start();
+        }
+
+        private void button_Abort_Click(object sender, EventArgs e)
+        {
+            m_progressable.Abort();
         }
     }
 }
