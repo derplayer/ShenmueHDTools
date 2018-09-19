@@ -86,6 +86,8 @@ namespace ShenmueHDTools.GUI.Windows
                     }
                 }
             }
+            FilenameDatabase.Save();
+            filenameDatabaseDataTable1.UpdateView(false);
         }
     }
 }
