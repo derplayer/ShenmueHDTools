@@ -305,7 +305,7 @@ namespace ShenmueHDTools.Main
 
         public static void CheckUpdates()
         {
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (!System.Diagnostics.Debugger.IsAttached)
             {
                 WebClient w = new WebClient(); //TODO: Shorter Timeout Range?
                 w.Headers.Add("user-agent", "Mozilla/5.0 (Shenmue HD ModTools v" + Version.ActualVerison.ToString(CultureInfo.InvariantCulture) +
