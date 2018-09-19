@@ -235,6 +235,10 @@
     <Content Include="Resources\Shenmue_II_v1.001_EU\EU_2_D2.txt" />
     <Content Include="Resources\Shenmue_II_v1.001_EU\EU_2_D3.txt" />
     <Content Include="Resources\Shenmue_II_v1.001_EU\EU_2_PASS.txt" />
+    <Content Include="Resources\Shenmue_II_v1.001_JP\JP_2_D1.txt" />
+    <Content Include="Resources\Shenmue_II_v1.001_JP\JP_2_D2.txt" />
+    <Content Include="Resources\Shenmue_II_v1.001_JP\JP_2_D3.txt" />
+    <Content Include="Resources\Shenmue_II_v1.001_JP\JP_2_D4.txt" />
     <Content Include="Resources\Shenmue_v1_001_EU\EU_D1.txt" />
     <Content Include="Resources\Shenmue_v1_001_EU\EU_D2.txt" />
     <Content Include="Resources\Shenmue_v1_001_EU\EU_D3.txt" />

@@ -34,6 +34,12 @@ namespace ShenmueHDTools.Main.Database
             discCollection.Add(Resources.data["JAP_D3"]);
             discCollection.Add(Resources.data["JAP_PASS"]);
 
+            //Shenmue 2 v1.001 JAP
+            discCollection.Add(Resources.data["JP_2_D1"]);
+            discCollection.Add(Resources.data["JP_2_D2"]);
+            discCollection.Add(Resources.data["JP_2_D3"]);
+            discCollection.Add(Resources.data["JP_2_D4"]);
+
             //Shenmue v1.003 US
             discCollection.Add(Resources.data["US_D1"]);
             discCollection.Add(Resources.data["US_D2"]);
