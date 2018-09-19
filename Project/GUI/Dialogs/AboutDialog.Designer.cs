@@ -35,6 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.updateLabel = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.vmuBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,7 +104,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(493, 113);
             this.richTextBox1.TabIndex = 3;
-            this.richTextBox1.Text = "PhilYeahz\nalex-marko\nRaymonf (Wulinshu database)\nReeceMix";
+            this.richTextBox1.Text = "PhilYeahz, alex-marko, Raymonf (Wulinshu database), ReeceMix";
             // 
             // label2
             // 
@@ -116,6 +117,20 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Contributors and credits";
             // 
+            // updateLabel
+            // 
+            this.updateLabel.AutoSize = true;
+            this.updateLabel.BackColor = System.Drawing.Color.Transparent;
+            this.updateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.updateLabel.Location = new System.Drawing.Point(355, 69);
+            this.updateLabel.Name = "updateLabel";
+            this.updateLabel.Size = new System.Drawing.Size(150, 20);
+            this.updateLabel.TabIndex = 8;
+            this.updateLabel.TabStop = true;
+            this.updateLabel.Text = "Force update check";
+            this.updateLabel.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.updateLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.updateLabel_LinkClicked);
+            // 
             // AboutDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -123,6 +138,7 @@
             this.BackColor = System.Drawing.SystemColors.HighlightText;
             this.BackgroundImage = global::ShenmueHDTools.Properties.Resources.BG01;
             this.ClientSize = new System.Drawing.Size(519, 218);
+            this.Controls.Add(this.updateLabel);
             this.Controls.Add(this.vmuBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.richTextBox1);
@@ -153,5 +169,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.LinkLabel updateLabel;
     }
 }

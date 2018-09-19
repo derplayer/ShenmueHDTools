@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using System.Runtime.Serialization.Json;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Net;
+using System.Globalization;
 
 namespace ShenmueHDTools.Main
 {
@@ -299,6 +301,60 @@ namespace ShenmueHDTools.Main
             }
 
             return fileExt;
+        }
+
+        public static void CheckUpdates()
+        {
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                WebClient w = new WebClient(); //TODO: Shorter Timeout Range?
+                w.Headers.Add("user-agent", "Mozilla/5.0 (Shenmue HD ModTools v" + Version.ActualVerison.ToString(CultureInfo.InvariantCulture) +
+                    "; Linux; rv:1.0) Gecko/20160408 ShenmueHD-Client/" + Version.ActualVerison.ToString(CultureInfo.InvariantCulture));
+                Version_JSON actualVersion;
+
+                try
+                {
+                    string json_data = w.DownloadString(Version.UrlVersion);
+                    actualVersion = JSONSerializer<Version_JSON>.DeSerialize(json_data);
+                }
+                catch (WebException ex) //Timeout,Server dead,...
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                    actualVersion = new Version_JSON();
+                    actualVersion.newestVersion = 0;
+                }
+
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                MessageBoxButtons buttons_ok = MessageBoxButtons.OK;
+                DialogResult result;
+
+                if (actualVersion.newestVersion > Version.ActualVerison)
+                {
+                    string message = " New update is available! - Version: " + actualVersion.newestVersion.ToString(CultureInfo.InvariantCulture) + "\n\n Do you want to downtload it? \n\n---Server Message---\n\n" + actualVersion.message;
+                    result = MessageBox.Show(message, Version.ApplicationName, buttons);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        //Tricks over cmd for non-elevated EXE (UAC) to Launch a URL with default webbrowser
+                        //Process.Start("cmd", "/C start \"\" \"" + actualVersion.url + "\"");
+                        System.Diagnostics.Process.Start(actualVersion.url);
+                        Application.Exit();
+                    }
+                }
+
+                //Timeout, false/dead url
+                if (actualVersion.newestVersion == 0)
+                {
+                    string message = "Connection to the update server could not be etablished! \n\nPress OK to continue...";
+                    result = MessageBox.Show(message, Version.ApplicationName, buttons_ok);
+
+                    if (result == DialogResult.OK)
+                    {
+                        //hmm?
+                    }
+
+                }
+            }
         }
 
         public static string GetRelativePath(string filename, string folder)

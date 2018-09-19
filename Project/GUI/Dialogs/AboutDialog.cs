@@ -1,4 +1,5 @@
 ﻿using ShenmueHDTools;
+using ShenmueHDTools.Main;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -87,6 +88,11 @@ namespace ShenmueHDTools.GUI.Dialogs
         private void About_FormClosing(object sender, FormClosingEventArgs e)
         {
             Stop("playThread");
+        }
+
+        private void updateLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Helper.CheckUpdates();
         }
     }
 }
