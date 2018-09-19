@@ -179,6 +179,7 @@ namespace ShenmueHDTools
             loadingDialog.ShowDialog(thread);
 
             tadDataTable1.SetCache(m_cacheFile);
+            m_cacheFile.Write(m_cacheFile.Filename);
         }
 
         private void packAllToolStripMenuItem_Click(object sender, EventArgs e)

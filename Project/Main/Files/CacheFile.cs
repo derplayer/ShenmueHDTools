@@ -9,6 +9,7 @@ using System.IO;
 using System.Threading;
 using ShenmueHDTools.GUI.Dialogs;
 using System.Runtime.Serialization.Formatters.Binary;
+using ShenmueHDTools.Main.Database;
 
 namespace ShenmueHDTools.Main.Files
 {
@@ -78,7 +79,7 @@ namespace ShenmueHDTools.Main.Files
             });
             loadingDialog.ShowDialog(thread);
 
-            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace(".tad", "..cache");
+            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace(".tad", ".cache");
             Filename = cachePath;
             Write(cachePath);
         }
@@ -226,7 +227,28 @@ namespace ShenmueHDTools.Main.Files
 
                 TADFile.FileEntries.Add(entry);
             }
+
+            FilenameDatabase filenameDB = new FilenameDatabase();
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(filenameDB);
+            Thread thread = new Thread(delegate () {
+                filenameDB.MapFilenamesToTADInstance(this);
+            });
+            loadingDialog.ShowDialog(thread);
+
+            DescriptionDatabase descDB = new DescriptionDatabase();
+            loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(descDB);
+            thread = new Thread(delegate () {
+                descDB.MapDescriptionToTADInstance(TADFile);
+            });
+            loadingDialog.ShowDialog(thread);
+
             Write(Filename);
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
         }
 
         public void Abort()
