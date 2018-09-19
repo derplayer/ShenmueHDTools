@@ -64,6 +64,12 @@ namespace ShenmueHDTools.GUI.Controls
             button_Refresh.Enabled = true;
             m_cacheFile = cacheFile;
             m_tadFile = m_cacheFile.TADFile;
+            if (m_tadFile == null)
+            {
+                m_sortedEntries = new List<TADFileEntry>();
+                UpdateView();
+                return;
+            }
             TADStatistic statistic = m_tadFile.GetStatistic();
             label_Statistic.Text = String.Format(StatisticFormat, statistic.FilesCovered, statistic.FileCount, statistic.FileCoverage);
             m_sortedEntries = m_tadFile.FileEntries;

@@ -71,6 +71,10 @@ namespace ShenmueHDTools.GUI.Dialogs
         {
             if (Visible)
                 Invoke((MethodInvoker)delegate {
+                    if (!e.Successful)
+                    {
+                        Console.WriteLine("FAILED: {0}", sender.GetType());
+                    }
                     Close();
             });
         }

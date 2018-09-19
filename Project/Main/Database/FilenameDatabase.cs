@@ -138,6 +138,7 @@ namespace ShenmueHDTools.Main.Database
                 filename = Path.GetDirectoryName(executable) + "\\" + LocalFilename;
                 if (!File.Exists(filename)) return;
             }
+            if (!Helper.IsFileValid(filename)) return;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -152,6 +153,7 @@ namespace ShenmueHDTools.Main.Database
                 filename = Path.GetDirectoryName(executable) + "\\" + LocalFilename;
                 if (!File.Exists(filename)) return;
             }
+            if (!Helper.IsFileValid(filename, false)) return;
             using (FileStream stream = File.Create(filename))
             {
                 BinaryFormatter formatter = new BinaryFormatter();

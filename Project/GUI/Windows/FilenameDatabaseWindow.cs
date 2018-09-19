@@ -14,6 +14,7 @@ using Ookii.Dialogs;
 using System.Threading;
 using ShenmueHDTools.GUI.Dialogs;
 using System.Runtime.Serialization.Formatters.Binary;
+using ShenmueHDTools.Main;
 
 namespace ShenmueHDTools.GUI.Windows
 {
@@ -76,6 +77,7 @@ namespace ShenmueHDTools.GUI.Windows
             openFileDialog.Filter = "Filename Database Dump (*.bin)|*.bin";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if (!Helper.IsFileValid(openFileDialog.FileName)) return;
                 using (FileStream stream = File.Open(openFileDialog.FileName, FileMode.Open))
                 {
                     BinaryFormatter formatter = new BinaryFormatter();

@@ -27,6 +27,7 @@ namespace ShenmueHDTools.Main.Database
         {
             List<string> filenames = new List<string>();
 
+            if (!Helper.IsFileValid(filename)) return filenames;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 byte[] buffer = new byte[stream.Length];

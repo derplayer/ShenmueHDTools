@@ -126,10 +126,42 @@ namespace ShenmueHDTools.Main
             }
         }
 
+        public static bool IsFileValid(string filename, bool checkExistence = true)
+        {
+            if (checkExistence)
+            {
+                if (!File.Exists(filename))
+                {
+                    MessageBox.Show(String.Format("The following file could not be opened:\n{0}", filename), "File not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+            FileInfo fileInfo = new FileInfo(filename);
+            FileStream stream = null;
+
+            if (!checkExistence && !File.Exists(filename)) return true;
+            try
+            {
+                stream = fileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show(String.Format("The following file could not be opened:\n{0}", filename), "File already in use!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
+            return true;
+        }
+
         public static string ExtensionFinder(string filename)
         {
             int minBytes = 256;
             if (!File.Exists(filename)) return "";
+            if (!Helper.IsFileValid(filename)) return "";
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 if (stream.Length < 256)

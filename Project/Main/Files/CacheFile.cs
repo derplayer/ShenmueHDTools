@@ -109,10 +109,6 @@ namespace ShenmueHDTools.Main.Files
             loadingDialog.ShowDialog(thread);
 
             TADFile.Write(tadFilename);
-
-            string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace(".tad", ".cache");
-            Filename = cachePath;
-            Write(cachePath);
         }
 
         public void Pack()
@@ -136,6 +132,7 @@ namespace ShenmueHDTools.Main.Files
         public void Read(string filename)
         {
             Filename = filename;
+            if (!Helper.IsFileValid(filename)) return;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -150,6 +147,7 @@ namespace ShenmueHDTools.Main.Files
 
         public void Write(string filename)
         {
+            if (!Helper.IsFileValid(filename, false)) return;
             using (FileStream stream = File.Create(filename))
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))

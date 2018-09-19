@@ -78,6 +78,7 @@ namespace ShenmueHDTools.Main.Database
                 filename = Path.GetDirectoryName(executable) + "\\" + LocalFilename;
                 if (!File.Exists(filename)) return;
             }
+            if (!Helper.IsFileValid(filename)) return;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 using (StreamReader reader = new StreamReader(stream))
@@ -108,6 +109,7 @@ namespace ShenmueHDTools.Main.Database
                 filename = Path.GetDirectoryName(executable) + "\\" + LocalFilename;
                 if (!File.Exists(filename)) return;
             }
+            if (!Helper.IsFileValid(filename, false)) return;
             using (FileStream stream = File.Create(filename))
             {
                 using (StreamWriter writer = new StreamWriter(stream))

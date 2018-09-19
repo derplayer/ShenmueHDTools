@@ -44,6 +44,7 @@ namespace ShenmueHDTools.Main.Files
             if (Path.GetExtension(filename).ToLower() != Extension) return false;
             if (!File.Exists(filename)) return false;
             Filename = filename;
+            if (!Helper.IsFileValid(filename)) return false;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 using (BinaryReader reader = new BinaryReader(stream))
@@ -78,6 +79,7 @@ namespace ShenmueHDTools.Main.Files
         /// <param name="filename">The TAD filename.</param>
         public void Write(string filename, bool includeMeta = false)
         {
+            if (!Helper.IsFileValid(filename, false)) return;
             using (FileStream stream = File.Create(filename))
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
@@ -294,6 +296,7 @@ namespace ShenmueHDTools.Main.Files
 
         public bool CheckMD5(string filename)
         {
+            if (!Helper.IsFileValid(filename)) return false;
             using (FileStream stream = File.Open(filename, FileMode.Open))
             {
                 byte[] buffer = new byte[stream.Length];
