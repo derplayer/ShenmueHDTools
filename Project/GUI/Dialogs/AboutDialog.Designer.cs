@@ -54,7 +54,7 @@
             // 
             this.aboutLabel.AutoSize = true;
             this.aboutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aboutLabel.Location = new System.Drawing.Point(8, 42);
+            this.aboutLabel.Location = new System.Drawing.Point(8, 39);
             this.aboutLabel.Name = "aboutLabel";
             this.aboutLabel.Size = new System.Drawing.Size(171, 20);
             this.aboutLabel.TabIndex = 1;
@@ -63,7 +63,7 @@
             // vmuBox
             // 
             this.vmuBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.vmuBox.Location = new System.Drawing.Point(404, 9);
+            this.vmuBox.Location = new System.Drawing.Point(445, 95);
             this.vmuBox.Name = "vmuBox";
             this.vmuBox.Size = new System.Drawing.Size(48, 32);
             this.vmuBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -75,7 +75,7 @@
             // 
             this.urlLink.AutoSize = true;
             this.urlLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.urlLink.Location = new System.Drawing.Point(171, 42);
+            this.urlLink.Location = new System.Drawing.Point(171, 39);
             this.urlLink.Name = "urlLink";
             this.urlLink.Size = new System.Drawing.Size(60, 20);
             this.urlLink.TabIndex = 3;
@@ -101,18 +101,19 @@
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.Location = new System.Drawing.Point(10, 29);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(420, 90);
+            this.richTextBox1.Size = new System.Drawing.Size(475, 90);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "PhilYeahz\nalex-marko\nRaymonf (Wulinshu database)\nReeceMix";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.vmuBox);
             this.groupBox1.Controls.Add(this.richTextBox1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 77);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox1.Size = new System.Drawing.Size(440, 129);
+            this.groupBox1.Size = new System.Drawing.Size(495, 129);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Contributors and credits";
@@ -122,11 +123,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.ClientSize = new System.Drawing.Size(464, 218);
+            this.ClientSize = new System.Drawing.Size(519, 218);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.urlLink);
-            this.Controls.Add(this.vmuBox);
             this.Controls.Add(this.aboutLabel);
             this.Controls.Add(this.labelAbout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
