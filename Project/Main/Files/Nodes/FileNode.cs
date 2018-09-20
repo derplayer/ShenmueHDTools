@@ -233,7 +233,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             SPR = 27,
             SRF = 28,
             SUB = 29,
-            TGA = 20,
+            TGA = 30,
             UI = 31,
             WAV = 32
         }
