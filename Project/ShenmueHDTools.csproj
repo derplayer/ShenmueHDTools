@@ -142,9 +142,12 @@
     <Compile Include="Main\DataStructure\FileStructure.cs" />
     <Compile Include="Main\DataStructure\HeaderStructure.cs" />
     <Compile Include="Main\Database\AssetRemappingJSON.cs" />
+    <Compile Include="Main\Files\Nodes\UnknownFile.cs" />
+    <Compile Include="Main\Files\Nodes\GZFile.cs" />
     <Compile Include="Main\Files\Headers\CacheHeader.cs" />
     <Compile Include="Main\Files\Headers\TADHeader.cs" />
     <Compile Include="Main\Files\CacheFile.cs" />
+    <Compile Include="Main\Files\Nodes\FileNode.cs" />
     <Compile Include="Main\Files\TACFile.cs" />
     <Compile Include="Main\Files\TADFile.cs" />
     <Compile Include="Main\IProgressable.cs" />
@@ -226,6 +229,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="GUI\Controls\Files\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>

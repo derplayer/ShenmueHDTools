@@ -9,7 +9,7 @@ namespace ShenmueHDTools.Main.Files.Headers
 {
     public class CacheHeader
     {
-        public uint Version { get; set; } = 1;
+        public uint Version { get; set; } = 2;
 
         public string RelativeOutputFolder { get; set; } = "";
         public string RelativeTADPath { get; set; } = "";

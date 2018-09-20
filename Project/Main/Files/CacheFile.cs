@@ -10,6 +10,7 @@ using System.Threading;
 using ShenmueHDTools.GUI.Dialogs;
 using System.Runtime.Serialization.Formatters.Binary;
 using ShenmueHDTools.Main.Database;
+using ShenmueHDTools.Main.Files.Nodes;
 
 namespace ShenmueHDTools.Main.Files
 {
@@ -26,6 +27,9 @@ namespace ShenmueHDTools.Main.Files
 
         public CacheHeader Header { get; set; } = new CacheHeader();
         public TADFile TADFile { get; set; }
+        public List<FileNode> Files { get; set; }
+
+
         public string Filename { get; set; }
 
         public string OutputFolder
@@ -141,6 +145,20 @@ namespace ShenmueHDTools.Main.Files
                     TADFile = new TADFile();
                     TADFile.Read(reader, true);
                     TADFile.Filename = Path.GetDirectoryName(Filename) + Header.RelativeTADPath;
+                    if (Header.Version > 1)
+                    {
+                        //Load children stuff
+                    }
+                    else
+                    {
+                        /* commented because not finished
+                        foreach(TADFileEntry entry in TADFile.FileEntries)
+                        {
+                            FileNode.GetNode(this, entry);
+                        }
+                        */
+                        //Unpack children stuff
+                    }
                 }
             }
         }
@@ -154,6 +172,10 @@ namespace ShenmueHDTools.Main.Files
                 {
                     Header.Write(writer);
                     TADFile.Write(writer, true);
+                    if (Header.Version > 1)
+                    {
+                        //Write children stuff
+                    }
                 }
             }
         }
