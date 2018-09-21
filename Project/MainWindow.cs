@@ -39,6 +39,12 @@ namespace ShenmueHDTools
             Helper.CheckUpdates();
         }
 
+        private void UpdateControls()
+        {
+            tadDataTable1.SetCache(m_cacheFile);
+            fileTreeView.SetCache(m_cacheFile);
+        }
+
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -61,7 +67,7 @@ namespace ShenmueHDTools
 
                 m_cacheFile = new CacheFile(m_tadFile);
                 m_cacheFile.Unpack();
-                tadDataTable1.SetCache(m_cacheFile);
+                UpdateControls();
             }
         }
 
@@ -90,7 +96,7 @@ namespace ShenmueHDTools
 
                 m_cacheFile = new CacheFile(m_tadFile);
                 m_cacheFile.Unpack();
-                tadDataTable1.SetCache(m_cacheFile);
+                UpdateControls();
             }
         }
 
@@ -128,7 +134,7 @@ namespace ShenmueHDTools
             });
             loadingDialog.ShowDialog(thread);
 
-            tadDataTable1.SetCache(m_cacheFile);
+            UpdateControls();
             m_cacheFile.Write(m_cacheFile.Filename);
         }
 
@@ -161,7 +167,7 @@ namespace ShenmueHDTools
                     m_cacheFile.Read(openFileDialog.FileName);
                 }
                 m_tadFile = m_cacheFile.TADFile;
-                tadDataTable1.SetCache(m_cacheFile);
+                UpdateControls();
             }
         }
 

@@ -13,31 +13,22 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
-using System.Reflection;
 using ShenmueHDTools.GUI.Dialogs;
 using ShenmueHDTools.Main;
 
 namespace ShenmueHDTools.GUI.Controls
 {
-    public partial class TADDataTable : UserControl, IProgressable
+    public partial class TADDataTable : UserControl
     {
         private TADFile m_tadFile;
         private CacheFile m_cacheFile;
         private List<TADFileEntry> m_sortedEntries = new List<TADFileEntry>();
         private ObservableCollection<TADFileEntry> m_entriesView = new ObservableCollection<TADFileEntry>();
         private readonly string StatisticFormat = "File coverage: {0}/{1} ({2}%)";
-        private Thread m_thread;
         private int m_lastColumn;
         private bool m_suspendSpacebar = false;
 
         public bool IsAbortable { get { return false; } }
-
-        public event FinishedEventHandler Finished;
-        public event Main.ProgressChangedEventHandler ProgressChanged;
-        public event DescriptionChangedEventHandler DescriptionChanged;
-        public event Main.ErrorEventHandler Error;
-
-
 
         public TADDataTable()
         {

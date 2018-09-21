@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ShenmueHDTools.Main.Files.Nodes
 {
@@ -24,22 +25,37 @@ namespace ShenmueHDTools.Main.Files.Nodes
         public string Location { get; set; }
         public string Description { get; set; }
         public byte[] Checksum { get; set; }
+
+        #endregion
+        #region Runtime
         #endregion
 
         #region Runtime
-        public bool Modified { get; private set; }
-        public FileNode Parent { get; private set; }
-        public List<FileNode> Children { get; private set; }
-        public CacheFile CacheFile { get; private set; }
-        public bool IsRoot { get; private set; } = false;
-        public string FullPath
+        public string Name
         {
             get
             {
-                return CacheFile.OutputFolder + "\\" + RelativPath;
+                if (String.IsNullOrEmpty(Description)) return Path.GetFileName(RelativPath);
+                return String.Format("{0} ({1})", Path.GetFileName(RelativPath), Description);
             }
         }
+
+        public string FullPath => CacheFile.OutputFolder + "\\" + RelativPath;
+        public FileNode Parent { get; private set; }
+        public List<FileNode> Children { get; private set; } = new List<FileNode>();
+        public CacheFile CacheFile { get; private set; }
+        public TADFileEntry TADFileEntry { get; private set; }
+        public bool IsRoot { get; private set; } = false;
+        public bool IsTADEntry => TADFileEntry == null;
+        public bool Modified { get; private set; }    
         #endregion
+
+        public enum TreeType
+        {
+            Simple,
+            FilePath,
+            Category
+        }
 
         public FileNode(CacheFile cacheFile, FileNode parent, string relativPath)
         {
@@ -69,6 +85,58 @@ namespace ShenmueHDTools.Main.Files.Nodes
                         return;
                     }
                 }
+            }
+        }
+
+        private TreeNode GetOrCreateFolder(TreeNode parent, string directoryPath)
+        {
+            string[] folders = directoryPath.Split('\\');
+            foreach (string folder in folders)
+            {
+                TreeNode found = null;
+                foreach(TreeNode node in parent.Nodes)
+                {
+                    if (node.Text.ToUpper() == folder.ToUpper())
+                    {
+                        found = node;
+                        break;
+                    }
+                }
+                if (found == null)
+                {
+                    TreeNode dirNode = new TreeNode(folder);
+                    parent.Nodes.Add(dirNode);
+                    parent = dirNode;
+                }
+                else
+                {
+                    parent = found;
+                }
+            }
+            return parent;
+        }
+
+        public void CreateTreeNode(TreeNode parent, TreeType treeType)
+        {
+            TreeNode treeNode = new TreeNode(Name);
+            treeNode.Tag = this;
+
+            if (treeType == TreeType.FilePath)
+            {
+                parent = GetOrCreateFolder(parent, Path.GetDirectoryName(RelativPath));
+            }
+
+            if (treeType == TreeType.Category)
+            {
+                throw new NotImplementedException();
+            }
+
+            parent.Nodes.Add(treeNode);
+
+
+            foreach (FileNode child in Children)
+            {
+                child.CreateTreeNode(treeNode, treeType);
             }
         }
 
@@ -103,7 +171,9 @@ namespace ShenmueHDTools.Main.Files.Nodes
             {
                 type = GetTypeFromExtension(extension.Substring(1).ToUpper());
             }
-            return CreateNode(cacheFile, null, entry.RelativePath, type);
+            FileNode node = CreateNode(cacheFile, null, entry.RelativePath, type);
+            node.TADFileEntry = entry;
+            return node;
         }
 
         public static FileNode GetNode(CacheFile cacheFile, FileNode parent, string relativPath)
@@ -201,6 +271,11 @@ namespace ShenmueHDTools.Main.Files.Nodes
             return null;
         }
 
+        /// <summary>
+        /// File type enum.
+        /// When any of the enum values change the serialization will be broken.
+        /// Adding is allowed, removing not.
+        /// </summary>
         public enum FileType : Byte
         {
             UNKNOWN = 0,

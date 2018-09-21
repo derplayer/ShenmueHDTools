@@ -1,4 +1,5 @@
 ﻿using ShenmueHDTools.Main.Files;
+using ShenmueHDTools.Main.Files.Nodes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -104,6 +105,25 @@ namespace ShenmueHDTools.Main.Database
                 foreach (DescriptionDatabaseEntry e in Entries)
                 {
                     if (entry.Filename.Contains(e.ID) || (!String.IsNullOrEmpty(e.ModelID) && entry.Filename.Contains(e.ModelID)))
+                    {
+                        entry.Description = e.Name;
+                        continue;
+                    }
+                }
+            }
+            Finished(this, new FinishedArgs(true));
+        }
+
+        public void MapDescriptionToNodeInstance(CacheFile cacheFile)
+        {
+            DescriptionChanged(this, new DescriptionChangedArgs("Mapping descriptions to files..."));
+            for (int i = 0; i < cacheFile.Files.Count; i++)
+            {
+                ProgressChanged(this, new ProgressChangedArgs(i, cacheFile.Files.Count));
+                FileNode entry = cacheFile.Files[i];
+                foreach (DescriptionDatabaseEntry e in Entries)
+                {
+                    if (entry.RelativPath.Contains(e.ID) || (!String.IsNullOrEmpty(e.ModelID) && entry.RelativPath.Contains(e.ModelID)))
                     {
                         entry.Description = e.Name;
                         continue;

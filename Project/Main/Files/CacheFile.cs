@@ -27,7 +27,7 @@ namespace ShenmueHDTools.Main.Files
 
         public CacheHeader Header { get; set; } = new CacheHeader();
         public TADFile TADFile { get; set; }
-        public List<FileNode> Files { get; set; }
+        public List<FileNode> Files { get; set; } = new List<FileNode>();
 
 
         public string Filename { get; set; }
@@ -151,12 +151,18 @@ namespace ShenmueHDTools.Main.Files
                     }
                     else
                     {
-                        /* commented because not finished
                         foreach(TADFileEntry entry in TADFile.FileEntries)
                         {
-                            FileNode.GetNode(this, entry);
+                            Files.Add(FileNode.GetNode(this, entry));
                         }
-                        */
+
+                        DescriptionDatabase descDB = new DescriptionDatabase();
+                        LoadingDialog loadingDialog = new LoadingDialog();
+                        loadingDialog.SetData(descDB);
+                        Thread thread = new Thread(delegate () {
+                            descDB.MapDescriptionToNodeInstance(this);
+                        });
+                        loadingDialog.ShowDialog(thread);
                         //Unpack children stuff
                     }
                 }

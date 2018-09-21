@@ -47,7 +47,18 @@
             this.wulinshuRaymonfDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tadDataTable1 = new ShenmueHDTools.GUI.Controls.TADDataTable();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPage_FileExplorer = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabPage_TAD = new System.Windows.Forms.TabPage();
+            this.fileTreeView = new ShenmueHDTools.GUI.Controls.FileTreeView();
             this.menuStrip1.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            this.tabPage_FileExplorer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.tabPage_TAD.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -184,20 +195,72 @@
             // 
             // tadDataTable1
             // 
-            this.tadDataTable1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tadDataTable1.Location = new System.Drawing.Point(12, 35);
+            this.tadDataTable1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tadDataTable1.Location = new System.Drawing.Point(3, 3);
             this.tadDataTable1.Name = "tadDataTable1";
-            this.tadDataTable1.Size = new System.Drawing.Size(984, 514);
+            this.tadDataTable1.Size = new System.Drawing.Size(994, 505);
             this.tadDataTable1.TabIndex = 0;
+            // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabPage_FileExplorer);
+            this.tabControl.Controls.Add(this.tabPage_TAD);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 24);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1008, 537);
+            this.tabControl.TabIndex = 2;
+            // 
+            // tabPage_FileExplorer
+            // 
+            this.tabPage_FileExplorer.Controls.Add(this.splitContainer1);
+            this.tabPage_FileExplorer.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_FileExplorer.Name = "tabPage_FileExplorer";
+            this.tabPage_FileExplorer.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_FileExplorer.Size = new System.Drawing.Size(1000, 511);
+            this.tabPage_FileExplorer.TabIndex = 0;
+            this.tabPage_FileExplorer.Text = "File Explorer";
+            this.tabPage_FileExplorer.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.fileTreeView);
+            this.splitContainer1.Size = new System.Drawing.Size(994, 505);
+            this.splitContainer1.SplitterDistance = 331;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // tabPage_TAD
+            // 
+            this.tabPage_TAD.Controls.Add(this.tadDataTable1);
+            this.tabPage_TAD.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_TAD.Name = "tabPage_TAD";
+            this.tabPage_TAD.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_TAD.Size = new System.Drawing.Size(1000, 511);
+            this.tabPage_TAD.TabIndex = 1;
+            this.tabPage_TAD.Text = "TAD Table";
+            this.tabPage_TAD.UseVisualStyleBackColor = true;
+            // 
+            // fileTreeView
+            // 
+            this.fileTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileTreeView.Location = new System.Drawing.Point(0, 0);
+            this.fileTreeView.Name = "fileTreeView";
+            this.fileTreeView.Size = new System.Drawing.Size(331, 505);
+            this.fileTreeView.TabIndex = 0;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 561);
-            this.Controls.Add(this.tadDataTable1);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -206,6 +269,12 @@
             this.Text = "Shenmue HD ModTools";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tabControl.ResumeLayout(false);
+            this.tabPage_FileExplorer.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.tabPage_TAD.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,5 +300,10 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPage_FileExplorer;
+        private System.Windows.Forms.TabPage tabPage_TAD;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private GUI.Controls.FileTreeView fileTreeView;
     }
 }
