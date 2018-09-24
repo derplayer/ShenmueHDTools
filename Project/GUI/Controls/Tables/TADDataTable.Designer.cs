@@ -228,7 +228,7 @@
             // ColumnPath
             // 
             this.ColumnPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnPath.DataPropertyName = "RelativePath";
+            this.ColumnPath.DataPropertyName = "RelativPath";
             this.ColumnPath.HeaderText = "Path";
             this.ColumnPath.MinimumWidth = 100;
             this.ColumnPath.Name = "ColumnPath";

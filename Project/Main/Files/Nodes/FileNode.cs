@@ -83,8 +83,11 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 if (value == null || value.Length != 16)
                 {
                     SetProperty(ref m_checksum, new byte[16]);
+                    OnPropertyChanged("ChecksumString");
+                    return;
                 }
                 SetProperty(ref m_checksum, value);
+                OnPropertyChanged("ChecksumString");
             }
         }
         public string Category
@@ -144,6 +147,14 @@ namespace ShenmueHDTools.Main.Files.Nodes
         #region Runtime
         private bool m_modified;
 
+        public string ChecksumString
+        {
+            get
+            {
+                return Helper.ByteArrayToString(Checksum);
+            }
+        }
+
         public string Name
         {
             get
@@ -190,6 +201,18 @@ namespace ShenmueHDTools.Main.Files.Nodes
             {
                 CalcChecksum(true);
             }
+        }
+
+        public FileNode Find(string relativePath)
+        {
+            foreach(FileNode node in Children)
+            {
+                if (node.RelativPath == relativePath)
+                {
+                    return node;
+                }
+            }
+            return null;
         }
 
         /// <summary>

@@ -29,10 +29,15 @@ namespace ShenmueHDTools.GUI.Controls
             textBox_Description.DataBindings.Clear();
             comboBox_Category.DataBindings.Clear();
             comboBox_Location.DataBindings.Clear();
+            richTextBox_Notes.DataBindings.Clear();
             if (fileNode == null) return;
             textBox_Description.DataBindings.Add("Text", fileNode, "Description");
             comboBox_Category.DataBindings.Add("Text", fileNode, "Category");
             comboBox_Location.DataBindings.Add("Text", fileNode, "Location");
+            textBox_Checksum.DataBindings.Add("Text", fileNode, "ChecksumString");
+            textBox_Type.DataBindings.Add("Text", fileNode, "Type");
+            textBox_RelativPath.DataBindings.Add("Text", fileNode, "RelativPath");
+            richTextBox_Notes.DataBindings.Add("Text", fileNode, "Notes");
         }
     }
 }

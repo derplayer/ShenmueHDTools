@@ -58,6 +58,14 @@ namespace ShenmueHDTools.Main
             }
         }
 
+        public static string ByteArrayToString(byte[] ba)
+        {
+            StringBuilder hex = new StringBuilder(ba.Length * 2);
+            foreach (byte b in ba)
+                hex.AppendFormat("{0:X2}", b);
+            return hex.ToString();
+        }
+
         public static string Reverse(string text)
         {
             if (text == null) return null;
