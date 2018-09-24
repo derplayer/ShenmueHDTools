@@ -185,25 +185,79 @@ namespace ShenmueHDTools.Main.Files
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string m_description = "";
-        private string m_category = "";
+        private uint m_firstHash;
+        private uint m_secondHash;
+        private uint m_unknown;
+        private uint m_fileOffset;
+        private uint m_fileSize;
 
-
-        public uint FirstHash { get; set; }
-        public uint SecondHash { get; set; }
-        public uint Unknown { get; set; }
-
+        public uint FirstHash
+        {
+            get { return m_firstHash; }
+            set
+            {
+                SetProperty(ref m_firstHash, value);
+                OnPropertyChanged("Hash1");
+            }
+        }
+        public uint SecondHash
+        {
+            get { return m_secondHash; }
+            set
+            {
+                SetProperty(ref m_secondHash, value);
+                OnPropertyChanged("Hash2");
+            }
+        }
+        public uint Unknown
+        {
+            get { return m_unknown; }
+            set
+            {
+                SetProperty(ref m_unknown, value);
+                OnPropertyChanged("Hash3");
+            }
+        }
         /// <summary>
         /// Offset inside the TAC file.
         /// </summary>
-        public uint FileOffset { get; set; }
-        public uint FileSize { get; set; }
+        public uint FileOffset
+        {
+            get { return m_fileOffset; }
+            set { SetProperty(ref m_fileOffset, value); }
+        }
+        public uint FileSize
+        {
+            get { return m_fileSize; }
+            set { SetProperty(ref m_fileSize, value); }
+        }
 
         #region MetaData
+        private byte[] m_md5Checksum = new byte[16];
+        private string m_filename = "";
+        private string m_relativPath = "";
+        private string m_description = "";
+        private string m_category = "";
 
-        public byte[] MD5Checksum { get; set; } = new byte[16];
-        public string Filename { get; set; } = "";
-        public string RelativePath { get; set; } = "";
+        public byte[] MD5Checksum
+        {
+            get { return m_md5Checksum; }
+            set { SetProperty(ref m_md5Checksum, value); }
+        }
+        public string Filename
+        {
+            get { return m_filename; }
+            set { SetProperty(ref m_filename, value); }
+        }
+        public string RelativPath
+        {
+            get { return m_relativPath; }
+            set
+            {
+                SetProperty(ref m_relativPath, value);
+                OnPropertyChanged("Extension");
+            }
+        }
         public string Description
         {
             get
@@ -214,11 +268,11 @@ namespace ShenmueHDTools.Main.Files
             {
                 if (value == null)
                 {
-                    m_description = "";
+                    SetProperty(ref m_description, "");
                 }
                 else
                 {
-                    m_description = value;
+                    SetProperty(ref m_description, value);
                 }
             }
         }
@@ -233,20 +287,35 @@ namespace ShenmueHDTools.Main.Files
             {
                 if (value == null)
                 {
-                    m_category = "";
+                    SetProperty(ref m_category, "");
                 }
                 else
                 {
-                    m_category = value;
+                    SetProperty(ref m_category, value);
                 }
             }
         }
 
         #region Runtime
-        public int Index { get; set; }
-        public bool Export { get; set; }
-        public bool Modified { get; set; }
+        private int m_index;
+        private bool m_export;
+        private bool m_modified;
 
+        public int Index
+        {
+            get { return m_index; }
+            set { SetProperty(ref m_index, value); }
+        }
+        public bool Export
+        {
+            get { return m_export; }
+            set { SetProperty(ref m_export, value); }
+        }
+        public bool Modified
+        {
+            get { return m_modified; }
+            set { SetProperty(ref m_modified, value); }
+        }
         #endregion
 
         #endregion
@@ -281,7 +350,7 @@ namespace ShenmueHDTools.Main.Files
         {
             get
             {
-                return Path.GetExtension(RelativePath);
+                return Path.GetExtension(RelativPath);
             }
         }
 
@@ -349,7 +418,7 @@ namespace ShenmueHDTools.Main.Files
                 if (relativePathLength > 0)
                 {
                     byte[] relativePathBuffer = reader.ReadBytes((int)relativePathLength);
-                    RelativePath = Encoding.ASCII.GetString(relativePathBuffer);
+                    RelativPath = Encoding.ASCII.GetString(relativePathBuffer);
                 }
 
                 uint descriptionLength = reader.ReadUInt32();
@@ -396,7 +465,7 @@ namespace ShenmueHDTools.Main.Files
             }
 
             string outputFolder = cacheFile.OutputFolder;
-            string oldFileEntryPath = outputFolder + "\\" + RelativePath;
+            string oldFileEntryPath = outputFolder + "\\" + RelativPath;
 
             string fileEntryPath = "";
             if (String.IsNullOrEmpty(Filename))
@@ -426,7 +495,7 @@ namespace ShenmueHDTools.Main.Files
             fileEntryPath = fileEntryPath.Replace("\\\\", "\\");
             oldFileEntryPath = oldFileEntryPath.Replace("\\\\", "\\");
 
-            RelativePath = "\\" + Helper.GetRelativePath(fileEntryPath, outputFolder);
+            RelativPath = "\\" + Helper.GetRelativePath(fileEntryPath, outputFolder);
             if (fileEntryPath == oldFileEntryPath) return;
             if (File.Exists(fileEntryPath))
             {
@@ -452,7 +521,7 @@ namespace ShenmueHDTools.Main.Files
             byte[] result = new byte[TADEntrySize];
             if (includeMeta)
             {
-                int metaDataSize = 16 + 4 + Filename.Length + 4 + RelativePath.Length
+                int metaDataSize = 16 + 4 + Filename.Length + 4 + RelativPath.Length
                     + 4 + Description.Length + 4 + Category.Length;
                 result = new byte[TADEntrySize + metaDataSize];
             }
@@ -480,7 +549,7 @@ namespace ShenmueHDTools.Main.Files
                             writer.Write(filenameBytes, 0, filenameBytes.Length);
                         }
 
-                        byte[] relativePathBytes = Encoding.ASCII.GetBytes(RelativePath);
+                        byte[] relativePathBytes = Encoding.ASCII.GetBytes(RelativPath);
                         writer.Write((uint)relativePathBytes.Length);
                         if (relativePathBytes.Length > 0)
                         {

@@ -172,7 +172,7 @@ namespace ShenmueHDTools.Main
                 }
                 byte[] buffer = new byte[minBytes];
                 stream.Read(buffer, 0, minBytes);
-                return ExtensionFinder(buffer);
+                return ExtensionFinder(buffer).ToUpper();
             }
         }
 

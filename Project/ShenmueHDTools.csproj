@@ -64,6 +64,9 @@
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.WindowsForms.1.0\lib\net35\Ookii.Dialogs.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
@@ -82,10 +85,22 @@
     <Compile Include="GUI\Controls\DataGridViewEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\FileTreeView.cs">
+    <Compile Include="GUI\Controls\FileExplorer\FileInformation.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\FileTreeView.Designer.cs">
+    <Compile Include="GUI\Controls\FileExplorer\FileInformation.Designer.cs">
+      <DependentUpon>FileInformation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\FilePreview.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\FilePreview.Designer.cs">
+      <DependentUpon>FilePreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\FileTreeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\FileTreeView.Designer.cs">
       <DependentUpon>FileTreeView.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Dialogs\AboutDialog.cs">
@@ -94,22 +109,22 @@
     <Compile Include="GUI\Dialogs\AboutDialog.Designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\FilenameDatabaseDataTable.cs">
+    <Compile Include="GUI\Controls\Tables\FilenameDatabaseDataTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\FilenameDatabaseDataTable.Designer.cs">
+    <Compile Include="GUI\Controls\Tables\FilenameDatabaseDataTable.Designer.cs">
       <DependentUpon>FilenameDatabaseDataTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\TADDataTable.cs">
+    <Compile Include="GUI\Controls\Tables\TADDataTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\TADDataTable.Designer.cs">
+    <Compile Include="GUI\Controls\Tables\TADDataTable.Designer.cs">
       <DependentUpon>TADDataTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\WulinshuRaymonfDataTable.cs">
+    <Compile Include="GUI\Controls\Tables\WulinshuRaymonfDataTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Controls\WulinshuRaymonfDataTable.Designer.cs">
+    <Compile Include="GUI\Controls\Tables\WulinshuRaymonfDataTable.Designer.cs">
       <DependentUpon>WulinshuRaymonfDataTable.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Dialogs\LoadingDialog.cs">
@@ -148,12 +163,48 @@
     <Compile Include="Main\DataStructure\FileStructure.cs" />
     <Compile Include="Main\DataStructure\HeaderStructure.cs" />
     <Compile Include="Main\Database\AssetRemappingJSON.cs" />
+    <Compile Include="Main\Files\Nodes\AFSFile.cs" />
+    <Compile Include="Main\Files\Nodes\BMPFile.cs" />
+    <Compile Include="Main\Files\Nodes\CHRFile.cs" />
+    <Compile Include="Main\Files\Nodes\DDSFile.cs" />
+    <Compile Include="Main\Files\Nodes\FONTDEFFile.cs" />
+    <Compile Include="Main\Files\Nodes\GLYPHSFile.cs" />
+    <Compile Include="Main\Files\Nodes\IDXFile.cs" />
+    <Compile Include="Main\Files\Nodes\MT5File.cs" />
+    <Compile Include="Main\Files\Nodes\MT6File.cs" />
+    <Compile Include="Main\Files\Nodes\MT7File.cs" />
+    <Compile Include="Main\Files\Nodes\PKFFile.cs" />
+    <Compile Include="Main\Files\Nodes\PKSFile.cs" />
+    <Compile Include="Main\Files\Nodes\PNGFile.cs" />
+    <Compile Include="Main\Files\Nodes\PVRFile.cs" />
+    <Compile Include="Main\Files\Nodes\SNDFile.cs" />
+    <Compile Include="Main\Files\Nodes\SPRFile.cs" />
+    <Compile Include="Main\Files\Nodes\SUBFile.cs" />
+    <Compile Include="Main\Files\Nodes\TGAFile.cs" />
+    <Compile Include="Main\Files\Nodes\UIFile.cs" />
     <Compile Include="Main\Files\Nodes\UnknownFile.cs" />
     <Compile Include="Main\Files\Nodes\GZFile.cs" />
     <Compile Include="Main\Files\Headers\CacheHeader.cs" />
     <Compile Include="Main\Files\Headers\TADHeader.cs" />
     <Compile Include="Main\Files\CacheFile.cs" />
     <Compile Include="Main\Files\Nodes\FileNode.cs" />
+    <Compile Include="Main\Files\Nodes\WAVFile.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PTMethods.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PTStream.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PvpPalette.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PvpPaletteEncoder.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PvrCompressionCodec.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PvrDataCodec.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PvrFormats.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PvrPixelCodec.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PvrTexture.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\PvrTextureEncoder.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\VpPalette.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\VpPaletteEncoder.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\VrCodec.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\VrExceptions.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\VrTexture.cs" />
+    <Compile Include="Main\Files\Nodes\PVR\VrTextureEncoder.cs" />
     <Compile Include="Main\Files\TACFile.cs" />
     <Compile Include="Main\Files\TADFile.cs" />
     <Compile Include="Main\IProgressable.cs" />
@@ -164,19 +215,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Version.cs" />
-    <EmbeddedResource Include="GUI\Controls\FileTreeView.resx">
+    <EmbeddedResource Include="GUI\Controls\FileExplorer\FileInformation.resx">
+      <DependentUpon>FileInformation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\FileExplorer\FilePreview.resx">
+      <DependentUpon>FilePreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\FileExplorer\FileTreeView.resx">
       <DependentUpon>FileTreeView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Dialogs\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\FilenameDatabaseDataTable.resx">
+    <EmbeddedResource Include="GUI\Controls\Tables\FilenameDatabaseDataTable.resx">
       <DependentUpon>FilenameDatabaseDataTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\TADDataTable.resx">
+    <EmbeddedResource Include="GUI\Controls\Tables\TADDataTable.resx">
       <DependentUpon>TADDataTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Controls\WulinshuRaymonfDataTable.resx">
+    <EmbeddedResource Include="GUI\Controls\Tables\WulinshuRaymonfDataTable.resx">
       <DependentUpon>WulinshuRaymonfDataTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Dialogs\LoadingDialog.resx">
@@ -238,7 +295,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GUI\Controls\Files\" />
+    <Folder Include="GUI\Controls\FileExplorer\Files\" />
+    <Folder Include="Main\Serialization\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +327,14 @@
     <Content Include="Resources\Shenmue_v1_007_JAP\JAP_D3.txt" />
     <Content Include="Resources\Shenmue_v1_007_JAP\JAP_PASS.txt" />
     <Content Include="Resources\UI\BG01.GIF" />
+    <Content Include="Resources\UI\FileIcons\Archive.ico" />
+    <Content Include="Resources\UI\FileIcons\Audio.ico" />
+    <Content Include="Resources\UI\FileIcons\Folder.ico" />
+    <Content Include="Resources\UI\FileIcons\Image.ico" />
+    <Content Include="Resources\UI\FileIcons\Multimedia.ico" />
+    <Content Include="Resources\UI\FileIcons\Text.ico" />
+    <Content Include="Resources\UI\FileIcons\Unknown.ico" />
+    <Content Include="Resources\UI\FileIcons\Wav.ico" />
     <Content Include="Resources\UI\ICON_RYOU.GIF" />
     <Content Include="Resources\UI\ICON_RYOU.ico" />
     <Content Include="Resources\Whats_Shemue\WS_D1.txt" />

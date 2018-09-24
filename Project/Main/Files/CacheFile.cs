@@ -55,6 +55,16 @@ namespace ShenmueHDTools.Main.Files
             TADFile = tadFile;
         }
 
+        public string GetRelativePath(string filename)
+        {
+            return Helper.GetRelativePath(filename, OutputFolder);
+        }
+
+        public string GetFullPath(string relativePath)
+        {
+            return OutputFolder + "\\" + relativePath;
+        }
+
         public void Clean()
         {
             string outputFolder = Path.GetDirectoryName(Filename) + Header.RelativeOutputFolder;
@@ -85,6 +95,25 @@ namespace ShenmueHDTools.Main.Files
 
             string cachePath = Path.GetDirectoryName(tacPath) + "\\" + Path.GetFileName(TADFile.Filename).ToLower().Replace(".tad", ".cache");
             Filename = cachePath;
+
+            Header.Version = 1; //Delete when activating cache 2.0 import
+            /* Uncomment for activating cache 2.0 on import
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(this);
+            Thread thread = new Thread(delegate () {
+                GenerateFileNodeTree();
+            });
+            loadingDialog.ShowDialog(thread);
+
+            DescriptionDatabase descDB = new DescriptionDatabase();
+            loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(descDB);
+            thread = new Thread(delegate () {
+                descDB.MapDescriptionToNodeInstance(this);
+            });
+            loadingDialog.ShowDialog(thread);
+            */
+
             Write(cachePath);
         }
 
@@ -147,26 +176,47 @@ namespace ShenmueHDTools.Main.Files
                     TADFile.Filename = Path.GetDirectoryName(Filename) + Header.RelativeTADPath;
                     if (Header.Version > 1)
                     {
-                        //Load children stuff
+                        while(stream.CanRead)
+                        {
+                            if (stream.Position == stream.Length) break;
+                            Files.Add(FileNode.Read(this, null, reader));
+                        }
                     }
                     else
                     {
-                        foreach(TADFileEntry entry in TADFile.FileEntries)
-                        {
-                            Files.Add(FileNode.GetNode(this, entry));
-                        }
+                        LoadingDialog loadingDialog = new LoadingDialog();
+                        loadingDialog.SetData(this);
+                        Thread thread = new Thread(delegate () {
+                            GenerateFileNodeTree();
+                        });
+                        loadingDialog.ShowDialog(thread);
 
                         DescriptionDatabase descDB = new DescriptionDatabase();
-                        LoadingDialog loadingDialog = new LoadingDialog();
+                        loadingDialog = new LoadingDialog();
                         loadingDialog.SetData(descDB);
-                        Thread thread = new Thread(delegate () {
+                        thread = new Thread(delegate () {
                             descDB.MapDescriptionToNodeInstance(this);
                         });
                         loadingDialog.ShowDialog(thread);
-                        //Unpack children stuff
+
+                        Header.Version = 2; //Update Version
+                        //TODO Overwrite old cache file
+                        //Unpack children stuff (currently at node tree generation)
                     }
                 }
             }
+        }
+
+        private void GenerateFileNodeTree()
+        {
+            DescriptionChanged(this, new DescriptionChangedArgs("Creating file node tree..."));
+            for (int i = 0; i < TADFile.FileEntries.Count; i++)
+            {
+                ProgressChanged(this, new ProgressChangedArgs(i, TADFile.FileEntries.Count));
+                TADFileEntry entry = TADFile.FileEntries[i];
+                Files.Add(FileNode.CreateNode(this, entry));
+            }
+            Finished(this, new FinishedArgs(true));
         }
 
         public void Write(string filename)
@@ -180,7 +230,10 @@ namespace ShenmueHDTools.Main.Files
                     TADFile.Write(writer, true);
                     if (Header.Version > 1)
                     {
-                        //Write children stuff
+                        foreach(FileNode node in Files)
+                        {
+                            node.Write(writer);
+                        }
                     }
                 }
             }
@@ -194,7 +247,7 @@ namespace ShenmueHDTools.Main.Files
             {
                 ProgressChanged(this, new ProgressChangedArgs(i, TADFile.FileEntries.Count));
                 TADFileEntry entry = TADFile.FileEntries[i];
-                entry.CheckMD5(outputFolder + "\\" + entry.RelativePath);
+                entry.CheckMD5(outputFolder + "\\" + entry.RelativPath);
             }
             Finished(this, new FinishedArgs(true));
         }
@@ -234,7 +287,7 @@ namespace ShenmueHDTools.Main.Files
                 TADFileEntry entry = new TADFileEntry();
                 entry.FileOffset = BitConverter.ToUInt32(file.FileStart, 0);
                 entry.FileSize = BitConverter.ToUInt32(file.FileSize, 0);
-                entry.RelativePath = Helper.GetRelativePath(file.Meta.FilePath, dir);
+                entry.RelativPath = Helper.GetRelativePath(file.Meta.FilePath, dir);
                 entry.Index = file.Meta.Index;
 
                 byte[] firstHash = new byte[4];

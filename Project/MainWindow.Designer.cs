@@ -50,13 +50,15 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_FileExplorer = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tabPage_TAD = new System.Windows.Forms.TabPage();
             this.fileTreeView = new ShenmueHDTools.GUI.Controls.FileTreeView();
+            this.tabPage_TAD = new System.Windows.Forms.TabPage();
+            this.filePreview = new ShenmueHDTools.GUI.Controls.FilePreview();
             this.menuStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage_FileExplorer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabPage_TAD.SuspendLayout();
             this.SuspendLayout();
@@ -232,9 +234,21 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.fileTreeView);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.filePreview);
             this.splitContainer1.Size = new System.Drawing.Size(994, 505);
             this.splitContainer1.SplitterDistance = 331;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // fileTreeView
+            // 
+            this.fileTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileTreeView.Location = new System.Drawing.Point(0, 0);
+            this.fileTreeView.Name = "fileTreeView";
+            this.fileTreeView.Size = new System.Drawing.Size(331, 505);
+            this.fileTreeView.TabIndex = 0;
             // 
             // tabPage_TAD
             // 
@@ -247,13 +261,13 @@
             this.tabPage_TAD.Text = "TAD Table";
             this.tabPage_TAD.UseVisualStyleBackColor = true;
             // 
-            // fileTreeView
+            // filePreview
             // 
-            this.fileTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fileTreeView.Location = new System.Drawing.Point(0, 0);
-            this.fileTreeView.Name = "fileTreeView";
-            this.fileTreeView.Size = new System.Drawing.Size(331, 505);
-            this.fileTreeView.TabIndex = 0;
+            this.filePreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filePreview.Location = new System.Drawing.Point(0, 0);
+            this.filePreview.Name = "filePreview";
+            this.filePreview.Size = new System.Drawing.Size(659, 505);
+            this.filePreview.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -272,6 +286,7 @@
             this.tabControl.ResumeLayout(false);
             this.tabPage_FileExplorer.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tabPage_TAD.ResumeLayout(false);
@@ -305,5 +320,6 @@
         private System.Windows.Forms.TabPage tabPage_TAD;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private GUI.Controls.FileTreeView fileTreeView;
+        private GUI.Controls.FilePreview filePreview;
     }
 }

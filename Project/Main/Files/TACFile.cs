@@ -156,7 +156,7 @@ namespace ShenmueHDTools.Main.Files
                     }
                     using (FileStream fileEntryStream = File.Create(fileEntryPath))
                     {
-                        entry.RelativePath = Helper.GetRelativePath(fileEntryStream.Name, outputFolder);
+                        entry.RelativPath = Helper.GetRelativePath(fileEntryStream.Name, outputFolder);
                         fileEntryStream.Write(fileBuffer, 0, fileBuffer.Length);
                     }
 
@@ -203,13 +203,13 @@ namespace ShenmueHDTools.Main.Files
 
                     fileCount++;
 
-                    if (String.IsNullOrEmpty(entry.RelativePath))
+                    if (String.IsNullOrEmpty(entry.RelativPath))
                     {
                         Console.WriteLine("TAC was not unpacked before!");
                         break;
                     }
 
-                    string sourceFilename = String.Format("{0}\\{1}", inputFolder, entry.RelativePath);
+                    string sourceFilename = String.Format("{0}\\{1}", inputFolder, entry.RelativPath);
 
                     byte[] buffer;
                     if (!Helper.IsFileValid(sourceFilename))

@@ -3,30 +3,25 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ShenmueHDTools.Main.Files.Nodes
 {
-    class GZMetaFile
-    {
-        
-    }
-
     class GZFile : FileNode
     {
         public static readonly byte[] Identifier = new byte[2] { 0x1f, 0x8b };
 
-        #region Metadata
-        public byte[] CompressedHash { get; set; }
-        public byte[] DecompresedHash { get; set; }
-        public string RelativeOutputPath { get; set; }
-        #endregion
+        public override bool IsArchive => true;
 
-        public GZFile(CacheFile cacheFile, FileNode parent, string relativPath)
-            : base(cacheFile, parent, relativPath)
+        public GZFile(CacheFile cacheFile, FileNode parent, string relativPath, bool newFile = false)
+            : base(cacheFile, parent, relativPath, newFile)
         {
-            Decompress();
+            if (newFile)
+            {
+                Decompress();
+            }
         }
 
         public void Compress()
@@ -56,6 +51,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                     return;
                 }
                 //skipping header and living on the edge
+                //TODO read header correctly
                 stream.Seek(10, SeekOrigin.Begin);
 
                 //reading filename from header
@@ -67,7 +63,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                     ch = (byte)stream.ReadByte();
                 }
 
-                string outputFilename = Path.GetDirectoryName(FullPath) + "\\_" + Path.GetFileNameWithoutExtension(FullPath) + "_\\" + fName;
+                string outputFilename = Path.GetDirectoryName(FullPath) + "\\_" + Path.GetFileName(FullPath) + "_\\" + fName;
                 string dir = Path.GetDirectoryName(outputFilename);
                 if (!Directory.Exists(dir))
                 {
@@ -82,17 +78,10 @@ namespace ShenmueHDTools.Main.Files.Nodes
                         streamGZip.CopyTo(streamOut);
                     }
                 }
+                string relativPath = CacheFile.GetRelativePath(outputFilename);
+                Children.Add(CreateNode(CacheFile, this, relativPath));
             }
         }
 
-        public override void WriteMeta()
-        {
-            
-        }
-
-        public override void ReadMeta()
-        {
-            
-        }
     }
 }

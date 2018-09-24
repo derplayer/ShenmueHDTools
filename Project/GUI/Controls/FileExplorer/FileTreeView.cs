@@ -14,6 +14,8 @@ namespace ShenmueHDTools.GUI.Controls
 {
     public partial class FileTreeView : UserControl
     {
+        public event EventHandler<FileNode> SelectionChanged;
+
         private CacheFile m_cacheFile;
 
         public FileTreeView()
@@ -35,6 +37,22 @@ namespace ShenmueHDTools.GUI.Controls
             }
 
             treeView_Files.Nodes.Add(rootNode);
+        }
+
+        private void treeView_Files_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node == null)
+            {
+                SelectionChanged(sender, null);
+                return;
+            }
+            if (e.Node.Tag == null)
+            {
+                SelectionChanged(sender, null);
+                return;
+            }
+            if (e.Node.Tag.GetType() == typeof(CacheFile)) return;
+            SelectionChanged(sender, (FileNode)e.Node.Tag);
         }
     }
 }

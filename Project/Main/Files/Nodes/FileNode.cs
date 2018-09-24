@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,21 +19,131 @@ namespace ShenmueHDTools.Main.Files.Nodes
     }
     */
 
-    public abstract class FileNode
+    public interface IAudioNode
     {
+        void GetWAVEStream();
+    }
+
+    public interface IArchiveNode
+    {
+        void Unpack();
+        void Pack();
+    }
+
+    public interface IImageNode
+    {
+        int ImageCount { get; }
+        void GetImage();
+        void GetImages();
+    }
+
+    public interface IModelNode
+    {
+        int ModelCount { get; }
+        void GetModel();
+        void GetModels();
+    }
+
+    public abstract class FileNode : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         #region Serialization
-        public FileType Type { get; set; }
-        public string RelativPath { get; set; }
-        public string Category { get; set; }
-        public string Location { get; set; }
-        public string Description { get; set; }
-        public byte[] Checksum { get; set; }
+        private FileType m_type;
+        private string m_relativPath = "";
+        private byte[] m_checksum = new byte[16];
+        private string m_category = "";
+        private string m_description = "";
+        private string m_location = "";
+        private string m_notes = "";
 
-        #endregion
-        #region Runtime
+        public FileType Type
+        {
+            get { return m_type; }
+            set { SetProperty(ref m_type, value); }
+        }
+        public string RelativPath
+        {
+            get { return m_relativPath; }
+            set
+            {
+                if (value == null) 
+                {
+                    SetProperty(ref m_relativPath, "");
+                    return;
+                }
+                SetProperty(ref m_relativPath, value);
+            }
+        }
+        public byte[] Checksum
+        {
+            get { return m_checksum; }
+            set
+            {
+                if (value == null || value.Length != 16)
+                {
+                    SetProperty(ref m_checksum, new byte[16]);
+                }
+                SetProperty(ref m_checksum, value);
+            }
+        }
+        public string Category
+        {
+            get { return m_category; }
+            set
+            {
+                if (value == null)
+                {
+                    SetProperty(ref m_category, "");
+                    return;
+                }
+                SetProperty(ref m_category, value);
+            }
+        }
+        public string Description
+        {
+            get { return m_description; }
+            set
+            {
+                if (value == null)
+                {
+                    SetProperty(ref m_description, "");
+                    return;
+                }
+                SetProperty(ref m_description, value);
+            }
+        }
+        public string Location
+        {
+            get { return m_location; }
+            set
+            {
+                if (value == null)
+                {
+                    SetProperty(ref m_location, "");
+                    return;
+                }
+                SetProperty(ref m_location, value);
+            }
+        }
+        public string Notes
+        {
+            get { return m_notes; }
+            set
+            {
+                if (value == null)
+                {
+                    SetProperty(ref m_notes, "");
+                    return;
+                }
+                SetProperty(ref m_notes, value);
+            }
+        }
         #endregion
 
         #region Runtime
+        private bool m_modified;
+
         public string Name
         {
             get
@@ -39,25 +152,32 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 return String.Format("{0} ({1})", Path.GetFileName(RelativPath), Description);
             }
         }
-
-        public string FullPath => CacheFile.OutputFolder + "\\" + RelativPath;
+        public string FullPath => CacheFile.GetFullPath(RelativPath);
         public FileNode Parent { get; private set; }
         public List<FileNode> Children { get; private set; } = new List<FileNode>();
         public CacheFile CacheFile { get; private set; }
-        public TADFileEntry TADFileEntry { get; private set; }
+        public TreeNode TreeNode { get; private set; }
         public bool IsRoot { get; private set; } = false;
-        public bool IsTADEntry => TADFileEntry == null;
-        public bool Modified { get; private set; }    
+        public bool Modified
+        {
+            get { return m_modified; }
+            set { SetProperty(ref m_modified, value); }
+        }
+        #endregion
+
+        #region Abstract
+        public abstract bool IsArchive { get; }
         #endregion
 
         public enum TreeType
         {
             Simple,
             FilePath,
-            Category
+            Category,
+            Location
         }
 
-        public FileNode(CacheFile cacheFile, FileNode parent, string relativPath)
+        public FileNode(CacheFile cacheFile, FileNode parent, string relativPath, bool newFile)
         {
             CacheFile = cacheFile ?? throw new Exception("cacheFile can't be null!");
             Parent = parent;
@@ -66,9 +186,20 @@ namespace ShenmueHDTools.Main.Files.Nodes
             {
                 IsRoot = true;
             }
+            if (newFile)
+            {
+                CalcChecksum(true);
+            }
         }
 
-        public void CalcChecksum()
+        /// <summary>
+        /// Calculates the checksum.
+        /// If writeChecksum is true the checksum will be written in to the node.
+        /// If not than the calculated checksum will be compared to the checksum inside the node,
+        /// which will set the Modified flag accordingly.
+        /// </summary>
+        /// <param name="writeChecksum"></param>
+        public void CalcChecksum(bool writeChecksum = false)
         {
             string filename = FullPath;
             if (!Helper.IsFileValid(filename)) return;
@@ -76,13 +207,22 @@ namespace ShenmueHDTools.Main.Files.Nodes
             {
                 byte[] buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, (int)stream.Length);
+                byte[] hash = Helper.MD5Hash(buffer);
                 Modified = false;
-                for (int i = 0; i < buffer.Length; i++)
+
+                if (writeChecksum)
                 {
-                    if (Checksum[i] != buffer[i])
+                    Checksum = hash;
+                }
+                else
+                {
+                    for (int i = 0; i < hash.Length; i++)
                     {
-                        Modified = true;
-                        return;
+                        if (Checksum[i] != hash[i])
+                        {
+                            Modified = true;
+                            return;
+                        }
                     }
                 }
             }
@@ -90,11 +230,17 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         private TreeNode GetOrCreateFolder(TreeNode parent, string directoryPath)
         {
+            if (parent.Tag.GetType().IsSubclassOf(typeof(FileNode)))
+            {
+                FileNode fileNode = (FileNode)parent.Tag;
+                if (fileNode.IsArchive) return parent;
+            }
+
             string[] folders = directoryPath.Split('\\');
             foreach (string folder in folders)
             {
                 TreeNode found = null;
-                foreach(TreeNode node in parent.Nodes)
+                foreach (TreeNode node in parent.Nodes)
                 {
                     if (node.Text.ToUpper() == folder.ToUpper())
                     {
@@ -116,10 +262,17 @@ namespace ShenmueHDTools.Main.Files.Nodes
             return parent;
         }
 
+        /// <summary>
+        /// Creates an TreeNode structure for the TreeView inside the given parent
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="treeType"></param>
         public void CreateTreeNode(TreeNode parent, TreeType treeType)
         {
-            TreeNode treeNode = new TreeNode(Name);
-            treeNode.Tag = this;
+            TreeNode = new TreeNode(Name);
+            TreeNode.Tag = this;
+            TreeNode.SelectedImageIndex = (int)Type;
+            TreeNode.ImageIndex = (int)Type;
 
             if (treeType == TreeType.FilePath)
             {
@@ -131,60 +284,264 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 throw new NotImplementedException();
             }
 
-            parent.Nodes.Add(treeNode);
+            if (treeType == TreeType.Location)
+            {
+                throw new NotImplementedException();
+            }
 
+            parent.Nodes.Add(TreeNode);
 
             foreach (FileNode child in Children)
             {
-                child.CreateTreeNode(treeNode, treeType);
+                child.CreateTreeNode(TreeNode, treeType);
             }
         }
 
-        public void Read(BinaryReader reader)
+        /// <summary>
+        /// Reads the node and all child nodes from the binary stream
+        /// </summary>
+        /// <param name="cacheFile"></param>
+        /// <param name="parent"></param>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        public static FileNode Read(CacheFile cacheFile, FileNode parent, BinaryReader reader)
         {
-            //READ OWN META
-            //READ CHILD COUNT
-            ReadMeta();
-        }
+            FileType type = (FileType)reader.ReadByte();
+            byte[] checksum = reader.ReadBytes(16);
 
-        public void Write(BinaryWriter writer)
-        {
-            //WRITE OWN META
-            //WRITE CHILD COUNT
-            WriteMeta();
-        }
-
-        
-        //ITERATE CHILDREN WRITE META
-        public abstract void WriteMeta();
-
-        //READ TYPE AND ADD CHILD (MOVE BACK 1 BYTE BEFORE READING CHILD META)
-        //LET CHILDREN READ THE REST
-        public abstract void ReadMeta();
-
-
-        public static FileNode GetNode(CacheFile cacheFile, TADFileEntry entry)
-        {
-            string extension = entry.Extension;
-            FileType type = FileType.UNKNOWN;
-            if (!String.IsNullOrEmpty(extension))
+            string relativPath = "";
+            uint relativPathLength = reader.ReadUInt32();
+            if (relativPathLength > 0)
             {
-                type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+                byte[] relativPathBuffer = reader.ReadBytes((int)relativPathLength);
+                relativPath = Encoding.ASCII.GetString(relativPathBuffer);
             }
-            FileNode node = CreateNode(cacheFile, null, entry.RelativePath, type);
-            node.TADFileEntry = entry;
+
+            string category = "";
+            uint categoryLength = reader.ReadUInt32();
+            if (categoryLength > 0)
+            {
+                byte[] categoryBuffer = reader.ReadBytes((int)categoryLength);
+                category = Encoding.ASCII.GetString(categoryBuffer);
+            }
+
+            string location = "";
+            uint locationLength = reader.ReadUInt32();
+            if (locationLength > 0)
+            {
+                byte[] locationBuffer = reader.ReadBytes((int)locationLength);
+                location = Encoding.ASCII.GetString(locationBuffer);
+            }
+
+            string description = "";
+            uint descriptionLength = reader.ReadUInt32();
+            if (descriptionLength > 0)
+            {
+                byte[] descriptionBuffer = reader.ReadBytes((int)descriptionLength);
+                description = Encoding.ASCII.GetString(descriptionBuffer);
+            }
+
+            string notes = "";
+            uint notesLength = reader.ReadUInt32();
+            if (notesLength > 0)
+            {
+                byte[] notesBuffer = reader.ReadBytes((int)notesLength);
+                notes = Encoding.ASCII.GetString(notesBuffer);
+            }
+
+            FileNode node = CreateNodeInternal(cacheFile, parent, relativPath, type, false);
+            node.Type = type;
+            node.Checksum = checksum;
+            node.Category = category;
+            node.Description = description;
+            node.Location = location;
+            node.Notes = notes;
+
+            uint childCount = reader.ReadUInt32();
+            for (uint i = 0; i < childCount; i++)
+            {
+                node.Children.Add(Read(cacheFile, node, reader));
+            }
+                    
             return node;
         }
 
-        public static FileNode GetNode(CacheFile cacheFile, FileNode parent, string relativPath)
+        /// <summary>
+        /// Writes the node and all child nodes to the binary stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        public void Write(BinaryWriter writer)
+        {
+            writer.Write((byte)Type);
+            writer.Write(Checksum, 0, 16);
+
+            byte[] relativPathBytes = Encoding.ASCII.GetBytes(RelativPath);
+            writer.Write((uint)relativPathBytes.Length);
+            if (relativPathBytes.Length > 0)
+            {
+                writer.Write(relativPathBytes, 0, relativPathBytes.Length);
+            }
+
+            byte[] categoryBytes = Encoding.ASCII.GetBytes(Category);
+            writer.Write((uint)categoryBytes.Length);
+            if (categoryBytes.Length > 0)
+            {
+                writer.Write(categoryBytes, 0, categoryBytes.Length);
+            }
+
+            byte[] locationBytes = Encoding.ASCII.GetBytes(Location);
+            writer.Write((uint)locationBytes.Length);
+            if (locationBytes.Length > 0)
+            {
+                writer.Write(locationBytes, 0, locationBytes.Length);
+            }
+
+            byte[] descriptionBytes = Encoding.ASCII.GetBytes(Description);
+            writer.Write((uint)descriptionBytes.Length);
+            if (descriptionBytes.Length > 0)
+            {
+                writer.Write(descriptionBytes, 0, descriptionBytes.Length);
+            }
+
+            byte[] notesBytes = Encoding.ASCII.GetBytes(Notes);
+            writer.Write((uint)notesBytes.Length);
+            if (notesBytes.Length > 0)
+            {
+                writer.Write(notesBytes, 0, notesBytes.Length);
+            }
+
+            writer.Write((uint)Children.Count);
+
+            foreach(FileNode node in Children)
+            {
+                node.Write(writer);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new Node which is only used when not reading serialized nodes
+        /// </summary>
+        /// <param name="cacheFile"></param>
+        /// <param name="entry"></param>
+        /// <returns></returns>
+        public static FileNode CreateNode(CacheFile cacheFile, TADFileEntry entry)
+        {
+            string extension = entry.Extension;
+            FileType type = FileType.UNKNOWN;
+            if (String.IsNullOrEmpty(extension))
+            {
+                //fallback file type recognizen
+                extension = Helper.ExtensionFinder(cacheFile.GetFullPath(entry.RelativPath));
+            }
+            type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+            FileNode node = CreateNodeInternal(cacheFile, null, entry.RelativPath, type);
+            node.Type = type;
+            return node;
+        }
+
+        /// <summary>
+        /// Creates a new Node which is only used when not reading serialized nodes
+        /// </summary>
+        /// <param name="cacheFile"></param>
+        /// <param name="parent"></param>
+        /// <param name="relativPath"></param>
+        /// <returns></returns>
+        public static FileNode CreateNode(CacheFile cacheFile, FileNode parent, string relativPath)
         {
             string extension = Path.GetExtension(relativPath);
             FileType type = FileType.UNKNOWN;
-            if (!String.IsNullOrEmpty(extension))
+            if (String.IsNullOrEmpty(extension))
             {
-                type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+                //fallback file type recognizen
+                extension = Helper.ExtensionFinder(cacheFile.GetFullPath(relativPath));
             }
-            return CreateNode(cacheFile, parent, relativPath, type);
+            type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+            FileNode node = CreateNodeInternal(cacheFile, parent, relativPath, type);
+            node.Type = type;
+            return node;
+        }
+
+        /// <summary>
+        /// Creates the an node for normal creation and deserialization
+        /// </summary>
+        /// <param name="cacheFile"></param>
+        /// <param name="parent"></param>
+        /// <param name="relativPath"></param>
+        /// <param name="type"></param>
+        /// <param name="newFile"></param>
+        /// <returns></returns>
+        private static FileNode CreateNodeInternal(CacheFile cacheFile, FileNode parent, string relativPath, FileType type, bool newFile = true)
+        {
+            switch (type)
+            {
+                case FileType.UNKNOWN:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.AFS:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.BIN:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.BMP:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.CHR:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.CSV:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.DAT:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.DDS:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.EMU:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.FON:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.FONTDEF:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.GLYPHS:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.GZ:
+                    return new GZFile(cacheFile, parent, relativPath, newFile);
+                case FileType.HLSL:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.IDX:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.MAP:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.MT5:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.MT6:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.MT7:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.MVS:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.PKF:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.PKS:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.PNG:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.PVR:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.RMP:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.SCN:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.SND:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.SPR:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.SRF:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.SUB:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.TGA:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.UI:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.WAV:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+            }
+            return null;
         }
 
         private static FileType GetTypeFromExtension(string extension)
@@ -199,77 +556,12 @@ namespace ShenmueHDTools.Main.Files.Nodes
             return FileType.UNKNOWN;
         }
 
-        private static FileNode CreateNode(CacheFile cacheFile, FileNode parent, string relativPath, FileType type)
+        /*
+        private static Icon GetIcon(FileType fileType)
         {
-            switch (type)
-            {
-                case FileType.UNKNOWN:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.AFS:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.BIN:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.BMP:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.CHR:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.CSV:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.DAT:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.DDS:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.EMU:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.FON:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.FONTDEF:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.GLYPHS:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.GZ:
-                    return new GZFile(cacheFile, parent, relativPath);
-                case FileType.HLSL:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.IDX:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.MAP:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.MT5:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.MT6:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.MT7:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.MVS:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.PKF:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.PKS:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.PNG:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.PVR:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.RMP:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.SCN:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.SND:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.SPR:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.SRF:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.SUB:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.UI:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-                case FileType.WAV:
-                    return new UnknownFile(cacheFile, parent, relativPath);
-            }
-            return null;
+
         }
+        */
 
         /// <summary>
         /// File type enum.
@@ -311,6 +603,23 @@ namespace ShenmueHDTools.Main.Files.Nodes
             TGA = 30,
             UI = 31,
             WAV = 32
+        }
+
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(storage, value)) return false;
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (TreeNode != null)
+            {
+                TreeNode.Text = Name;
+            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

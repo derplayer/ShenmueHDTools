@@ -74,7 +74,7 @@ namespace ShenmueHDTools.GUI.Controls
                 m_entriesView.Clear();
                 foreach (TADFileEntry entry in m_sortedEntries)
                 {
-                    if (entry.RelativePath.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
+                    if (entry.RelativPath.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
                         entry.Hash1.Contains(textBox_Filter.Text.ToUpper()) ||
                         entry.Filename.ToLower().Contains(textBox_Filter.Text.ToLower()) ||
                         entry.FileOffset.ToString().Contains(textBox_Filter.Text) ||
@@ -167,7 +167,7 @@ namespace ShenmueHDTools.GUI.Controls
 
             this.dataGridView_TAD.CurrentCell = this.dataGridView_TAD.Rows[e.RowIndex].Cells[e.ColumnIndex];
             TADFileEntry entry = m_entriesView[e.RowIndex];
-            string filename = Path.GetDirectoryName(m_cacheFile.Filename) + m_cacheFile.Header.RelativeOutputFolder + "\\" + entry.RelativePath;
+            string filename = Path.GetDirectoryName(m_cacheFile.Filename) + m_cacheFile.Header.RelativeOutputFolder + "\\" + entry.RelativPath;
 
             ShellContextMenu ctxMnu = new ShellContextMenu();
             FileInfo[] arrFI = new FileInfo[1];

@@ -45,8 +45,6 @@
             this.ColumnFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnExtension = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnModified = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_TAD)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -61,6 +59,7 @@
             this.dataGridView_TAD.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView_TAD.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView_TAD.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView_TAD.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnIndex,
@@ -73,8 +72,6 @@
             this.ColumnFilename,
             this.ColumnPath,
             this.ColumnExtension,
-            this.ColumnCategory,
-            this.ColumnDescription,
             this.ColumnModified});
             this.dataGridView_TAD.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_TAD.Name = "dataGridView_TAD";
@@ -246,22 +243,6 @@
             this.ColumnExtension.ReadOnly = true;
             this.ColumnExtension.Width = 80;
             // 
-            // ColumnCategory
-            // 
-            this.ColumnCategory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnCategory.DataPropertyName = "Category";
-            this.ColumnCategory.HeaderText = "Category";
-            this.ColumnCategory.MinimumWidth = 100;
-            this.ColumnCategory.Name = "ColumnCategory";
-            // 
-            // ColumnDescription
-            // 
-            this.ColumnDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnDescription.DataPropertyName = "Description";
-            this.ColumnDescription.HeaderText = "Description";
-            this.ColumnDescription.MinimumWidth = 100;
-            this.ColumnDescription.Name = "ColumnDescription";
-            // 
             // ColumnModified
             // 
             this.ColumnModified.DataPropertyName = "Modified";
@@ -305,8 +286,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFilename;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnExtension;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCategory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDescription;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ColumnModified;
     }
 }

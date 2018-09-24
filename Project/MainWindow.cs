@@ -36,7 +36,14 @@ namespace ShenmueHDTools
             WulinshuRaymonfAPI.Read();
             DescriptionDatabase.GenerateDatabase();
 
+            fileTreeView.SelectionChanged += FileTreeView_SelectionChanged;
+
             Helper.CheckUpdates();
+        }
+
+        private void FileTreeView_SelectionChanged(object sender, Main.Files.Nodes.FileNode e)
+        {
+            filePreview.SetFile(e);
         }
 
         private void UpdateControls()
