@@ -19,10 +19,6 @@ namespace ShenmueHDTools.Main.Files.Nodes
     }
     */
 
-    public interface IAudioNode
-    {
-        void GetWAVEStream();
-    }
 
     public interface IArchiveNode
     {
@@ -30,21 +26,22 @@ namespace ShenmueHDTools.Main.Files.Nodes
         void Pack();
     }
 
+    public interface IAudioNode
+    {
+        void GetWAVEStream(); //TODO
+    }
+
     public interface IImageNode
     {
-        int ImageCount { get; }
-        void GetImage();
-        void GetImages();
+        Bitmap GetImage();
     }
 
     public interface IModelNode
     {
-        int ModelCount { get; }
-        void GetModel();
-        void GetModels();
+        void GetModel(); //TODO
     }
 
-    public abstract class FileNode : INotifyPropertyChanged
+    public class FileNode : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -176,10 +173,6 @@ namespace ShenmueHDTools.Main.Files.Nodes
         }
         #endregion
 
-        #region Abstract
-        public abstract bool IsArchive { get; }
-        #endregion
-
         public enum TreeType
         {
             Simple,
@@ -190,7 +183,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         public FileNode(CacheFile cacheFile, FileNode parent, string relativPath, bool newFile)
         {
-            CacheFile = cacheFile ?? throw new Exception("cacheFile can't be null!");
+            CacheFile = cacheFile;
             Parent = parent;
             RelativPath = relativPath;
             if (Parent == null)
@@ -256,7 +249,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             if (parent.Tag.GetType().IsSubclassOf(typeof(FileNode)))
             {
                 FileNode fileNode = (FileNode)parent.Tag;
-                if (fileNode.IsArchive) return parent;
+                if (typeof(IArchiveNode).IsAssignableFrom(fileNode.GetType())) return parent;
             }
 
             string[] folders = directoryPath.Split('\\');
@@ -540,7 +533,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 case FileType.PKF:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.PKS:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new PKSFile(cacheFile, parent, relativPath, newFile);
                 case FileType.PNG:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.PVR:

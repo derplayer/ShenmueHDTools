@@ -9,7 +9,6 @@ namespace ShenmueHDTools.Main.Files.Nodes
 {
     public class UnknownFile : FileNode
     {
-        public override bool IsArchive => false;
 
         public UnknownFile(CacheFile cacheFile, FileNode parent, string relativPath, bool newFile = false)
             : base(cacheFile, parent, relativPath, newFile)

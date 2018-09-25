@@ -9,11 +9,9 @@ using System.Threading.Tasks;
 
 namespace ShenmueHDTools.Main.Files.Nodes
 {
-    class GZFile : FileNode
+    class GZFile : FileNode, IArchiveNode
     {
         public static readonly byte[] Identifier = new byte[2] { 0x1f, 0x8b };
-
-        public override bool IsArchive => true;
 
         public GZFile(CacheFile cacheFile, FileNode parent, string relativPath, bool newFile = false)
             : base(cacheFile, parent, relativPath, newFile)
@@ -24,16 +22,33 @@ namespace ShenmueHDTools.Main.Files.Nodes
             }
         }
 
+        public void Unpack()
+        {
+            Decompress();
+        }
+
+        public void Pack()
+        {
+            Compress();
+        }
+
         public void Compress()
         {
-            //TODO
-            using (FileStream originalFileStream = File.Open(FullPath, FileMode.Create))
+            if (Children.Count == 0) return; //unpack first
+
+            FileNode unpackedFile = Children.First();
+            unpackedFile.CalcChecksum();
+            if (unpackedFile.Modified)
             {
-                using (FileStream compressedFileStream = File.Create(FullPath + ".GZ"))
+                //Compress
+                using (FileStream originalFileStream = File.Open(unpackedFile.FullPath, FileMode.Create))
                 {
-                    using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+                    using (FileStream compressedFileStream = File.Create(FullPath))
                     {
-                        originalFileStream.CopyTo(compressionStream);
+                        using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+                        {
+                            originalFileStream.CopyTo(compressionStream);
+                        }
                     }
                 }
             }
@@ -82,6 +97,5 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 Children.Add(CreateNode(CacheFile, this, relativPath));
             }
         }
-
     }
 }
