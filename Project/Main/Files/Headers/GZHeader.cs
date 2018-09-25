@@ -7,9 +7,13 @@ using ShenmueHDTools.Main.Files.Nodes;
 
 namespace ShenmueHDTools.Main.Files.Headers
 {
-    public class GZHeader : Header
+    public class GZHeader
     { 
-        public override byte[] Signature { get; } = new byte[2] { 0x1F, 0x8B };
-        public override FileNode.FileType Type { get; } =  FileNode.FileType.GZ;
+        public static readonly byte[] Signature = new byte[2] { 0x1F, 0x8B };
+        public static readonly FileNode.FileType Type =  FileNode.FileType.GZ;
+        public static bool IsValid(byte[] buffer)
+        {
+            return Helper.CompareSignature(Signature, buffer);
+        }
     }
 }

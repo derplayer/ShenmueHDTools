@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Net;
 using System.Globalization;
+using ShenmueHDTools.Main.Files.Headers;
+using static ShenmueHDTools.Main.Files.Nodes.FileNode;
 
 namespace ShenmueHDTools.Main
 {
@@ -64,15 +66,7 @@ namespace ShenmueHDTools.Main
             foreach (byte b in ba)
                 hex.AppendFormat("{0:X2}", b);
             return hex.ToString();
-        }
-
-        public static string Reverse(string text)
-        {
-            if (text == null) return null;
-            char[] array = text.ToCharArray();
-            Array.Reverse(array);
-            return new String(array);
-        }
+        }      
 
         public static uint ReverseBytes(uint value)
         {
@@ -80,43 +74,15 @@ namespace ShenmueHDTools.Main
                 (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
         }
 
-        public static uint HashReverse(uint x)
+        public static bool CompareSignature(byte[] signature, byte[] data)
         {
-            // swap adjacent 16-bit blocks
-            x = (x >> 16) | (x << 16);
-            // swap adjacent 8-bit blocks
-            return ((x & 0xFF00FF00) >> 8) | ((x & 0x00FF00FF) << 8);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="array1"></param>
-        /// <param name="array2"></param>
-        /// <param name="bytesToCompare"> 0 means compare entire arrays</param>
-        /// <returns></returns>
-        public static bool ArraysEqual(byte[] array1, byte[] array2, int bytesToCompare = 0)
-        {
-            if (array1.Length != array2.Length) return false;
-
-            var length = (bytesToCompare == 0) ? array1.Length : bytesToCompare;
-            var tailIdx = length - length % sizeof(Int64);
-
-            //check in 8 byte chunks
-            for (var i = 0; i < tailIdx; i += sizeof(Int64))
+            if (data.Length < signature.Length) return false;
+            for (int i = 0; i < signature.Length; i++)
             {
-                if (BitConverter.ToInt64(array1, i) != BitConverter.ToInt64(array2, i)) return false;
+                if (signature[i] != data[i]) return false;
             }
-
-            //check the remainder of the array, always shorter than 8 bytes
-            for (var i = tailIdx; i < length; i++)
-            {
-                if (array1[i] != array2[i]) return false;
-            }
-
             return true;
         }
-
 
         public static byte[] MD5Hash(byte[] data)
         {
@@ -167,8 +133,24 @@ namespace ShenmueHDTools.Main
             return true;
         }
 
+        public static string GetRelativePath(string filename, string folder)
+        {
+            Uri pathUri = new Uri(filename);
+            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                folder += Path.DirectorySeparatorChar;
+            }
+            Uri folderUri = new Uri(folder);
+            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+        }
+
         public static string ExtensionFinder(string filename)
         {
+            FileType type = Headers.GetFileType(filename);
+            return "." + type.ToString();
+
+            /*
+            //[DEPRECATED]
             int minBytes = 256;
             if (!File.Exists(filename)) return "";
             if (!Helper.IsFileValid(filename)) return "";
@@ -182,10 +164,16 @@ namespace ShenmueHDTools.Main
                 stream.Read(buffer, 0, minBytes);
                 return ExtensionFinder(buffer).ToUpper();
             }
+            */
         }
 
         public static string ExtensionFinder(byte[] dataArray)
         {
+            FileType type = Headers.GetFileType(dataArray);
+            return "." + type.ToString();
+
+            /*
+            //[DEPRECATED]
             var fileExt = ".unknown";
 
             var semiIdentifier = Encoding.ASCII.GetString(dataArray.Take(3).ToArray());
@@ -309,6 +297,7 @@ namespace ShenmueHDTools.Main
             }
 
             return fileExt;
+            */
         }
 
         public static void CheckUpdates()
@@ -365,15 +354,52 @@ namespace ShenmueHDTools.Main
             }
         }
 
-        public static string GetRelativePath(string filename, string folder)
+        public static string Reverse(string text)
         {
-            Uri pathUri = new Uri(filename);
-            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
-            {
-                folder += Path.DirectorySeparatorChar;
-            }
-            Uri folderUri = new Uri(folder);
-            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+            if (text == null) return null;
+            char[] array = text.ToCharArray();
+            Array.Reverse(array);
+            return new String(array);
         }
+        public static uint HashReverse(uint x)
+        {
+            // swap adjacent 16-bit blocks
+            x = (x >> 16) | (x << 16);
+            // swap adjacent 8-bit blocks
+            return ((x & 0xFF00FF00) >> 8) | ((x & 0x00FF00FF) << 8);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="array1"></param>
+        /// <param name="array2"></param>
+        /// <param name="bytesToCompare"> 0 means compare entire arrays</param>
+        /// <returns></returns>
+        public static bool ArraysEqual(byte[] array1, byte[] array2, int bytesToCompare = 0)
+        {
+            if (array1.Length != array2.Length) return false;
+
+            var length = (bytesToCompare == 0) ? array1.Length : bytesToCompare;
+            var tailIdx = length - length % sizeof(Int64);
+
+            //check in 8 byte chunks
+            for (var i = 0; i < tailIdx; i += sizeof(Int64))
+            {
+                if (BitConverter.ToInt64(array1, i) != BitConverter.ToInt64(array2, i)) return false;
+            }
+
+            //check the remainder of the array, always shorter than 8 bytes
+            for (var i = tailIdx; i < length; i++)
+            {
+                if (array1[i] != array2[i]) return false;
+            }
+
+            return true;
+        }
+
+        
+
+        
     }
 }

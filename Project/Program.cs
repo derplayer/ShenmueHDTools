@@ -11,6 +11,7 @@ using ShenmueHDTools.Main.Files;
 using ShenmueHDTools.Main.Database;
 using ShenmueHDTools.GUI.Dialogs;
 using System.Text;
+using ShenmueHDTools.Main.Files.Headers;
 
 namespace Shenmue_HD_Tools
 {
@@ -19,6 +20,7 @@ namespace Shenmue_HD_Tools
         [STAThread]
         static void Main()
         {
+            Headers.CreateHeaderList();
             Application.EnableVisualStyles();
             if (System.Diagnostics.Debugger.IsAttached)
             {

@@ -7,10 +7,13 @@ using ShenmueHDTools.Main.Files.Nodes;
 
 namespace ShenmueHDTools.Main.Files.Headers
 {
-    public class PKFHeader : Header
+    public class PKFHeader
     {
-        public override byte[] Signature => new byte[4] { 0x50, 0x41, 0x4B, 0x46 }; //PAKF
-
-        public override FileNode.FileType Type => FileNode.FileType.PKF;
+        public static readonly byte[] Signature = new byte[4] { 0x50, 0x41, 0x4B, 0x46 }; //PAKF
+        public static readonly FileNode.FileType Type = FileNode.FileType.PKF;
+        public static bool IsValid(byte[] buffer)
+        {
+            return Helper.CompareSignature(Signature, buffer);
+        }
     }
 }

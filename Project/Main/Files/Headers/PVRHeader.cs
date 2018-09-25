@@ -7,35 +7,22 @@ using ShenmueHDTools.Main.Files.Nodes;
 
 namespace ShenmueHDTools.Main.Files.Headers
 {
-    public class PVRHeader : Header
+    public class PVRHeader
     {
-        public override byte[] Signature => new byte[4] { 0x50, 0x56, 0x52, 0x54 }; //PVRT
-        public byte[] Signature2 => new byte[4] { 0x47, 0x42, 0x49, 0x58 }; //GBIX
-        public override FileNode.FileType Type => FileNode.FileType.PVR;
-
-        private bool m_hasGlobalIndex;
-
-        public new bool IsValid(byte[] buffer)
+        private static readonly List<byte[]> Signatures = new List<byte[]>()
         {
-            m_hasGlobalIndex = false;
-            bool valid = true;
-            for (int i = 0; i < Signature.Length; i++)
-            {
-                if (buffer[i] != Signature[i])
-                {
-                    valid = false;
-                }
-            }
+            new byte[] { 0x50, 0x56, 0x52, 0x54 }, //PVRT
+            new byte[] { 0x47, 0x42, 0x49, 0x58 }, //GBIX
+        };
+        public static readonly FileNode.FileType Type = FileNode.FileType.PVR;
 
-            if (!valid)
+        public static bool IsValid(byte[] buffer)
+        {
+            foreach (byte[] signature in Signatures)
             {
-                for (int i = 0; i < Signature2.Length; i++)
-                {
-                    if (buffer[i] != Signature2[i]) return false;
-                }
+                if (Helper.CompareSignature(signature, buffer)) return true;
             }
-            m_hasGlobalIndex = true;
-            return true;
+            return false;
         }
     }
 }

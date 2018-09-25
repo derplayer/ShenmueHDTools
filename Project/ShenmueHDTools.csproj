@@ -170,6 +170,7 @@
     <Compile Include="Main\Files\Headers\HLSLHeader.cs" />
     <Compile Include="Main\Files\Headers\IDXHeader.cs" />
     <Compile Include="Main\Files\Headers\MT5Header.cs" />
+    <Compile Include="Main\Files\Headers\MT7Header.cs" />
     <Compile Include="Main\Files\Headers\PKFHeader.cs" />
     <Compile Include="Main\Files\Headers\PKSHeader.cs" />
     <Compile Include="Main\Files\Headers\PVRHeader.cs" />

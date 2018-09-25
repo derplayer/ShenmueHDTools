@@ -86,13 +86,6 @@ namespace ShenmueHDTools.Main.Files.Nodes
         private void Read(BinaryReader reader)
         {
             Header.Read(reader);
-            if (!Header.IsValid(Header.SignatureBuffer))
-            {
-                //TODO how to treat wrong file extensions?
-                return;
-            }
-                
-
             reader.BaseStream.Seek(Header.IPACOffset + 4, SeekOrigin.Begin);
 
             uint dictionaryOffset = reader.ReadUInt32();

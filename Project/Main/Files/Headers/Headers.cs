@@ -2,50 +2,54 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using static ShenmueHDTools.Main.Files.Nodes.FileNode;
 
 namespace ShenmueHDTools.Main.Files.Headers
 {
-    public abstract class Header
-    {
-        public abstract byte[] Signature { get; }
-        public abstract FileType Type { get; }
-        public bool IsValid(byte[] buffer)
-        {
-            for (int i = 0; i < Signature.Length; i++)
-            {
-                if (buffer[i] != Signature[i]) return false;
-            }
-            return true;
-        }
-    }
 
     public static class Headers
     {
-        public static List<Header> HeaderList = new List<Header>
+        /// <summary>
+        /// All available headers need to be listed here
+        /// </summary>
+        public static List<Type> HeaderList = new List<Type>
         {
-            new GZHeader(),
-            new AFSHeader(),
-            new DDSHeader(),
-            new HLSLHeader(),
-            new IDXHeader(),
-            new MT5Header(),
-            new PKFHeader(),
-            new PKSHeader(),
-            new PVRHeader(),
-            new SNDHeader(),
-            new SPRHeader(),
-            new WAVHeader()
+            typeof(GZHeader),
+            typeof(AFSHeader),
+            typeof(DDSHeader),
+            typeof(HLSLHeader),
+            typeof(IDXHeader),
+            typeof(MT5Header),
+            typeof(MT7Header),
+            typeof(PKFHeader),
+            typeof(PKSHeader),
+            typeof(PVRHeader),
+            typeof(SNDHeader),
+            typeof(SPRHeader),
+            typeof(WAVHeader)
         };
 
-        /// <summary>
-        /// [UNUSED] Will replace the Helper ExtensionFinder
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public static FileType GetType(string filename)
+        //Using delegate so we don't use reflections to get the return type and parameters at runtime
+        //when we call the IsValid method.
+        public delegate bool IsValidDelegate(byte[] buffer);
+        public static Dictionary<IsValidDelegate, FileType> HeaderRuntime = new Dictionary<IsValidDelegate, FileType>();
+
+        public static void CreateHeaderList()
+        {
+            HeaderRuntime.Clear();
+            foreach (Type header in HeaderList)
+            {
+                FieldInfo info = header.GetField("Type");
+                FileType type = (FileType)info.GetValue(null);
+                IsValidDelegate delegate_ = (IsValidDelegate)Delegate.CreateDelegate(typeof(IsValidDelegate), header.GetMethod("IsValid"));
+                HeaderRuntime.Add(delegate_, type);
+            }
+        }
+
+        public static FileType GetFileType(string filename)
         {
             int minBytes = 64;
             byte[] buffer;
@@ -60,19 +64,17 @@ namespace ShenmueHDTools.Main.Files.Headers
                 buffer = new byte[minBytes];
                 stream.Read(buffer, 0, minBytes);
             }
-            return GetType(buffer);
+            return GetFileType(buffer);
         }
 
-        /// <summary>
-        /// [UNUSED] Will replace the Helper ExtensionFinder
-        /// </summary>
-        /// <param name="buffer"></param>
-        /// <returns></returns>
-        public static FileType GetType(byte[] buffer)
+        public static FileType GetFileType(byte[] buffer)
         {
-            foreach (Header header in HeaderList)
+            foreach (KeyValuePair<IsValidDelegate, FileType> header in HeaderRuntime)
             {
-                if (header.IsValid(buffer)) return header.Type;
+                if (header.Key(buffer))
+                {
+                    return header.Value;
+                }
             }
             return FileType.UNKNOWN;
         }

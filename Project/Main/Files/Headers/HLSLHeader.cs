@@ -7,10 +7,13 @@ using ShenmueHDTools.Main.Files.Nodes;
 
 namespace ShenmueHDTools.Main.Files.Headers
 {
-    public class HLSLHeader : Header
+    public class HLSLHeader
     {
-        public override byte[] Signature => new byte[4] { 0x44, 0x58, 0x42, 0x43 }; //DXBC
-
-        public override FileNode.FileType Type => FileNode.FileType.HLSL;
+        public static readonly byte[] Signature = new byte[4] { 0x44, 0x58, 0x42, 0x43 }; //DXBC
+        public static readonly FileNode.FileType Type = FileNode.FileType.HLSL;
+        public static bool IsValid(byte[] buffer)
+        {
+            return Helper.CompareSignature(Signature, buffer);
+        }
     }
 }

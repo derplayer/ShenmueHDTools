@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -444,12 +445,8 @@ namespace ShenmueHDTools.Main.Files.Nodes
         {
             string extension = entry.Extension;
             FileType type = FileType.UNKNOWN;
-            if (String.IsNullOrEmpty(extension))
-            {
-                //fallback file type recognizen
-                extension = Helper.ExtensionFinder(cacheFile.GetFullPath(entry.RelativPath));
-            }
-            type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+            type = PeakFileType(cacheFile.GetFullPath(entry.RelativPath), type);
+
             FileNode node = CreateNodeInternal(cacheFile, null, entry.RelativPath, type);
             node.Type = type;
             return node;
@@ -466,15 +463,40 @@ namespace ShenmueHDTools.Main.Files.Nodes
         {
             string extension = Path.GetExtension(relativPath);
             FileType type = FileType.UNKNOWN;
-            if (String.IsNullOrEmpty(extension))
-            {
-                //fallback file type recognizen
-                extension = Helper.ExtensionFinder(cacheFile.GetFullPath(relativPath));
-            }
-            type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+            type = PeakFileType(cacheFile.GetFullPath(relativPath), type);
+
             FileNode node = CreateNodeInternal(cacheFile, parent, relativPath, type);
             node.Type = type;
             return node;
+        }
+
+        private static FileType PeakFileType(string filename, FileType type)
+        {
+            using (FileStream stream = File.Open(filename, FileMode.Open))
+            {
+                byte[] extBuffer = new byte[2];
+                stream.Read(extBuffer, 0, 2);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                //TODO Static GZ Header check and others
+                if (extBuffer[0] == 0x1F && extBuffer[1] == 0x8B)
+                {
+                    using (GZipStream streamGZip = new GZipStream(stream, CompressionMode.Decompress))
+                    {
+                        byte[] buffer = new byte[64];
+                        streamGZip.Read(buffer, 0, 4);
+                        return Headers.Headers.GetFileType(buffer);
+                    }
+                }
+                else
+                {
+                    byte[] buffer = new byte[64];
+                    stream.Read(buffer, 0, 4);
+                    FileType tmpType = Headers.Headers.GetFileType(buffer);
+                    if (tmpType == FileType.UNKNOWN) return type;
+                    return tmpType;
+                }
+            }
         }
 
         /// <summary>

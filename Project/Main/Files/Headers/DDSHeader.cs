@@ -7,10 +7,13 @@ using ShenmueHDTools.Main.Files.Nodes;
 
 namespace ShenmueHDTools.Main.Files.Headers
 {
-    public class DDSHeader : Header
+    public class DDSHeader
     {
-        public override byte[] Signature => new byte[4] { 0x44, 0x44, 0x53, 0x20 }; //DDS 
-
-        public override FileNode.FileType Type => FileNode.FileType.DDS;
+        public static readonly byte[] Signature = new byte[4] { 0x44, 0x44, 0x53, 0x20 }; //DDS 
+        public static readonly FileNode.FileType Type = FileNode.FileType.DDS;
+        public static bool IsValid(byte[] buffer)
+        {
+            return Helper.CompareSignature(Signature, buffer);
+        }
     }
 }
