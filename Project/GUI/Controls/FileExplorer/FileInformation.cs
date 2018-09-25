@@ -35,7 +35,7 @@ namespace ShenmueHDTools.GUI.Controls
             comboBox_Category.DataBindings.Add("Text", fileNode, "Category");
             comboBox_Location.DataBindings.Add("Text", fileNode, "Location");
             textBox_Checksum.DataBindings.Add("Text", fileNode, "ChecksumString");
-            textBox_Type.DataBindings.Add("Text", fileNode, "Type");
+            textBox_Type.DataBindings.Add("Text", fileNode, "TypeString");
             textBox_RelativPath.DataBindings.Add("Text", fileNode, "RelativPath");
             richTextBox_Notes.DataBindings.Add("Text", fileNode, "Notes");
         }

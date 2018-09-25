@@ -171,12 +171,14 @@
     <Compile Include="Main\Files\Headers\IDXHeader.cs" />
     <Compile Include="Main\Files\Headers\MT5Header.cs" />
     <Compile Include="Main\Files\Headers\MT7Header.cs" />
+    <Compile Include="Main\Files\Headers\MVSHeader.cs" />
     <Compile Include="Main\Files\Headers\PKFHeader.cs" />
     <Compile Include="Main\Files\Headers\PKSHeader.cs" />
     <Compile Include="Main\Files\Headers\PVRHeader.cs" />
     <Compile Include="Main\Files\Headers\SNDHeader.cs" />
     <Compile Include="Main\Files\Headers\SPRHeader.cs" />
     <Compile Include="Main\Files\Headers\WAVHeader.cs" />
+    <Compile Include="Main\Files\Nodes\PKFFile.cs" />
     <Compile Include="Main\Files\Nodes\PKSFile.cs" />
     <Compile Include="Main\Files\Nodes\UnknownFile.cs" />
     <Compile Include="Main\Files\Nodes\GZFile.cs" />

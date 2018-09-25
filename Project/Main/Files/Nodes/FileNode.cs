@@ -58,7 +58,11 @@ namespace ShenmueHDTools.Main.Files.Nodes
         public FileType Type
         {
             get { return m_type; }
-            set { SetProperty(ref m_type, value); }
+            set
+            {
+                SetProperty(ref m_type, value);
+                OnPropertyChanged("TypeString");
+            }
         }
         public string RelativPath
         {
@@ -144,6 +148,14 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         #region Runtime
         private bool m_modified;
+
+        public string TypeString
+        {
+            get
+            {
+                return String.Format("{0} ({1})", Type.ToString(), GetTypeDescription(Type));
+            }
+        }
 
         public string ChecksumString
         {
@@ -447,6 +459,12 @@ namespace ShenmueHDTools.Main.Files.Nodes
             FileType type = FileType.UNKNOWN;
             type = PeakFileType(cacheFile.GetFullPath(entry.RelativPath), type);
 
+            if (type == FileType.UNKNOWN && !String.IsNullOrEmpty(extension))
+            {
+                //fallback to extension
+                type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+            }
+
             FileNode node = CreateNodeInternal(cacheFile, null, entry.RelativPath, type);
             node.Type = type;
             return node;
@@ -464,6 +482,12 @@ namespace ShenmueHDTools.Main.Files.Nodes
             string extension = Path.GetExtension(relativPath);
             FileType type = FileType.UNKNOWN;
             type = PeakFileType(cacheFile.GetFullPath(relativPath), type);
+
+            if (type == FileType.UNKNOWN && !String.IsNullOrEmpty(extension))
+            {
+                //fallback to extension
+                type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+            }
 
             FileNode node = CreateNodeInternal(cacheFile, parent, relativPath, type);
             node.Type = type;
@@ -600,6 +624,48 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         }
         */
+
+        public static string GetTypeDescription(FileType type)
+        {
+            if (FileTypeDescription.Keys.Contains(type)) return FileTypeDescription[type];
+            return "Unknown";
+        }
+
+        private static Dictionary<FileType, string> FileTypeDescription = new Dictionary<FileType, string>()
+        {
+            { FileType.AFS, "Archive file with IDX" },
+            { FileType.BIN, "Unknown Binary file" },
+            { FileType.BMP, "Bitmap" },
+            { FileType.CHR, "Character" },
+            { FileType.CSV, "Comma-separated values" },
+            { FileType.DAT, "Unknown Binary file" },
+            { FileType.DDS, "Direct draw surface texture" },
+            { FileType.EMU, "Unknown emulator file" },
+            { FileType.FON, "Unknown" },
+            { FileType.FONTDEF, "Font definition file" },
+            { FileType.GLYPHS, "Font glyph file" },
+            { FileType.GZ, "GZip compressed file" },
+            { FileType.HLSL, "Compiled HLSL shader" },
+            { FileType.IDX, "Index for AFS archive file" },
+            { FileType.MAP, "Map" },
+            { FileType.MT5, "Model container" },
+            { FileType.MT6, "Model container" },
+            { FileType.MT7, "Model container" },
+            { FileType.MVS, "MVS data" },
+            { FileType.PKF, "Archive file" },
+            { FileType.PKS, "Archive file" },
+            { FileType.PNG, "Portable network graphics" },
+            { FileType.PVR, "PowerVR texture" },
+            { FileType.RMP, "Remap file" },
+            { FileType.SCN, "Scene file" },
+            { FileType.SND, "Sound file" },
+            { FileType.SPR, "Sprite container" },
+            { FileType.SRF, "" },
+            { FileType.SUB, "Subtitles file" },
+            { FileType.TGA, "Targa image file" },
+            { FileType.UI, "UI JSON" },
+            { FileType.WAV, "WAVE file" },
+        };
 
         /// <summary>
         /// File type enum.

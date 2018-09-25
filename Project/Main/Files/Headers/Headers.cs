@@ -24,6 +24,7 @@ namespace ShenmueHDTools.Main.Files.Headers
             typeof(IDXHeader),
             typeof(MT5Header),
             typeof(MT7Header),
+            typeof(MVSHeader),
             typeof(PKFHeader),
             typeof(PKSHeader),
             typeof(PVRHeader),
