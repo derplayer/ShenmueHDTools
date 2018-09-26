@@ -45,6 +45,8 @@ namespace ShenmueHDTools.Main.Files.Nodes
         public IDXHeader Header { get; set; }
         public List<IDXEntry> Entries { get; set; } = new List<IDXEntry>();
 
+        private static Encoding m_shiftJis = Encoding.GetEncoding("shift_jis"); //possible candidate
+
         public IDXFile(CacheFile cacheFile, FileNode parent, string relativPath, bool newFile = false)
             : base(cacheFile, parent, relativPath, newFile)
         {
@@ -89,13 +91,33 @@ namespace ShenmueHDTools.Main.Files.Nodes
             {
                 using (BinaryReader reader = new BinaryReader(stream))
                 {
-                    Header.Read(reader);
-                    for (int i = 0; i < Header.EntryCount; i++)
+                    byte[] signature = reader.ReadBytes(4);
+                    if (!IDXHeader.IsValid(signature))
                     {
-                        IDXEntry entry = new IDXEntry();
-                        entry.Read(reader);
-                        Entries.Add(entry);
+                        //HUMANS.IDX
+                        uint fileCount = BitConverter.ToUInt32(signature, 0);
+                        for (int i = 0; i < fileCount; i++)
+                        {
+                            IDXEntry entry = new IDXEntry();
+                            entry.AFSIndex = (ushort)i;
+                            byte[] buffer = new byte[4];
+                            reader.Read(buffer, 0, 4);
+                            entry.Filename = m_shiftJis.GetString(buffer).Replace("\0", "");
+                            Entries.Add(entry);
+                        }
                     }
+                    else
+                    {
+                        reader.BaseStream.Seek(0, SeekOrigin.Begin);
+                        Header.Read(reader);
+                        for (int i = 0; i < Header.EntryCount; i++)
+                        {
+                            IDXEntry entry = new IDXEntry();
+                            entry.Read(reader);
+                            Entries.Add(entry);
+                        }
+                    }
+                    
                 }
             }
         }

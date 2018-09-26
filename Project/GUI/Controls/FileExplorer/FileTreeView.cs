@@ -144,6 +144,7 @@ namespace ShenmueHDTools.GUI.Controls
             if (e.Node.Tag.GetType() == typeof(CacheFile))
             {
                 SelectionChanged(sender, null);
+                return;
             }
             SelectionChanged(sender, (FileNode)e.Node.Tag);
         }
