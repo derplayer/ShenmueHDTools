@@ -15,7 +15,7 @@ namespace ShenmueHDTools.Main.Files.Headers
         /// <summary>
         /// All available headers need to be listed here
         /// </summary>
-        public static List<Type> HeaderList = new List<Type>
+        public static HashSet<Type> HeaderList = new HashSet<Type>
         {
             typeof(GZHeader),
             typeof(AFSHeader),
@@ -30,7 +30,17 @@ namespace ShenmueHDTools.Main.Files.Headers
             typeof(PVRHeader),
             typeof(SNDHeader),
             typeof(SPRHeader),
-            typeof(WAVHeader)
+            typeof(WAVHeader),
+            typeof(ATHHeader),
+            typeof(CHTHeader),
+            typeof(CRMHeader),
+            typeof(DYMHeader),
+            typeof(IWDHeader),
+            typeof(MAPHeader),
+            typeof(MOTHeader),
+            typeof(SNFHeader),
+            typeof(SRLHeader),
+            typeof(WDTHeader)
         };
 
         //Using delegate so we don't use reflections to get the return type and parameters at runtime

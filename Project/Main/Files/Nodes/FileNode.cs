@@ -665,6 +665,15 @@ namespace ShenmueHDTools.Main.Files.Nodes
             { FileType.TGA, "Targa image file" },
             { FileType.UI, "UI JSON" },
             { FileType.WAV, "WAVE file" },
+            { FileType.CRM, "Character Model" },
+            { FileType.CHT, "Character Properties" },
+            { FileType.MOT, "Motion Data" },
+            { FileType.ATH, "Sequence Data" },
+            { FileType.DYM, "Dynamics Info" },
+            { FileType.SRL, "Scroll Data" },
+            { FileType.SNF, "Subtitles Table" },
+            { FileType.IWD, "LCD Table" },
+            { FileType.WDT, "Weather Data" },
         };
 
         /// <summary>
@@ -706,7 +715,16 @@ namespace ShenmueHDTools.Main.Files.Nodes
             SUB = 29,
             TGA = 30,
             UI = 31,
-            WAV = 32
+            WAV = 32,
+            CRM = 33,
+            CHT = 34,
+            MOT = 35,
+            ATH = 36,
+            DYM = 37,
+            SRL = 38,
+            SNF = 39,
+            IWD = 40,
+            WDT = 41
         }
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

@@ -1,5 +1,4 @@
 ﻿using SharpDX.Direct3D11;
-using ShenmueHDTools.Main.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

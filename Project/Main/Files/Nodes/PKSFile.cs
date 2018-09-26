@@ -29,6 +29,22 @@ namespace ShenmueHDTools.Main.Files.Nodes
             Offset = reader.ReadUInt32();
             FileSize = reader.ReadUInt32();
         }
+
+        public void Write(BinaryWriter writer)
+        {
+            byte[] buffer = new byte[8];
+            byte[] fBuffer = Encoding.ASCII.GetBytes(Filename);
+            fBuffer.CopyTo(buffer, 0);
+            writer.Write(buffer, 0, 8);
+
+            buffer = new byte[4];
+            fBuffer = Encoding.ASCII.GetBytes(Extension);
+            fBuffer.CopyTo(buffer, 0);
+            writer.Write(buffer, 0, 4);
+
+            writer.Write(Offset);
+            writer.Write(FileSize);
+        }
     }
 
     public class PKSFile : FileNode, IArchiveNode
