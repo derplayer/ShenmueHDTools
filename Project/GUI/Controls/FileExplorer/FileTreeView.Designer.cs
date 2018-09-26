@@ -32,9 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileTreeView));
             this.treeView_Files = new System.Windows.Forms.TreeView();
             this.imageList_NodeIcons = new System.Windows.Forms.ImageList(this.components);
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox_GroupBy = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_Search = new System.Windows.Forms.TextBox();
             this.button_Refresh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -91,16 +91,17 @@
             this.imageList_NodeIcons.Images.SetKeyName(31, "Unknown.ico");
             this.imageList_NodeIcons.Images.SetKeyName(32, "Wav.ico");
             // 
-            // comboBox1
+            // comboBox_GroupBy
             // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBox_GroupBy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(0, 3);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(356, 21);
-            this.comboBox1.TabIndex = 2;
+            this.comboBox_GroupBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_GroupBy.FormattingEnabled = true;
+            this.comboBox_GroupBy.Location = new System.Drawing.Point(0, 3);
+            this.comboBox_GroupBy.Name = "comboBox_GroupBy";
+            this.comboBox_GroupBy.Size = new System.Drawing.Size(356, 21);
+            this.comboBox_GroupBy.TabIndex = 2;
+            this.comboBox_GroupBy.SelectedIndexChanged += new System.EventHandler(this.comboBox_GroupBy_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -112,14 +113,15 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Search: ";
             // 
-            // textBox1
+            // textBox_Search
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(124, 373);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(232, 20);
-            this.textBox1.TabIndex = 4;
+            this.textBox_Search.Location = new System.Drawing.Point(124, 373);
+            this.textBox_Search.Name = "textBox_Search";
+            this.textBox_Search.Size = new System.Drawing.Size(232, 20);
+            this.textBox_Search.TabIndex = 4;
+            this.textBox_Search.TextChanged += new System.EventHandler(this.textBox_Search_TextChanged);
             // 
             // button_Refresh
             // 
@@ -136,9 +138,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.button_Refresh);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox_Search);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBox_GroupBy);
             this.Controls.Add(this.treeView_Files);
             this.Name = "FileTreeView";
             this.Size = new System.Drawing.Size(356, 396);
@@ -151,9 +153,9 @@
 
         private System.Windows.Forms.TreeView treeView_Files;
         private System.Windows.Forms.ImageList imageList_NodeIcons;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox_GroupBy;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_Search;
         private System.Windows.Forms.Button button_Refresh;
     }
 }

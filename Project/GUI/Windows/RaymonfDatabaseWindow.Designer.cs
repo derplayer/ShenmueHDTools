@@ -69,9 +69,9 @@
             // button_Merge
             // 
             this.button_Merge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Merge.Location = new System.Drawing.Point(604, 12);
+            this.button_Merge.Location = new System.Drawing.Point(599, 12);
             this.button_Merge.Name = "button_Merge";
-            this.button_Merge.Size = new System.Drawing.Size(168, 23);
+            this.button_Merge.Size = new System.Drawing.Size(173, 23);
             this.button_Merge.TabIndex = 4;
             this.button_Merge.Text = "Merge with Filename Database";
             this.button_Merge.UseVisualStyleBackColor = true;
