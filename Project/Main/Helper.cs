@@ -60,13 +60,60 @@ namespace ShenmueHDTools.Main
             }
         }
 
+        public static string illegalCharacters = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+
+        public static string RemoveIllegalCharacters(string filename)
+        {
+            foreach (char c in illegalCharacters)
+            {
+                filename = filename.Replace(c.ToString(), "");
+            }
+            return filename;
+        }
+
         public static string ByteArrayToString(byte[] ba)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);
             foreach (byte b in ba)
                 hex.AppendFormat("{0:X2}", b);
             return hex.ToString();
-        }      
+        }
+
+        public static string RemoveEscape(string filename)
+        {
+            string result = "";
+            for (int i = 0; i < filename.Length; i++)
+            {
+                if (filename[i] == '%')
+                {
+                    i += 2;
+                    continue;
+                }
+                result += filename[i];
+            }
+            return result;
+        }
+
+        public static byte[] StringToByteArray(String hex)
+        {
+            int NumberChars = hex.Length;
+            byte[] bytes = new byte[NumberChars / 2];
+            for (int i = 0; i < NumberChars; i += 2)
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            return bytes;
+        }
+
+        public static byte[] ReverseBytes(byte[] array)
+        {
+            byte[] result = new byte[array.Length];
+            int resultIndex = 0;
+            for(int i = array.Length - 1; i > 0; i--)
+            {
+                result[resultIndex] = array[i];
+                resultIndex++;
+            }
+            return result;
+        }
 
         public static uint ReverseBytes(uint value)
         {
@@ -133,8 +180,57 @@ namespace ShenmueHDTools.Main
             return true;
         }
 
+        public static string MakeRelativePath(string workingDirectory, string fullPath)
+        {
+            string result = string.Empty;
+            int offset;
+
+            // this is the easy case.  The file is inside of the working directory.
+            if (fullPath.StartsWith(workingDirectory))
+            {
+                return fullPath.Substring(workingDirectory.Length + 1);
+            }
+
+            // the hard case has to back out of the working directory
+            string[] baseDirs = workingDirectory.Split(new char[] { ':', '\\', '/' });
+            string[] fileDirs = fullPath.Split(new char[] { ':', '\\', '/' });
+
+            // if we failed to split (empty strings?) or the drive letter does not match
+            if (baseDirs.Length <= 0 || fileDirs.Length <= 0 || baseDirs[0] != fileDirs[0])
+            {
+                // can't create a relative path between separate harddrives/partitions.
+                return fullPath;
+            }
+
+            // skip all leading directories that match
+            for (offset = 1; offset < baseDirs.Length; offset++)
+            {
+                if (baseDirs[offset] != fileDirs[offset])
+                    break;
+            }
+
+            // back out of the working directory
+            for (int i = 0; i < (baseDirs.Length - offset); i++)
+            {
+                result += "..\\";
+            }
+
+            // step into the file path
+            for (int i = offset; i < fileDirs.Length - 1; i++)
+            {
+                result += fileDirs[i] + "\\";
+            }
+
+            // append the file
+            result += fileDirs[fileDirs.Length - 1];
+
+            return result;
+        }
+
         public static string GetRelativePath(string filename, string folder)
         {
+            return MakeRelativePath(folder, filename);
+            /*
             Uri pathUri = new Uri(filename);
             if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
             {
@@ -142,6 +238,7 @@ namespace ShenmueHDTools.Main
             }
             Uri folderUri = new Uri(folder);
             return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+            */
         }
 
         public static string ExtensionFinder(string filename)

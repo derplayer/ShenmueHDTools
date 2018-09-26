@@ -457,12 +457,20 @@ namespace ShenmueHDTools.Main.Files.Nodes
         {
             string extension = entry.Extension;
             FileType type = FileType.UNKNOWN;
-            type = PeakFileType(cacheFile.GetFullPath(entry.RelativPath), type);
 
-            if (type == FileType.UNKNOWN && !String.IsNullOrEmpty(extension))
+            if (!String.IsNullOrEmpty(extension)) //GZ extension fix
             {
-                //fallback to extension
                 type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+            }
+            
+            if (type != FileType.GZ)
+            {
+                type = PeakFileType(cacheFile.GetFullPath(entry.RelativPath), type);
+                if (type == FileType.UNKNOWN && !String.IsNullOrEmpty(extension))
+                {
+                    //fallback to extension
+                    type = GetTypeFromExtension(extension.Substring(1).ToUpper());
+                }
             }
 
             FileNode node = CreateNodeInternal(cacheFile, null, entry.RelativPath, type);
@@ -539,7 +547,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 case FileType.UNKNOWN:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.AFS:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new AFSFile(cacheFile, parent, relativPath, newFile);
                 case FileType.BIN:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.BMP:
@@ -565,7 +573,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 case FileType.HLSL:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.IDX:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new IDXFile(cacheFile, parent, relativPath, newFile);
                 case FileType.MAP:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.MT5:
@@ -577,7 +585,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 case FileType.MVS:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.PKF:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new PKFFile(cacheFile, parent, relativPath, newFile);
                 case FileType.PKS:
                     return new PKSFile(cacheFile, parent, relativPath, newFile);
                 case FileType.PNG:
@@ -591,7 +599,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 case FileType.SND:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.SPR:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new SPRFile(cacheFile, parent, relativPath, newFile);
                 case FileType.SRF:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.SUB:

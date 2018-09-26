@@ -68,8 +68,6 @@ namespace ShenmueHDTools.Main.Files.Nodes
         public void Unpack()
         {
             Header = new PKSHeader();
-            GZHeader GZHeader = new GZHeader();
-
             using (FileStream stream = File.Open(FullPath, FileMode.Open))
             {
                 byte[] identifier = new byte[2];

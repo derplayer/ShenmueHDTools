@@ -206,9 +206,12 @@
     <Compile Include="Main\Files\Headers\SRLHeader.cs" />
     <Compile Include="Main\Files\Headers\WAVHeader.cs" />
     <Compile Include="Main\Files\Headers\WDTHeader.cs" />
+    <Compile Include="Main\Files\Nodes\AFSFile.cs" />
     <Compile Include="Main\Files\Nodes\DDSFile.cs" />
+    <Compile Include="Main\Files\Nodes\IDXFile.cs" />
     <Compile Include="Main\Files\Nodes\PKFFile.cs" />
     <Compile Include="Main\Files\Nodes\PKSFile.cs" />
+    <Compile Include="Main\Files\Nodes\SPRFile.cs" />
     <Compile Include="Main\Files\Nodes\UnknownFile.cs" />
     <Compile Include="Main\Files\Nodes\GZFile.cs" />
     <Compile Include="Main\Files\Headers\CacheHeader.cs" />

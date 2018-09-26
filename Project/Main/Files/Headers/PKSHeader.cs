@@ -31,5 +31,13 @@ namespace ShenmueHDTools.Main.Files.Headers
             Unknown1 = reader.ReadUInt32();
             Unknown2 = reader.ReadUInt32();
         }
+
+        public void Write(BinaryWriter writer)
+        {
+            writer.Write(Signature, 0, 4);
+            writer.Write(IPACOffset);
+            writer.Write(Unknown1);
+            writer.Write(Unknown2);
+        }
     }
 }
