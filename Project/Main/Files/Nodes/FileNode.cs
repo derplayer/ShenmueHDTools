@@ -602,6 +602,24 @@ namespace ShenmueHDTools.Main.Files.Nodes
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.WAV:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.CRM:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.CHT:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.MOT:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.ATH:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.DYM:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.SRL:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.SNF:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.IWD:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.WDT:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
             }
             return null;
         }

@@ -90,6 +90,15 @@
             this.imageList_NodeIcons.Images.SetKeyName(30, "Image.ico");
             this.imageList_NodeIcons.Images.SetKeyName(31, "Unknown.ico");
             this.imageList_NodeIcons.Images.SetKeyName(32, "Wav.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(33, "Unknown.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(34, "Unknown.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(35, "Unknown.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(36, "Unknown.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(37, "Unknown.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(38, "Unknown.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(39, "Unknown.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(40, "Unknown.ico");
+            this.imageList_NodeIcons.Images.SetKeyName(41, "Unknown.ico");
             // 
             // comboBox_GroupBy
             // 

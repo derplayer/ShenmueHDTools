@@ -27,7 +27,7 @@ namespace ShenmueHDTools.GUI.Controls
         {
             m_fileNode = fileNode;
             fileInformation.SetFile(m_fileNode);
-
+            if (fileNode == null) return;
             if(fileNode.Type == FileNode.FileType.DDS)
             {
                 ddsControl1.SetFile(fileNode);
