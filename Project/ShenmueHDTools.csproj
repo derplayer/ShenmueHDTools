@@ -67,9 +67,20 @@
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -97,6 +108,13 @@
     <Compile Include="GUI\Controls\FileExplorer\FilePreview.Designer.cs">
       <DependentUpon>FilePreview.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\Files\DDSControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\Files\DDSControl.Designer.cs">
+      <DependentUpon>DDSControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\Files\FileControl.cs" />
     <Compile Include="GUI\Controls\FileExplorer\FileTreeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -178,6 +196,7 @@
     <Compile Include="Main\Files\Headers\SNDHeader.cs" />
     <Compile Include="Main\Files\Headers\SPRHeader.cs" />
     <Compile Include="Main\Files\Headers\WAVHeader.cs" />
+    <Compile Include="Main\Files\Nodes\DDSFile.cs" />
     <Compile Include="Main\Files\Nodes\PKFFile.cs" />
     <Compile Include="Main\Files\Nodes\PKSFile.cs" />
     <Compile Include="Main\Files\Nodes\UnknownFile.cs" />
@@ -201,6 +220,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\FileExplorer\FilePreview.resx">
       <DependentUpon>FilePreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\FileExplorer\Files\DDSControl.resx">
+      <DependentUpon>DDSControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\FileExplorer\FileTreeView.resx">
       <DependentUpon>FileTreeView.cs</DependentUpon>
@@ -276,8 +298,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GUI\Controls\FileExplorer\Files\" />
     <Folder Include="Main\Serialization\" />
+    <Folder Include="Main\Utils\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>

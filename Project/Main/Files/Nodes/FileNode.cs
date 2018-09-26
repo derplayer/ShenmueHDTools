@@ -551,7 +551,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 case FileType.DAT:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.DDS:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new DDSFile(cacheFile, parent, relativPath, newFile);
                 case FileType.EMU:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.FON:
