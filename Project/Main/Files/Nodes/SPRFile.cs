@@ -145,7 +145,22 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    reader.BaseStream.Seek(4, SeekOrigin.Current);
+                    if (reader.BaseStream.Position == reader.BaseStream.Length) break;
+                    uint entrySize = reader.ReadUInt32();
+                    reader.BaseStream.Seek(-4, SeekOrigin.Current);
+                    byte[] buffer = new byte[entrySize];
+                    reader.Read(buffer, 0, buffer.Length);
+
+                    string extension = Helper.ExtensionFinder(buffer);
+
+                    string filepath = outputFolder + i.ToString() + extension;
+                    using (FileStream stream = File.Create(filepath))
+                    {
+                        stream.Write(buffer, 0, buffer.Length);
+                    }
+                    string relativPath = CacheFile.GetRelativePath(filepath);
+                    Children.Add(CreateNode(CacheFile, this, relativPath));
                     //break;
                 }
                 i++;
