@@ -11,6 +11,8 @@ using ShenmueHDTools.Main.Files;
 using ShenmueHDTools.Main.Files.Nodes;
 using ShenmueHDTools.Main;
 using System.IO;
+using ShenmueHDTools.GUI.Dialogs;
+using System.Threading;
 
 namespace ShenmueHDTools.GUI.Controls
 {
@@ -207,10 +209,24 @@ namespace ShenmueHDTools.GUI.Controls
 
         private void button_Refresh_Click(object sender, EventArgs e)
         {
-            foreach(TreeNode node in treeView_Files.Nodes)
+            LoadingDialog loadingDialog = new LoadingDialog();
+            loadingDialog.SetData(this);
+            Thread thread = new Thread(delegate () {
+                NodeRefresh();
+            });
+            loadingDialog.ShowDialog(thread);
+        }
+
+        private void NodeRefresh()
+        {
+            DescriptionChanged(this, new DescriptionChangedArgs("Calculating file hashes..."));
+            for (int i = 0; i < treeView_Files.Nodes.Count; i++)
             {
+                ProgressChanged(this, new ProgressChangedArgs(i, treeView_Files.Nodes.Count));
+                TreeNode node = treeView_Files.Nodes[i];
                 NodeRefreshRecursive(node);
             }
+            Finished(this, new FinishedArgs(true));
         }
 
         private void NodeRefreshRecursive(TreeNode treeNode)
