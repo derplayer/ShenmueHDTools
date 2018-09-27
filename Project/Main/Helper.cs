@@ -11,7 +11,9 @@ using System.Windows.Forms;
 using System.Net;
 using System.Globalization;
 using ShenmueHDTools.Main.Files.Headers;
+using System.Data.HashFunction.xxHash;
 using static ShenmueHDTools.Main.Files.Nodes.FileNode;
+using System.Data.HashFunction;
 
 namespace ShenmueHDTools.Main
 {
@@ -129,6 +131,15 @@ namespace ShenmueHDTools.Main
                 if (signature[i] != data[i]) return false;
             }
             return true;
+        }
+
+
+        private static IxxHash _xxHash = xxHashFactory.Instance.Create();
+
+        public static byte[] xxHash(byte[] data)
+        {
+            IHashValue hash = _xxHash.ComputeHash(data);
+            return hash.Hash;
         }
 
         public static byte[] MD5Hash(byte[] data)

@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ShenmueHDTools.Main.Files;
 using ShenmueHDTools.Main.Files.Nodes;
+using ShenmueHDTools.Main;
+using System.IO;
 
 namespace ShenmueHDTools.GUI.Controls
 {
-    public partial class FileTreeView : UserControl
+    public partial class FileTreeView : UserControl, IProgressable
     {
         public event EventHandler<FileNode> SelectionChanged;
+        public event FinishedEventHandler Finished;
+        public event Main.ProgressChangedEventHandler ProgressChanged;
+        public event DescriptionChangedEventHandler DescriptionChanged;
+        public event Main.ErrorEventHandler Error;
 
         private Dictionary<TreeNode, bool> m_preFilterCollapse = new Dictionary<TreeNode, bool>();
 
@@ -22,6 +28,8 @@ namespace ShenmueHDTools.GUI.Controls
         private TreeNode m_grouped;
         private TreeNode m_filtered;
         private bool m_filter;
+
+        public bool IsAbortable => throw new NotImplementedException();
 
         public FileTreeView()
         {
@@ -183,6 +191,60 @@ namespace ShenmueHDTools.GUI.Controls
                 m_filtered.ExpandAll();
                 treeView_Files.Nodes.Add(m_filtered);
             }
+        }
+
+        private void treeView_Files_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                FileNode node = (FileNode)e.Node.Tag;
+                ShellContextMenu ctxMnu = new ShellContextMenu();
+                FileInfo[] arrFI = new FileInfo[1];
+                arrFI[0] = new FileInfo(node.FullPath);
+                ctxMnu.ShowContextMenu(arrFI, Cursor.Position);
+            }
+        }
+
+        private void button_Refresh_Click(object sender, EventArgs e)
+        {
+            foreach(TreeNode node in treeView_Files.Nodes)
+            {
+                NodeRefreshRecursive(node);
+            }
+        }
+
+        private void NodeRefreshRecursive(TreeNode treeNode)
+        {
+            bool anyModified = false;
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                NodeRefreshRecursive(node);
+                FileNode fNode = (FileNode)node.Tag;
+                if (fNode == null) continue;
+                if (fNode.Modified) anyModified = true;
+            }
+
+            bool modified = false;
+            if (treeNode.Tag != null && treeNode.Tag.GetType() != typeof(CacheFile))
+            {
+                FileNode fileNode = (FileNode)treeNode.Tag;
+                fileNode.CalcChecksum();
+                modified = fileNode.Modified;
+            }
+
+            if (anyModified || modified)
+            {
+                treeNode.BackColor = Color.FromArgb(160, 196, 255);
+            }
+            else
+            {
+                treeNode.BackColor = Color.FromArgb(255, 255, 255);
+            }
+        }
+
+        public void Abort()
+        {
+            
         }
     }
 }

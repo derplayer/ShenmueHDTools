@@ -62,7 +62,89 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         public void Pack()
         {
-            
+            if (Children.Count == 0) return; //unpack first
+
+            bool anyModified = false;
+            foreach (FileNode node in Children)
+            {
+                if (typeof(IArchiveNode).IsAssignableFrom(node.GetType()))
+                {
+                    ((IArchiveNode)node).Pack();
+                }
+                node.CalcChecksum();
+                if (node.Modified) anyModified = true;
+            }
+
+            CalcChecksum();
+            if (Modified)
+            {
+                //TODO check if self is modified and handle the situation
+                throw new NotImplementedException();
+            }
+
+            if (anyModified)
+            {
+                List<PKSEntry> entries = new List<PKSEntry>();
+                PKSHeader pksHeader = new PKSHeader();
+                IPACHeader ipacHeader = new IPACHeader();
+
+                //read current header
+                using (FileStream peakStream = File.Open(FullPath, FileMode.Open))
+                {
+                    using (BinaryReader reader = new BinaryReader(peakStream))
+                    {
+                        pksHeader.Read(reader);
+                        ipacHeader.Read(reader);
+                    }
+                }
+
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    using (BinaryWriter writer = new BinaryWriter(outStream))
+                    {
+                        pksHeader.Write(writer);
+                        outStream.Seek(16, SeekOrigin.Current); //Skip IPAC header
+                        
+                        foreach (FileNode node in Children)
+                        {
+                            using (FileStream stream = File.Open(node.FullPath, FileMode.Create))
+                            {
+                                PKSEntry entry = new PKSEntry();
+                                entry.Offset = (uint)outStream.Position - 16;
+                                entry.Filename = Path.GetFileNameWithoutExtension(node.RelativPath);
+                                entry.Extension = Path.GetExtension(node.RelativPath);
+                                entry.FileSize = (uint)stream.Length;
+                                entries.Add(entry);
+
+                                byte[] buffer = new byte[stream.Length];
+                                stream.Read(buffer, 0, buffer.Length);
+                                writer.Write(buffer);
+                            }
+                        }
+
+                        ipacHeader.ContentOffset = (uint)outStream.Position - 16;
+                        ipacHeader.ContentSize = (uint)outStream.Position - 16;
+                        ipacHeader.FileCount = (uint)Children.Count;
+
+                        foreach (PKSEntry entry in entries)
+                        {
+                            entry.Write(writer);
+                        }
+
+                        outStream.Seek(16, SeekOrigin.Begin);
+                        ipacHeader.Write(writer);
+                    }
+
+                    //Compress
+                    using (FileStream compressedFileStream = File.Create(FullPath))
+                    {
+                        using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress, false))
+                        {
+                            outStream.CopyTo(compressedFileStream);
+                        }
+                    }
+                }
+            }
         }
 
         public void Unpack()

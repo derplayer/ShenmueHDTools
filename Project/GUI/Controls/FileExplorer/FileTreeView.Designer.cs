@@ -52,6 +52,7 @@
             this.treeView_Files.StateImageList = this.imageList_NodeIcons;
             this.treeView_Files.TabIndex = 0;
             this.treeView_Files.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Files_AfterSelect);
+            this.treeView_Files.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Files_NodeMouseClick);
             // 
             // imageList_NodeIcons
             // 
@@ -141,6 +142,7 @@
             this.button_Refresh.TabIndex = 5;
             this.button_Refresh.Text = "Refresh";
             this.button_Refresh.UseVisualStyleBackColor = true;
+            this.button_Refresh.Click += new System.EventHandler(this.button_Refresh_Click);
             // 
             // FileTreeView
             // 

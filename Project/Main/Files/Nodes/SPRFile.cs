@@ -55,6 +55,49 @@ namespace ShenmueHDTools.Main.Files.Nodes
             }
         }
 
+        public void Pack()
+        {
+            if (Children.Count == 0) return; //unpack first
+
+            bool anyModified = false;
+            foreach(FileNode node in Children)
+            {
+                node.CalcChecksum();
+                if (node.Modified) anyModified = true;
+            }
+
+            CalcChecksum();
+            if (Modified)
+            {
+                //TODO check if self is modified and handle the situation
+                throw new NotImplementedException();
+            }
+
+            if (anyModified)
+            {
+                using (FileStream outStream = File.Create(FullPath))
+                {
+                    using (BinaryWriter writer = new BinaryWriter(outStream))
+                    {
+                        foreach (FileNode node in Children)
+                        {
+                            using (FileStream stream = File.Open(node.FullPath, FileMode.Create))
+                            {
+                                TEXNEntry entry = new TEXNEntry();
+                                entry.EntrySize = (uint)stream.Length;
+                                entry.Filename = Path.GetFileName(node.RelativPath);
+                                entry.Write(writer);
+
+                                byte[] buffer = new byte[stream.Length];
+                                stream.Read(buffer, 0, buffer.Length);
+                                writer.Write(buffer);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public void Unpack()
         {
             using (FileStream stream = File.Open(FullPath, FileMode.Open))
@@ -64,11 +107,6 @@ namespace ShenmueHDTools.Main.Files.Nodes
                     Read(reader);
                 }
             }
-        }
-
-        public void Pack()
-        {
-            throw new NotImplementedException();
         }
 
         private void Read(BinaryReader reader)
@@ -107,7 +145,8 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 }
                 else
                 {
-                    break; //ignore for now
+                    throw new NotImplementedException();
+                    //break;
                 }
                 i++;
             }

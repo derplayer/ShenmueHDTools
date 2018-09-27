@@ -83,6 +83,26 @@ namespace ShenmueHDTools.Main.Files.Nodes
             return null;
         }
 
+        public void Write()
+        {
+            using (FileStream stream = File.Create(FullPath))
+            {
+                using (BinaryWriter writer = new BinaryWriter(stream))
+                {
+                    Header.EntryCount = (ushort)Children.Count;
+                    Header.EntryCountSelf = (ushort)(Children.Count + 1);
+                    Header.Write(writer);
+
+                    //TODO HUMANS.IDX case
+
+                    foreach (IDXEntry entry in Entries)
+                    {
+                        entry.Write(writer);
+                    }
+                }
+            }
+        }
+
         public void Read()
         {
             Header = new IDXHeader();

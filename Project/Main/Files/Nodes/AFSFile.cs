@@ -47,7 +47,63 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         public void Pack()
         {
-            throw new NotImplementedException();
+            if (Children.Count == 0) return; //unpack first
+
+            bool anyModified = false;
+            foreach (FileNode node in Children)
+            {
+                if (typeof(IArchiveNode).IsAssignableFrom(node.GetType()))
+                {
+                    ((IArchiveNode)node).Pack();
+                }
+                node.CalcChecksum();
+                if (node.Modified) anyModified = true;
+            }
+
+            CalcChecksum();
+            if (Modified)
+            {
+                //TODO check if self is modified and handle the situation
+                throw new NotImplementedException();
+            }
+
+            if (anyModified)
+            {
+                AFSHeader afsHeader = new AFSHeader();
+                afsHeader.FileCount = (uint)Children.Count;
+                List<AFSEntry> entries = new List<AFSEntry>();
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    using (BinaryWriter writer = new BinaryWriter(outStream))
+                    {
+                        afsHeader.Write(writer);
+                        outStream.Seek(afsHeader.FileCount * 8, SeekOrigin.Current);
+
+                        foreach (FileNode node in Children)
+                        {
+                            using (FileStream stream = File.Open(node.FullPath, FileMode.Create))
+                            {
+                                AFSEntry entry = new AFSEntry();
+                                entry.Offset = (uint)outStream.Position;
+                                entry.FileSize = (uint)stream.Length;
+                                entries.Add(entry);
+
+                                byte[] buffer = new byte[stream.Length];
+                                stream.Read(buffer, 0, buffer.Length);
+                                writer.Write(buffer);
+                            }
+                        }
+
+                        outStream.Seek(8, SeekOrigin.Begin);
+                        foreach(AFSEntry entry in entries)
+                        {
+                            entry.Write(writer);
+                        }
+                    }
+                }
+                IDXFile idx = GetIDXPartner();
+                if (idx != null) idx.Write();
+            }
         }
 
         public void Unpack(IDXFile idx)
@@ -58,25 +114,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         public void Unpack()
         {
-            IDXFile idx = m_idx;
-            /*
-            if (Parent == null)
-            {
-                string search = RelativPath.Replace(".AFS", ".IDX");
-                foreach (FileNode node in CacheFile.Files)
-                {
-                    if (node.RelativPath == search)
-                    {
-                        idx = (IDXFile)node;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                idx = (IDXFile)Parent.Find(RelativPath.Replace(".AFS", ".IDX"));
-            }
-            */
+            IDXFile idx = GetIDXPartner();
             if (idx == null) return;
             idx.Read();
 
@@ -133,6 +171,31 @@ namespace ShenmueHDTools.Main.Files.Nodes
                     }
                 }
             }
+        }
+
+        private IDXFile GetIDXPartner()
+        {
+            IDXFile idx = m_idx;
+            if (idx == null)
+            {
+                if (Parent == null)
+                {
+                    string search = RelativPath.Replace(".AFS", ".IDX");
+                    foreach (FileNode node in CacheFile.Files)
+                    {
+                        if (node.RelativPath == search)
+                        {
+                            idx = (IDXFile)node;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    idx = (IDXFile)Parent.Find(RelativPath.Replace(".AFS", ".IDX"));
+                }
+            }
+            return idx;
         }
     }
 }

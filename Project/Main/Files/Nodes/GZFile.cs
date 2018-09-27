@@ -45,7 +45,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 {
                     using (FileStream compressedFileStream = File.Create(FullPath))
                     {
-                        using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+                        using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress, false))
                         {
                             originalFileStream.CopyTo(compressionStream);
                         }

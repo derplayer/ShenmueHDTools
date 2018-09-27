@@ -56,7 +56,70 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         public void Pack()
         {
-            throw new NotImplementedException();
+            if (Children.Count == 0) return; //unpack first
+
+            bool anyModified = false;
+            foreach (FileNode node in Children)
+            {
+                if (typeof(IArchiveNode).IsAssignableFrom(node.GetType()))
+                {
+                    ((IArchiveNode)node).Pack();
+                }
+                node.CalcChecksum();
+                if (node.Modified) anyModified = true;
+            }
+
+            CalcChecksum();
+            if (Modified)
+            {
+                //TODO check if self is modified and handle the situation
+                throw new NotImplementedException();
+            }
+
+            if (anyModified)
+            {
+                PKFHeader pksHeader = new PKFHeader();
+                //read current header
+                using (FileStream peakStream = File.Open(FullPath, FileMode.Open))
+                {
+                    using (BinaryReader reader = new BinaryReader(peakStream))
+                    {
+                        pksHeader.Read(reader);
+                    }
+                }
+
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    using (BinaryWriter writer = new BinaryWriter(outStream))
+                    {
+                        outStream.Seek(16, SeekOrigin.Begin); //Skip PKSHeader
+
+                        foreach (FileNode node in Children)
+                        {
+                            using (FileStream stream = File.Open(node.FullPath, FileMode.Create))
+                            {
+                                byte[] buffer = new byte[stream.Length];
+                                stream.Read(buffer, 0, buffer.Length);
+                                writer.Write(buffer);
+                            }
+                        }
+
+                        pksHeader.ContentSize = (uint)outStream.Length;
+                        pksHeader.FileCount = (uint)Children.Count;
+                        outStream.Seek(0, SeekOrigin.Begin);
+                        pksHeader.Write(writer);
+                    }
+
+                    //Compress
+                    using (FileStream compressedFileStream = File.Create(FullPath))
+                    {
+                        using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress, false))
+                        {
+                            outStream.CopyTo(compressedFileStream);
+                        }
+                    }
+                }
+            }
         }
 
         private void Read(BinaryReader reader)

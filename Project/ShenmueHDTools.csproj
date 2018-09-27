@@ -76,6 +76,15 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.HashFunction.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=80c9288e394c1322, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.HashFunction.Core.2.0.0\lib\net45\System.Data.HashFunction.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.HashFunction.Interfaces, Version=2.0.0.0, Culture=neutral, PublicKeyToken=80c9288e394c1322, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.HashFunction.Interfaces.2.0.0\lib\net45\System.Data.HashFunction.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.HashFunction.xxHash, Version=2.0.0.0, Culture=neutral, PublicKeyToken=80c9288e394c1322, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.HashFunction.xxHash.2.0.0\lib\net45\System.Data.HashFunction.xxHash.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -191,6 +200,7 @@
     <Compile Include="Main\Files\Headers\Headers.cs" />
     <Compile Include="Main\Files\Headers\HLSLHeader.cs" />
     <Compile Include="Main\Files\Headers\IDXHeader.cs" />
+    <Compile Include="Main\Files\Headers\IPACHeader.cs" />
     <Compile Include="Main\Files\Headers\IWDHeader.cs" />
     <Compile Include="Main\Files\Headers\MAPHeader.cs" />
     <Compile Include="Main\Files\Headers\MOTHeader.cs" />
@@ -311,6 +321,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="GUI\Tools\" />
     <Folder Include="Main\Serialization\" />
     <Folder Include="Main\Utils\" />
     <Folder Include="Properties\DataSources\" />

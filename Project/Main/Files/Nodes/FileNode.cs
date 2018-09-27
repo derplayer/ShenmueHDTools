@@ -82,9 +82,9 @@ namespace ShenmueHDTools.Main.Files.Nodes
             get { return m_checksum; }
             set
             {
-                if (value == null || value.Length != 16)
+                if (value == null || value.Length != 4)
                 {
-                    SetProperty(ref m_checksum, new byte[16]);
+                    SetProperty(ref m_checksum, new byte[4]);
                     OnPropertyChanged("ChecksumString");
                     return;
                 }
@@ -188,8 +188,9 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         public enum TreeType
         {
-            Simple,
+            TAD,
             FilePath,
+            FilePathFull,
             Category,
             Location
         }
@@ -236,7 +237,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             {
                 byte[] buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, (int)stream.Length);
-                byte[] hash = Helper.MD5Hash(buffer);
+                byte[] hash = Helper.xxHash(buffer);
                 Modified = false;
 
                 if (writeChecksum)
@@ -303,26 +304,29 @@ namespace ShenmueHDTools.Main.Files.Nodes
             TreeNode.SelectedImageIndex = (int)Type;
             TreeNode.ImageIndex = (int)Type;
 
-            if (treeType == TreeType.FilePath)
+            if (treeType == TreeType.FilePath || treeType == TreeType.FilePathFull)
             {
                 parent = GetOrCreateFolder(parent, Path.GetDirectoryName(RelativPath));
             }
 
             if (treeType == TreeType.Category)
             {
-                throw new NotImplementedException();
+                parent = GetOrCreateFolder(parent, Category);
             }
 
             if (treeType == TreeType.Location)
             {
-                throw new NotImplementedException();
+                parent = GetOrCreateFolder(parent, Location);
             }
 
             parent.Nodes.Add(TreeNode);
 
-            foreach (FileNode child in Children)
+            if (treeType == TreeType.FilePathFull)
             {
-                child.CreateTreeNode(TreeNode, treeType);
+                foreach (FileNode child in Children)
+                {
+                    child.CreateTreeNode(TreeNode, treeType);
+                }
             }
         }
 
@@ -336,7 +340,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
         public static FileNode Read(CacheFile cacheFile, FileNode parent, BinaryReader reader)
         {
             FileType type = (FileType)reader.ReadByte();
-            byte[] checksum = reader.ReadBytes(16);
+            byte[] checksum = reader.ReadBytes(4);
 
             string relativPath = "";
             uint relativPathLength = reader.ReadUInt32();
@@ -402,7 +406,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
         public void Write(BinaryWriter writer)
         {
             writer.Write((byte)Type);
-            writer.Write(Checksum, 0, 16);
+            writer.Write(Checksum, 0, 4);
 
             byte[] relativPathBytes = Encoding.ASCII.GetBytes(RelativPath);
             writer.Write((uint)relativPathBytes.Length);
@@ -667,7 +671,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             { FileType.DAT, "Unknown Binary file" },
             { FileType.DDS, "Direct draw surface texture" },
             { FileType.EMU, "Unknown emulator file" },
-            { FileType.FON, "Unknown" },
+            { FileType.FON, "Disk font file" },
             { FileType.FONTDEF, "Font definition file" },
             { FileType.GLYPHS, "Font glyph file" },
             { FileType.GZ, "GZip compressed file" },
@@ -686,7 +690,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             { FileType.SCN, "Scene file" },
             { FileType.SND, "Sound file" },
             { FileType.SPR, "Sprite container" },
-            { FileType.SRF, "" },
+            { FileType.SRF, "Cinematic subtitles file" },
             { FileType.SUB, "Subtitles file" },
             { FileType.TGA, "Targa image file" },
             { FileType.UI, "UI JSON" },
@@ -700,6 +704,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             { FileType.SNF, "Subtitles Table" },
             { FileType.IWD, "LCD Table" },
             { FileType.WDT, "Weather Data" },
+            { FileType.IPAC, "PKS Container" }
         };
 
         /// <summary>
@@ -750,7 +755,8 @@ namespace ShenmueHDTools.Main.Files.Nodes
             SRL = 38,
             SNF = 39,
             IWD = 40,
-            WDT = 41
+            WDT = 41,
+            IPAC = 42
         }
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
