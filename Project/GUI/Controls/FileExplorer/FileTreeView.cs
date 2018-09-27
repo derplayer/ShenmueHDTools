@@ -31,7 +31,7 @@ namespace ShenmueHDTools.GUI.Controls
         private TreeNode m_filtered;
         private bool m_filter;
 
-        public bool IsAbortable => throw new NotImplementedException();
+        public bool IsAbortable => false;
 
         public FileTreeView()
         {
@@ -220,10 +220,10 @@ namespace ShenmueHDTools.GUI.Controls
         private void NodeRefresh()
         {
             DescriptionChanged(this, new DescriptionChangedArgs("Calculating file hashes..."));
-            for (int i = 0; i < treeView_Files.Nodes.Count; i++)
+            for (int i = 0; i < treeView_Files.Nodes[0].Nodes.Count; i++)
             {
-                ProgressChanged(this, new ProgressChangedArgs(i, treeView_Files.Nodes.Count));
-                TreeNode node = treeView_Files.Nodes[i];
+                ProgressChanged(this, new ProgressChangedArgs(i, treeView_Files.Nodes[0].Nodes.Count));
+                TreeNode node = treeView_Files.Nodes[0].Nodes[i];
                 NodeRefreshRecursive(node);
             }
             Finished(this, new FinishedArgs(true));
