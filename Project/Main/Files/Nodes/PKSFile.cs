@@ -212,6 +212,10 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 reader.Read(buffer, 0, buffer.Length);
 
                 string filepath = outputFolder + entry.Filename + "." + entry.Extension;
+
+                if (String.IsNullOrEmpty(entry.Filename)) //TODO THIS SHOULD NOT HAPPEN!
+                    filepath = outputFolder + entry.Offset;
+
                 using (FileStream stream = File.Create(filepath))
                 {
                     stream.Write(buffer, 0, buffer.Length);
