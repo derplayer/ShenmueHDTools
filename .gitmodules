@@ -1,0 +1,3 @@
+[submodule "ShenmueDKSharp"]
+	path = ShenmueDKSharp
+	url = ../../philyeahz/ShenmueDKSharp.git
