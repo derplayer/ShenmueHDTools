@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShenmueDKSharp.Files.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -39,11 +40,13 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
     public interface IModelNode
     {
-        void GetModel(); //TODO
+        BaseModel GetModel();
     }
 
     public class FileNode : INotifyPropertyChanged
     {
+        private static Encoding m_encoding = Encoding.Unicode;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         #region Serialization
@@ -347,7 +350,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             if (relativPathLength > 0)
             {
                 byte[] relativPathBuffer = reader.ReadBytes((int)relativPathLength);
-                relativPath = Encoding.ASCII.GetString(relativPathBuffer);
+                relativPath = m_encoding.GetString(relativPathBuffer);
             }
 
             string category = "";
@@ -355,7 +358,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             if (categoryLength > 0)
             {
                 byte[] categoryBuffer = reader.ReadBytes((int)categoryLength);
-                category = Encoding.ASCII.GetString(categoryBuffer);
+                category = m_encoding.GetString(categoryBuffer);
             }
 
             string location = "";
@@ -363,7 +366,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             if (locationLength > 0)
             {
                 byte[] locationBuffer = reader.ReadBytes((int)locationLength);
-                location = Encoding.ASCII.GetString(locationBuffer);
+                location = m_encoding.GetString(locationBuffer);
             }
 
             string description = "";
@@ -371,7 +374,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             if (descriptionLength > 0)
             {
                 byte[] descriptionBuffer = reader.ReadBytes((int)descriptionLength);
-                description = Encoding.ASCII.GetString(descriptionBuffer);
+                description = m_encoding.GetString(descriptionBuffer);
             }
 
             string notes = "";
@@ -379,7 +382,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             if (notesLength > 0)
             {
                 byte[] notesBuffer = reader.ReadBytes((int)notesLength);
-                notes = Encoding.ASCII.GetString(notesBuffer);
+                notes = m_encoding.GetString(notesBuffer);
             }
 
             FileNode node = CreateNodeInternal(cacheFile, parent, relativPath, type, false);
@@ -408,35 +411,35 @@ namespace ShenmueHDTools.Main.Files.Nodes
             writer.Write((byte)Type);
             writer.Write(Checksum, 0, 4);
 
-            byte[] relativPathBytes = Encoding.ASCII.GetBytes(RelativPath);
+            byte[] relativPathBytes = m_encoding.GetBytes(RelativPath);
             writer.Write((uint)relativPathBytes.Length);
             if (relativPathBytes.Length > 0)
             {
                 writer.Write(relativPathBytes, 0, relativPathBytes.Length);
             }
 
-            byte[] categoryBytes = Encoding.ASCII.GetBytes(Category);
+            byte[] categoryBytes = m_encoding.GetBytes(Category);
             writer.Write((uint)categoryBytes.Length);
             if (categoryBytes.Length > 0)
             {
                 writer.Write(categoryBytes, 0, categoryBytes.Length);
             }
 
-            byte[] locationBytes = Encoding.ASCII.GetBytes(Location);
+            byte[] locationBytes = m_encoding.GetBytes(Location);
             writer.Write((uint)locationBytes.Length);
             if (locationBytes.Length > 0)
             {
                 writer.Write(locationBytes, 0, locationBytes.Length);
             }
 
-            byte[] descriptionBytes = Encoding.ASCII.GetBytes(Description);
+            byte[] descriptionBytes = m_encoding.GetBytes(Description);
             writer.Write((uint)descriptionBytes.Length);
             if (descriptionBytes.Length > 0)
             {
                 writer.Write(descriptionBytes, 0, descriptionBytes.Length);
             }
 
-            byte[] notesBytes = Encoding.ASCII.GetBytes(Notes);
+            byte[] notesBytes = m_encoding.GetBytes(Notes);
             writer.Write((uint)notesBytes.Length);
             if (notesBytes.Length > 0)
             {
@@ -581,11 +584,11 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 case FileType.MAP:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.MT5:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new MT5File(cacheFile, parent, relativPath, newFile);
                 case FileType.MT6:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.MT7:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new MT7File(cacheFile, parent, relativPath, newFile);
                 case FileType.MVS:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.PKF:
@@ -595,7 +598,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 case FileType.PNG:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.PVR:
-                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                    return new PVRFile(cacheFile, parent, relativPath, newFile);
                 case FileType.RMP:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.SCN:

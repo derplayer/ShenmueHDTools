@@ -55,8 +55,29 @@
     <ApplicationIcon>Resources\UI\ICON_RYOU.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="atk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
+      <HintPath>..\packages\gtk-sharp3.3.18.0.0\lib\net40\atk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="cairo-sharp, Version=1.12.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\gtk-sharp3.3.18.0.0\lib\net40\cairo-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="Costura, Version=2.0.1.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.2.0.1\lib\net452\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="gdk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
+      <HintPath>..\packages\gtk-sharp3.3.18.0.0\lib\net40\gdk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gio-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
+      <HintPath>..\packages\gtk-sharp3.3.18.0.0\lib\net40\gio-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
+      <HintPath>..\packages\gtk-sharp3.3.18.0.0\lib\net40\glib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-dotnet, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
+      <HintPath>..\packages\gtk-sharp3.3.18.0.0\lib\net40\gtk-dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
+      <HintPath>..\packages\gtk-sharp3.3.18.0.0\lib\net40\gtk-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -64,8 +85,14 @@
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.WindowsForms.1.0\lib\net35\Ookii.Dialogs.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.GLControl.3.0.1\lib\net20\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="pango-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
+      <HintPath>..\packages\gtk-sharp3.3.18.0.0\lib\net40\pango-sharp.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
@@ -124,11 +151,36 @@
       <DependentUpon>DDSControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\FileExplorer\Files\FileControl.cs" />
+    <Compile Include="GUI\Controls\FileExplorer\Files\MT5Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\Files\MT5Control.Designer.cs">
+      <DependentUpon>MT5Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\Files\MT7Control.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\Files\MT7Control.Designer.cs">
+      <DependentUpon>MT7Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\Files\PVRControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\FileExplorer\Files\PVRControl.Designer.cs">
+      <DependentUpon>PVRControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\FileExplorer\FileTreeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Controls\FileExplorer\FileTreeView.Designer.cs">
       <DependentUpon>FileTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\View3D\Camera.cs" />
+    <Compile Include="GUI\Controls\View3D\View3D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\View3D\View3D.Designer.cs">
+      <DependentUpon>View3D.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Dialogs\AboutDialog.cs">
       <SubType>Form</SubType>
@@ -219,15 +271,18 @@
     <Compile Include="Main\Files\Nodes\AFSFile.cs" />
     <Compile Include="Main\Files\Nodes\DDSFile.cs" />
     <Compile Include="Main\Files\Nodes\IDXFile.cs" />
+    <Compile Include="Main\Files\Nodes\MT5File.cs" />
+    <Compile Include="Main\Files\Nodes\MT7File.cs" />
     <Compile Include="Main\Files\Nodes\PKFFile.cs" />
     <Compile Include="Main\Files\Nodes\PKSFile.cs" />
+    <Compile Include="Main\Files\Nodes\PVRFile.cs" />
     <Compile Include="Main\Files\Nodes\SPRFile.cs" />
     <Compile Include="Main\Files\Nodes\UnknownFile.cs" />
     <Compile Include="Main\Files\Nodes\GZFile.cs" />
     <Compile Include="Main\Files\Headers\CacheHeader.cs" />
     <Compile Include="Main\Files\Headers\TADHeader.cs" />
     <Compile Include="Main\Files\CacheFile.cs" />
-    <Compile Include="Main\Files\Nodes\FileNode.cs" />
+    <Compile Include="Main\Files\FileNode.cs" />
     <Compile Include="Main\Files\TACFile.cs" />
     <Compile Include="Main\Files\TADFile.cs" />
     <Compile Include="Main\IProgressable.cs" />
@@ -246,6 +301,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\FileExplorer\Files\DDSControl.resx">
       <DependentUpon>DDSControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\FileExplorer\Files\MT5Control.resx">
+      <DependentUpon>MT5Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\FileExplorer\Files\MT7Control.resx">
+      <DependentUpon>MT7Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Controls\FileExplorer\Files\PVRControl.resx">
+      <DependentUpon>PVRControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Controls\FileExplorer\FileTreeView.resx">
       <DependentUpon>FileTreeView.cs</DependentUpon>
@@ -284,6 +348,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -301,6 +366,8 @@
     <None Include="Resources\Descriptions\desc_audio_sm1.csv" />
     <None Include="Resources\Descriptions\desc_chars_sm1.csv" />
     <None Include="Resources\Descriptions\desc_maps_sm1.csv" />
+    <None Include="Resources\Shaders\fragmentShader.glsl" />
+    <None Include="Resources\Shaders\vertexShader.glsl" />
     <None Include="Resources\WulinshuRaymonf\backup.json" />
   </ItemGroup>
   <ItemGroup>
@@ -366,6 +433,12 @@
     <Content Include="Resources\UI\ICON_RYOU.ico" />
     <Content Include="Resources\Whats_Shemue\WS_D1.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShenmueDKSharp\ShenmueDKSharp.csproj">
+      <Project>{68ca6fda-e029-4247-9229-c3a75dfa9f8d}</Project>
+      <Name>ShenmueDKSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
@@ -378,6 +451,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fody.3.0.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.0.3\build\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\gtk-sharp3.3.18.0.0\build\net40\gtk-sharp3.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\gtk-sharp3.3.18.0.0\build\net40\gtk-sharp3.targets'))" />
   </Target>
   <Import Project="..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets')" />
+  <Import Project="..\packages\gtk-sharp3.3.18.0.0\build\net40\gtk-sharp3.targets" Condition="Exists('..\packages\gtk-sharp3.3.18.0.0\build\net40\gtk-sharp3.targets')" />
 </Project>

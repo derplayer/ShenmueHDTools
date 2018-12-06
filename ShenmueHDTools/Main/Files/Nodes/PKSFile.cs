@@ -206,15 +206,14 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
             foreach (PKSEntry entry in entries)
             {
+                if (String.IsNullOrEmpty(entry.Filename)) continue;
+
                 reader.BaseStream.Seek(entry.Offset + Header.IPACOffset, SeekOrigin.Begin);
 
                 byte[] buffer = new byte[entry.FileSize];
                 reader.Read(buffer, 0, buffer.Length);
 
                 string filepath = outputFolder + entry.Filename + "." + entry.Extension;
-
-                if (String.IsNullOrEmpty(entry.Filename)) //TODO THIS SHOULD NOT HAPPEN!
-                    filepath = outputFolder + entry.Offset;
 
                 using (FileStream stream = File.Create(filepath))
                 {

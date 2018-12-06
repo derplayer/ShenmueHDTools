@@ -29,7 +29,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
             //byte[] reversedBuffer = Helper.ReverseBytes(buffer);
             string filename = Helper.RemoveIllegalCharacters(m_shiftJis.GetString(buffer).Replace("\0", ""));
 
-            Filename = filename + "." + hexString;
+            Filename = hexString + "." + filename;
         }
 
         public void Write(BinaryWriter writer)
