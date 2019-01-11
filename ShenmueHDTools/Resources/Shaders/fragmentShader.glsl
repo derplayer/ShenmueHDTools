@@ -1,6 +1,7 @@
 ﻿#version 440 core
 
 in vec2 v_uv;
+in vec4 v_color;
 in vec3 v_norm;
 in mat4 v_mv;
 in vec3 v_fragPos;
@@ -8,7 +9,7 @@ in vec3 v_fragPos;
 out vec4 color;
 
 uniform sampler2D u_texture;
-uniform vec4 u_color;
+uniform vec4 u_stripColor;
 uniform vec3 u_lightPos;
 uniform vec3 u_lightColor;
 
@@ -16,7 +17,8 @@ uniform vec3 u_lightColor;
 // 1 = flat
 // 2 = normal
 // 3 = uv
-// 4 = colorOverride
+// 4 = color
+// 5 = colorOverride
 uniform int u_drawMode;
 
 void main(void)
@@ -36,21 +38,41 @@ void main(void)
 
 		float diff = max(dot(norm, lightDir), 0.0);
 		vec3 diffuse = diff * u_lightColor;
-
-		vec3 result = (ambient + diffuse) * texture2D(u_texture, uv).rgb;
-		color.rgb = result;
-
-		color.a = texture2D(u_texture, uv).a;
+		
+		/*if (uv.x < 0.0 || uv.y < 0.0)
+		{
+			vec3 result = (ambient + diffuse) * v_color.rgb;
+			color.rgb = result * u_stripColor.rgb;
+			color.a = v_color.a;
+		}
+		else
+		{*/
+			vec3 result = (ambient + diffuse) * texture2D(u_texture, uv).rgb;
+			color.rgb = result * u_stripColor.rgb;
+			color.a = texture2D(u_texture, uv).a;
+		/*}*/
 		if (color.a < 0.1)
+		{
 			discard;
+		}
 		return;
 	}
 	if (u_drawMode == 1)
 	{
-		color.rgb = texture2D(u_texture, uv).rgb;
-		color.a = texture2D(u_texture, uv).a;
+		/*if (uv.x < 0.0 || uv.y < 0.0)
+		{
+			color.rgb = v_color.rgb * u_stripColor.rgb;
+			color.a = v_color.a;
+		}
+		else
+		{*/
+			color.rgb = texture2D(u_texture, uv).rgb * u_stripColor.rgb;;
+			color.a = texture2D(u_texture, uv).a;
+		/*}*/
 		if (color.a < 0.1)
+		{
 			discard;
+		}
 		return;
 	}
 	if (u_drawMode == 2)
@@ -67,7 +89,8 @@ void main(void)
 	}
 	if (u_drawMode == 4)
 	{
-		color = u_color;
+		color.rgb = v_color.rgb * u_stripColor.rgb;
+		color.a = v_color.a;
 		return;
 	}
 }

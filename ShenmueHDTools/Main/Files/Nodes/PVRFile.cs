@@ -18,7 +18,7 @@ namespace ShenmueHDTools.Main.Files.Nodes
         public Bitmap GetImage()
         {
             PVRT pvrt = new PVRT(FullPath);
-            return pvrt.Bitmap;
+            return pvrt.CreateBitmap();
         }
     }
 }

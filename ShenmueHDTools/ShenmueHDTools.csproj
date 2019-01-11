@@ -175,6 +175,9 @@
     <Compile Include="GUI\Controls\FileExplorer\FileTreeView.Designer.cs">
       <DependentUpon>FileTreeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\PictureBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\Controls\View3D\Camera.cs" />
     <Compile Include="GUI\Controls\View3D\View3D.cs">
       <SubType>UserControl</SubType>
@@ -212,16 +215,34 @@
     <Compile Include="GUI\Dialogs\LoadingDialog.Designer.cs">
       <DependentUpon>LoadingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Windows\FilenameDatabaseWindow.cs">
+    <Compile Include="GUI\Tools\DEBUG\ModelDumper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Windows\FilenameDatabaseWindow.Designer.cs">
+    <Compile Include="GUI\Tools\DEBUG\ModelDumper.Designer.cs">
+      <DependentUpon>ModelDumper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Tools\DEBUG\NodeExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\DEBUG\NodeExplorer.Designer.cs">
+      <DependentUpon>NodeExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Tools\FilenameDatabaseWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\FilenameDatabaseWindow.Designer.cs">
       <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Windows\RaymonfDatabaseWindow.cs">
+    <Compile Include="GUI\Tools\ModelEditor\ModelEditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Windows\RaymonfDatabaseWindow.Designer.cs">
+    <Compile Include="GUI\Tools\ModelEditor\ModelEditorWindow.Designer.cs">
+      <DependentUpon>ModelEditorWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Tools\RaymonfDatabaseWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\RaymonfDatabaseWindow.Designer.cs">
       <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.cs">
@@ -329,10 +350,19 @@
     <EmbeddedResource Include="GUI\Dialogs\LoadingDialog.resx">
       <DependentUpon>LoadingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Windows\FilenameDatabaseWindow.resx">
+    <EmbeddedResource Include="GUI\Tools\DEBUG\ModelDumper.resx">
+      <DependentUpon>ModelDumper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\DEBUG\NodeExplorer.resx">
+      <DependentUpon>NodeExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\FilenameDatabaseWindow.resx">
       <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Windows\RaymonfDatabaseWindow.resx">
+    <EmbeddedResource Include="GUI\Tools\ModelEditor\ModelEditorWindow.resx">
+      <DependentUpon>ModelEditorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\RaymonfDatabaseWindow.resx">
       <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
@@ -388,7 +418,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GUI\Tools\" />
     <Folder Include="Main\Serialization\" />
     <Folder Include="Main\Utils\" />
     <Folder Include="Properties\DataSources\" />

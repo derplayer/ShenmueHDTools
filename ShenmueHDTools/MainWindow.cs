@@ -19,6 +19,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using ShenmueHDTools.Main.DataStructure;
 using ShenmueHDTools.Main;
 using System.Threading;
+using ShenmueHDTools.GUI.Tools;
+using ShenmueHDTools.GUI.Tools.ModelEditor;
 
 namespace ShenmueHDTools
 {
@@ -26,6 +28,8 @@ namespace ShenmueHDTools
     {
         private TADFile m_tadFile;
         private CacheFile m_cacheFile;
+
+        public static ModelEditorWindow ModelEditor;
 
         public MainWindow()
         {
@@ -200,6 +204,39 @@ namespace ShenmueHDTools
             {
                 m_cacheFile.Write(saveFileDialog.FileName);
             }
+        }
+
+        private void dEBUGNodeExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NodeExplorer explorer = new NodeExplorer();
+            explorer.ShowDialog();
+        }
+
+        private void dEBUGModelDumperToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_cacheFile == null) return;
+            ModelDumper dumper = new ModelDumper(m_cacheFile);
+            dumper.ShowDialog();
+        }
+
+        private void modelEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ModelEditor == null)
+            {
+                ModelEditor = new ModelEditorWindow();
+                ModelEditor.FormClosed += ModelEditor_FormClosed;
+                ModelEditor.Show();
+            }
+            else
+            {
+                ModelEditor.Show();
+                ModelEditor.Focus();
+            }
+        }
+
+        private void ModelEditor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ModelEditor = null;
         }
     }
 }

@@ -12,6 +12,8 @@ using ShenmueHDTools.Main.Database;
 using ShenmueHDTools.GUI.Dialogs;
 using System.Text;
 using ShenmueHDTools.Main.Files.Headers;
+using ShenmueDKSharp.Utils;
+using ShenmueDKSharp.Files.Models;
 
 namespace Shenmue_HD_Tools
 {
@@ -20,6 +22,8 @@ namespace Shenmue_HD_Tools
         [STAThread]
         static void Main()
         {
+            MT5.SearchTexturesOneDirUp = true;
+            MT7.SearchTexturesOneDirUp = true;
             Headers.CreateHeaderList();
             Application.EnableVisualStyles();
             if (System.Diagnostics.Debugger.IsAttached)

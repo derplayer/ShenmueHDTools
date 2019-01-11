@@ -34,6 +34,7 @@
             this.button_Clear = new System.Windows.Forms.Button();
             this.button_Merge = new System.Windows.Forms.Button();
             this.filenameDatabaseDataTable1 = new ShenmueHDTools.GUI.Controls.FilenameDatabaseDataTable();
+            this.button_ExportJSON = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_Generate
@@ -97,11 +98,22 @@
             this.filenameDatabaseDataTable1.Size = new System.Drawing.Size(760, 358);
             this.filenameDatabaseDataTable1.TabIndex = 0;
             // 
+            // button_ExportJSON
+            // 
+            this.button_ExportJSON.Location = new System.Drawing.Point(416, 12);
+            this.button_ExportJSON.Name = "button_ExportJSON";
+            this.button_ExportJSON.Size = new System.Drawing.Size(101, 23);
+            this.button_ExportJSON.TabIndex = 6;
+            this.button_ExportJSON.Text = "Export JSON...";
+            this.button_ExportJSON.UseVisualStyleBackColor = true;
+            this.button_ExportJSON.Click += new System.EventHandler(this.button_ExportJSON_Click);
+            // 
             // FilenameDatabaseWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 411);
+            this.Controls.Add(this.button_ExportJSON);
             this.Controls.Add(this.button_Merge);
             this.Controls.Add(this.button_Clear);
             this.Controls.Add(this.button_Save);
@@ -124,5 +136,6 @@
         private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.Button button_Clear;
         private System.Windows.Forms.Button button_Merge;
+        private System.Windows.Forms.Button button_ExportJSON;
     }
 }
