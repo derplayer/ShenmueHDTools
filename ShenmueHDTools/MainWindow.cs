@@ -30,6 +30,7 @@ namespace ShenmueHDTools
         private CacheFile m_cacheFile;
 
         public static ModelEditorWindow ModelEditor;
+        public static TADCreatorWindow TADCreator;
 
         public MainWindow()
         {
@@ -237,6 +238,26 @@ namespace ShenmueHDTools
         private void ModelEditor_FormClosed(object sender, FormClosedEventArgs e)
         {
             ModelEditor = null;
+        }
+
+        private void tADCreatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TADCreator == null)
+            {
+                TADCreator = new TADCreatorWindow();
+                TADCreator.FormClosed += TADCreator_FormClosed;
+                TADCreator.Show();
+            }
+            else
+            {
+                TADCreator.Show();
+                TADCreator.Focus();
+            }
+        }
+
+        private void TADCreator_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            TADCreator = null;
         }
     }
 }

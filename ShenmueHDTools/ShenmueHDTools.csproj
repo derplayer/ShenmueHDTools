@@ -245,6 +245,12 @@
     <Compile Include="GUI\Tools\RaymonfDatabaseWindow.Designer.cs">
       <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\TADCreatorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\TADCreatorWindow.Designer.cs">
+      <DependentUpon>TADCreatorWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -364,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\RaymonfDatabaseWindow.resx">
       <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\TADCreatorWindow.resx">
+      <DependentUpon>TADCreatorWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
