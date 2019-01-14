@@ -49,7 +49,7 @@ namespace ShenmueHDTools.GUI.Tools
             if (listBox_Files.SelectedIndex >= listBox_Files.Items.Count || listBox_Files.SelectedIndex < 0) return;
             TADEntry entry = (TADEntry)listBox_Files.Items[listBox_Files.SelectedIndex];
             entry.FileName = textBox_Filepath.Text;
-            entry.CalculateFilenameHashes();
+            entry.CalculateFilenameHashes(checkBox_SingleHash.Checked);
             textBox_Hash1.Text = String.Format("{0:X8}", entry.FirstHash);
             textBox_Hash2.Text = String.Format("{0:X8}", entry.SecondHash);
         }

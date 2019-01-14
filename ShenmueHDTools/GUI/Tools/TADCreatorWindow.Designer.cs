@@ -41,6 +41,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dateTimePicker_TADDate = new System.Windows.Forms.DateTimePicker();
+            this.checkBox_SingleHash = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -100,6 +101,7 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.checkBox_SingleHash);
             this.groupBox2.Controls.Add(this.textBox_Hash2);
             this.groupBox2.Controls.Add(this.textBox_Hash1);
             this.groupBox2.Controls.Add(this.label3);
@@ -201,6 +203,16 @@
             this.dateTimePicker_TADDate.Size = new System.Drawing.Size(276, 20);
             this.dateTimePicker_TADDate.TabIndex = 0;
             // 
+            // checkBox_SingleHash
+            // 
+            this.checkBox_SingleHash.AutoSize = true;
+            this.checkBox_SingleHash.Location = new System.Drawing.Point(12, 113);
+            this.checkBox_SingleHash.Name = "checkBox_SingleHash";
+            this.checkBox_SingleHash.Size = new System.Drawing.Size(83, 17);
+            this.checkBox_SingleHash.TabIndex = 6;
+            this.checkBox_SingleHash.Text = "Single Hash";
+            this.checkBox_SingleHash.UseVisualStyleBackColor = true;
+            // 
             // TADCreatorWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,5 +248,6 @@
         private System.Windows.Forms.TextBox textBox_Hash1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dateTimePicker_TADDate;
+        private System.Windows.Forms.CheckBox checkBox_SingleHash;
     }
 }

@@ -64,5 +64,18 @@ namespace ShenmueHDTools.GUI.Controls.FileExplorer.Files
         {
             view3D.SetZBuffer((float)numericUpDown_ZNear.Value, (float)numericUpDown_ZFar.Value);
         }
+
+        private void button_Export_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Wavefront Obj (*.obj)|*.obj";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                BaseModel model = ((IModelNode)m_file).GetModel();
+                OBJ obj = new OBJ(model);
+                obj.FilePath = saveFileDialog.FileName;
+                obj.Write(saveFileDialog.FileName);
+            }
+        }
     }
 }

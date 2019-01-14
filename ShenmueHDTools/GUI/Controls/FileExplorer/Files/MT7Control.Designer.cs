@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.checkBox_Wireframe = new System.Windows.Forms.CheckBox();
             this.view3D = new ShenmueHDTools.GUI.Controls.View3D.View3D();
+            this.button_Export = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ZNear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ZFar)).BeginInit();
             this.SuspendLayout();
@@ -145,14 +146,25 @@
             this.view3D.BackColor = System.Drawing.Color.Black;
             this.view3D.Location = new System.Drawing.Point(0, 30);
             this.view3D.Name = "view3D";
-            this.view3D.Size = new System.Drawing.Size(500, 239);
+            this.view3D.Size = new System.Drawing.Size(560, 239);
             this.view3D.TabIndex = 0;
             this.view3D.VSync = false;
+            // 
+            // button_Export
+            // 
+            this.button_Export.Location = new System.Drawing.Point(484, 3);
+            this.button_Export.Name = "button_Export";
+            this.button_Export.Size = new System.Drawing.Size(75, 23);
+            this.button_Export.TabIndex = 14;
+            this.button_Export.Text = "Export...";
+            this.button_Export.UseVisualStyleBackColor = true;
+            this.button_Export.Click += new System.EventHandler(this.button_Export_Click);
             // 
             // MT7Control
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_Export);
             this.Controls.Add(this.checkBox_Wireframe);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -161,7 +173,7 @@
             this.Controls.Add(this.comboBox_RenderMode);
             this.Controls.Add(this.view3D);
             this.Name = "MT7Control";
-            this.Size = new System.Drawing.Size(503, 269);
+            this.Size = new System.Drawing.Size(560, 269);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ZNear)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ZFar)).EndInit();
             this.ResumeLayout(false);
@@ -178,5 +190,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBox_Wireframe;
+        private System.Windows.Forms.Button button_Export;
     }
 }

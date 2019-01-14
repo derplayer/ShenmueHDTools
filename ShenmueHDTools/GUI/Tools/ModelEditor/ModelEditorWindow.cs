@@ -21,6 +21,7 @@ namespace ShenmueHDTools.GUI.Tools.ModelEditor
         public ModelEditorWindow()
         {
             InitializeComponent();
+            comboBox_RenderMode.SelectedIndex = 0;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
