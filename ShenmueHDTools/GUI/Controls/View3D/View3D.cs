@@ -42,7 +42,7 @@ namespace ShenmueHDTools.GUI.Controls.View3D
         private List<TextureWrapMode> m_verticesWrapModes = new List<TextureWrapMode>();
         private List<bool> m_verticesTransparent = new List<bool>();
         private List<bool> m_verticesUnlit = new List<bool>();
-        private PrimitiveType m_primitiveType;
+        private PrimitiveType m_primitiveType = PrimitiveType.Triangles;
 
         public enum RenderMode
         {

@@ -18,6 +18,15 @@ namespace ShenmueHDTools.GUI.Tools.ModelEditor
         private BaseModel m_model;
         private OpenTK.Graphics.OpenGL4.PrimitiveType m_primitiveType;
 
+        private ModelType m_modelType;
+
+        public enum ModelType
+        {
+            MT5,
+            MT7,
+            FBXD3T
+        }
+
         public ModelEditorWindow()
         {
             InitializeComponent();
@@ -27,46 +36,72 @@ namespace ShenmueHDTools.GUI.Tools.ModelEditor
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Supported files|*.mt5;*.mt7;*.mapm;*.chrm;*.prop";
+            openFileDialog.Filter = "Supported files|*.mt5;*.mt7;*.mapm;*.chrm;*.prop;*.fbx;*.obj";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                string extension = Path.GetExtension(openFileDialog.FileName);
+
+                byte[] buffer = new byte[4];
                 using (FileStream stream = new FileStream(openFileDialog.FileName, FileMode.Open))
                 {
-                    byte[] buffer = new byte[4];
                     stream.Read(buffer, 0, 4);
                     stream.Seek(0, SeekOrigin.Begin);
-
-                    if (MT5.IsValid(buffer))
-                    {
-                        m_model = new MT5(stream);
-                        m_primitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType.TriangleStrip;
-                        view3D.SetModel(m_model, m_primitiveType);
-                    }
-                    else if (MT7.IsValid(buffer))
-                    {
-                        m_model = new MT7(stream);
-                        m_primitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType.Triangles;
-                        view3D.SetModel(m_model, m_primitiveType);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid file format!");
-                    }
-
-                    treeView_MeshNodes.Nodes.Clear();
-                    listBox_Textures.Items.Clear();
-
-                    m_model.RootNode.GenerateTree(null);
-                    TreeNode treeNode = new TreeNode(openFileDialog.FileName);
-                    GenerateTree(treeNode, m_model.RootNode);
-                    treeView_MeshNodes.Nodes.Add(treeNode);
-
-                    foreach(Texture texture in m_model.Textures)
-                    {
-                        listBox_Textures.Items.Add(texture);
-                    }
                 }
+
+                if (MT5.IsValid(buffer))
+                {
+                    m_model = new MT5(openFileDialog.FileName);
+                    m_primitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType.TriangleStrip;
+                    view3D.SetModel(m_model, m_primitiveType);
+                    m_modelType = ModelType.MT5;
+                }
+                else if (MT7.IsValid(buffer))
+                {
+                    m_model = new MT7(openFileDialog.FileName);
+                    m_primitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType.Triangles;
+                    view3D.SetModel(m_model, m_primitiveType);
+                    m_modelType = ModelType.MT7;
+                }
+                else if (FBXD3T.IsValid(buffer))
+                {
+                    m_model = new FBXD3T(openFileDialog.FileName);
+                    m_modelType = ModelType.FBXD3T;
+                }
+                else if (extension == ".obj")
+                {
+                    m_model = new OBJ(openFileDialog.FileName);
+                    m_primitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType.Triangles;
+                    view3D.SetModel(m_model, m_primitiveType);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid file format!");
+                }
+
+                treeView_MeshNodes.Nodes.Clear();
+                listBox_Textures.Items.Clear();
+
+                m_model.RootNode.GenerateTree(null);
+                TreeNode treeNode = new TreeNode(openFileDialog.FileName);
+                GenerateTree(treeNode, m_model.RootNode);
+                treeView_MeshNodes.Nodes.Add(treeNode);
+
+                foreach (Texture texture in m_model.Textures)
+                {
+                    listBox_Textures.Items.Add(texture);
+                }
+            }
+
+            if (m_modelType == ModelType.MT5)
+            {
+                mt5Control.Enabled = true;
+                mt7Control.Enabled = false;
+            }
+            if (m_modelType == ModelType.MT7)
+            {
+                mt5Control.Enabled = false;
+                mt7Control.Enabled = true;
             }
         }
 
@@ -88,7 +123,11 @@ namespace ShenmueHDTools.GUI.Tools.ModelEditor
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Console.WriteLine("TOOD");
+                if (m_modelType == ModelType.MT5)
+                {
+                    MT5 mt5 = (MT5)m_model;
+                    mt5.Write(saveFileDialog.FileName);
+                }
             }
         }
 
@@ -115,9 +154,7 @@ namespace ShenmueHDTools.GUI.Tools.ModelEditor
         private void listBox_Textures_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox_Textures.SelectedIndex >= m_model.Textures.Count) return;
-            BaseImage image = m_model.Textures[listBox_Textures.SelectedIndex].Image;
-            pictureBox_TextureView.Image = image.CreateBitmap();
-            numericUpDown_MipMapIndex.Maximum = image.MipMaps.Count - 1;
+            textureControl.SetTexture(m_model.Textures[listBox_Textures.SelectedIndex]);
         }
 
         private void treeView_MeshNodes_AfterSelect(object sender, TreeViewEventArgs e)
@@ -125,14 +162,30 @@ namespace ShenmueHDTools.GUI.Tools.ModelEditor
             TreeNode node = treeView_MeshNodes.SelectedNode;
             if (node == null || node.Level == 0) return;
             view3D.SetModelNode((ModelNode)node.Tag, m_primitiveType);
+            nodeControl.SetNode((ModelNode)node.Tag);
+
+            if (m_modelType == ModelType.MT5)
+            {
+                mt5Control.SetMT5Node((MT5Node)node.Tag);
+            }
+            if (m_modelType == ModelType.MT7)
+            {
+                mt7Control.SetMT7Node((MT7Node)node.Tag);
+            }
         }
 
-        private void numericUpDown_MipMapIndex_ValueChanged(object sender, EventArgs e)
+        private void nodeControl_OnNodeChanged(object sender, EventArgs e)
         {
-            if (listBox_Textures.SelectedIndex >= m_model.Textures.Count) return;
-            BaseImage image = m_model.Textures[listBox_Textures.SelectedIndex].Image;
-            if (numericUpDown_MipMapIndex.Value > image.MipMaps.Count || numericUpDown_MipMapIndex.Value < 0) return;
-            pictureBox_TextureView.Image = image.CreateBitmap((int)numericUpDown_MipMapIndex.Value);
+            TreeNode node = treeView_MeshNodes.SelectedNode;
+            if (node == null || node.Level == 0) return;
+            view3D.SetModelNode((ModelNode)node.Tag, m_primitiveType);
+        }
+
+        private void textureControl_OnTextureChanged(object sender, EventArgs e)
+        {
+            TreeNode node = treeView_MeshNodes.SelectedNode;
+            if (node == null || node.Level == 0) return;
+            view3D.SetModelNode((ModelNode)node.Tag, m_primitiveType);
         }
     }
 }
