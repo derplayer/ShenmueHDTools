@@ -47,6 +47,8 @@
             this.wulinshuRaymonfDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tADCreatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textureConvertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.dEBUGNodeExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dEBUGModelDumperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +60,6 @@
             this.fileTreeView = new ShenmueHDTools.GUI.Controls.FileTreeView();
             this.filePreview = new ShenmueHDTools.GUI.Controls.FilePreview();
             this.tabPage_TAD = new System.Windows.Forms.TabPage();
-            this.tADCreatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage_FileExplorer.SuspendLayout();
@@ -181,6 +182,7 @@
             this.toolStripMenuItem4,
             this.modelEditorToolStripMenuItem,
             this.tADCreatorToolStripMenuItem,
+            this.textureConvertToolStripMenuItem,
             this.toolStripMenuItem5,
             this.dEBUGNodeExplorerToolStripMenuItem,
             this.dEBUGModelDumperToolStripMenuItem});
@@ -213,6 +215,20 @@
             this.modelEditorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.modelEditorToolStripMenuItem.Text = "Model Editor...";
             this.modelEditorToolStripMenuItem.Click += new System.EventHandler(this.modelEditorToolStripMenuItem_Click);
+            // 
+            // tADCreatorToolStripMenuItem
+            // 
+            this.tADCreatorToolStripMenuItem.Name = "tADCreatorToolStripMenuItem";
+            this.tADCreatorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.tADCreatorToolStripMenuItem.Text = "Archiver...";
+            this.tADCreatorToolStripMenuItem.Click += new System.EventHandler(this.tADCreatorToolStripMenuItem_Click);
+            // 
+            // textureConvertToolStripMenuItem
+            // 
+            this.textureConvertToolStripMenuItem.Name = "textureConvertToolStripMenuItem";
+            this.textureConvertToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.textureConvertToolStripMenuItem.Text = "Texture Converter...";
+            this.textureConvertToolStripMenuItem.Click += new System.EventHandler(this.textureConvertToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
@@ -314,13 +330,6 @@
             this.tabPage_TAD.Text = "TAD Table";
             this.tabPage_TAD.UseVisualStyleBackColor = true;
             // 
-            // tADCreatorToolStripMenuItem
-            // 
-            this.tADCreatorToolStripMenuItem.Name = "tADCreatorToolStripMenuItem";
-            this.tADCreatorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.tADCreatorToolStripMenuItem.Text = "TAD Creator...";
-            this.tADCreatorToolStripMenuItem.Click += new System.EventHandler(this.tADCreatorToolStripMenuItem_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -379,5 +388,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tADCreatorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem textureConvertToolStripMenuItem;
     }
 }

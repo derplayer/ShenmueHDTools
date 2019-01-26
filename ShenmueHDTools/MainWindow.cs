@@ -20,7 +20,9 @@ using ShenmueHDTools.Main.DataStructure;
 using ShenmueHDTools.Main;
 using System.Threading;
 using ShenmueHDTools.GUI.Tools;
-using ShenmueHDTools.GUI.Tools.ModelEditor;
+using ShenmueHDModelEditor;
+using ShenmueHDArchiver;
+using ShenmueHDTextureConverter;
 
 namespace ShenmueHDTools
 {
@@ -29,8 +31,9 @@ namespace ShenmueHDTools
         private TADFile m_tadFile;
         private CacheFile m_cacheFile;
 
-        public static ModelEditorWindow ModelEditor;
-        public static TADCreatorWindow TADCreator;
+        public static ModelEditor ModelEditor;
+        public static Archiver Archiver;
+        public static TextureConverter TextureConverter;
 
         public MainWindow()
         {
@@ -224,7 +227,7 @@ namespace ShenmueHDTools
         {
             if (ModelEditor == null)
             {
-                ModelEditor = new ModelEditorWindow();
+                ModelEditor = new ModelEditor();
                 ModelEditor.FormClosed += ModelEditor_FormClosed;
                 ModelEditor.Show();
             }
@@ -242,22 +245,42 @@ namespace ShenmueHDTools
 
         private void tADCreatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (TADCreator == null)
+            if (Archiver == null)
             {
-                TADCreator = new TADCreatorWindow();
-                TADCreator.FormClosed += TADCreator_FormClosed;
-                TADCreator.Show();
+                Archiver = new Archiver();
+                Archiver.FormClosed += TADCreator_FormClosed;
+                Archiver.Show();
             }
             else
             {
-                TADCreator.Show();
-                TADCreator.Focus();
+                Archiver.Show();
+                Archiver.Focus();
             }
         }
 
         private void TADCreator_FormClosed(object sender, FormClosedEventArgs e)
         {
-            TADCreator = null;
+            Archiver = null;
+        }
+
+        private void textureConvertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TextureConverter == null)
+            {
+                TextureConverter = new TextureConverter();
+                TextureConverter.FormClosed += TextureConverter_FormClosed;
+                TextureConverter.Show();
+            }
+            else
+            {
+                TextureConverter.Show();
+                TextureConverter.Focus();
+            }
+        }
+
+        private void TextureConverter_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            TextureConverter = null;
         }
     }
 }

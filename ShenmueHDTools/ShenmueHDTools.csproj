@@ -233,47 +233,11 @@
     <Compile Include="GUI\Tools\FilenameDatabaseWindow.Designer.cs">
       <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\UserControls\MT5Control.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\UserControls\MT5Control.Designer.cs">
-      <DependentUpon>MT5Control.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\UserControls\MT7Control.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\UserControls\MT7Control.Designer.cs">
-      <DependentUpon>MT7Control.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\UserControls\NodeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\UserControls\NodeControl.Designer.cs">
-      <DependentUpon>NodeControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\ModelEditorWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\ModelEditorWindow.Designer.cs">
-      <DependentUpon>ModelEditorWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\UserControls\TextureControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\ModelEditor\UserControls\TextureControl.Designer.cs">
-      <DependentUpon>TextureControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Tools\RaymonfDatabaseWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\Tools\RaymonfDatabaseWindow.Designer.cs">
       <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\TADCreatorWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\TADCreatorWindow.Designer.cs">
-      <DependentUpon>TADCreatorWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -389,26 +353,8 @@
     <EmbeddedResource Include="GUI\Tools\FilenameDatabaseWindow.resx">
       <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\ModelEditor\UserControls\MT5Control.resx">
-      <DependentUpon>MT5Control.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\ModelEditor\UserControls\MT7Control.resx">
-      <DependentUpon>MT7Control.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\ModelEditor\UserControls\NodeControl.resx">
-      <DependentUpon>NodeControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\ModelEditor\ModelEditorWindow.resx">
-      <DependentUpon>ModelEditorWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\ModelEditor\UserControls\TextureControl.resx">
-      <DependentUpon>TextureControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\RaymonfDatabaseWindow.resx">
       <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\TADCreatorWindow.resx">
-      <DependentUpon>TADCreatorWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -511,6 +457,18 @@
     <ProjectReference Include="..\ShenmueDKSharp\ShenmueDKSharp.csproj">
       <Project>{68ca6fda-e029-4247-9229-c3a75dfa9f8d}</Project>
       <Name>ShenmueDKSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShenmueHDArchiver\ShenmueHDArchiver.csproj">
+      <Project>{6f104c55-b0a3-4501-a3c7-af1d65b370ea}</Project>
+      <Name>ShenmueHDArchiver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShenmueHDModelEditor\ShenmueHDModelEditor.csproj">
+      <Project>{5f06a6b9-d509-4039-940c-8bcc7bb76646}</Project>
+      <Name>ShenmueHDModelEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShenmueHDTextureConverter\ShenmueHDTextureConverter.csproj">
+      <Project>{f73c84cd-83b7-4cbc-8d81-4b0775146b0d}</Project>
+      <Name>ShenmueHDTextureConverter</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
