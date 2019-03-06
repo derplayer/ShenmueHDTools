@@ -40,19 +40,26 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.packAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unpackAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mapFilenamesToTADToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filenameDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mapFilenamesToTADToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.wulinshuRaymonfDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tADCreatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textureConvertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.dEBUGNodeExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dEBUGModelDumperToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tadDataTable1 = new ShenmueHDTools.GUI.Controls.TADDataTable();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage_FileExplorer = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.fileTreeView = new ShenmueHDTools.GUI.Controls.FileTreeView();
-            this.tabPage_TAD = new System.Windows.Forms.TabPage();
             this.filePreview = new ShenmueHDTools.GUI.Controls.FilePreview();
+            this.tabPage_TAD = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabPage_FileExplorer.SuspendLayout();
@@ -67,6 +74,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -151,13 +159,33 @@
             this.unpackAllToolStripMenuItem.Text = "Unpack all";
             this.unpackAllToolStripMenuItem.Click += new System.EventHandler(this.unpackAllToolStripMenuItem_Click);
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mapFilenamesToTADToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // mapFilenamesToTADToolStripMenuItem
+            // 
+            this.mapFilenamesToTADToolStripMenuItem.Name = "mapFilenamesToTADToolStripMenuItem";
+            this.mapFilenamesToTADToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.mapFilenamesToTADToolStripMenuItem.Text = "Map filenames to TAD";
+            this.mapFilenamesToTADToolStripMenuItem.Click += new System.EventHandler(this.mapFilenamesToTADToolStripMenuItem_Click);
+            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.filenameDatabaseToolStripMenuItem,
-            this.mapFilenamesToTADToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.wulinshuRaymonfDBToolStripMenuItem});
+            this.wulinshuRaymonfDBToolStripMenuItem,
+            this.toolStripMenuItem4,
+            this.modelEditorToolStripMenuItem,
+            this.tADCreatorToolStripMenuItem,
+            this.textureConvertToolStripMenuItem,
+            this.toolStripMenuItem5,
+            this.dEBUGNodeExplorerToolStripMenuItem,
+            this.dEBUGModelDumperToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -169,24 +197,57 @@
             this.filenameDatabaseToolStripMenuItem.Text = "Filename Database...";
             this.filenameDatabaseToolStripMenuItem.Click += new System.EventHandler(this.filenameDatabaseToolStripMenuItem_Click);
             // 
-            // mapFilenamesToTADToolStripMenuItem
-            // 
-            this.mapFilenamesToTADToolStripMenuItem.Name = "mapFilenamesToTADToolStripMenuItem";
-            this.mapFilenamesToTADToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.mapFilenamesToTADToolStripMenuItem.Text = "Map filenames to TAD";
-            this.mapFilenamesToTADToolStripMenuItem.Click += new System.EventHandler(this.mapFilenamesToTADToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(199, 6);
-            // 
             // wulinshuRaymonfDBToolStripMenuItem
             // 
             this.wulinshuRaymonfDBToolStripMenuItem.Name = "wulinshuRaymonfDBToolStripMenuItem";
             this.wulinshuRaymonfDBToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.wulinshuRaymonfDBToolStripMenuItem.Text = "Wulinshu Raymonf DB...";
             this.wulinshuRaymonfDBToolStripMenuItem.Click += new System.EventHandler(this.wulinshuRaymonfDBToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(199, 6);
+            // 
+            // modelEditorToolStripMenuItem
+            // 
+            this.modelEditorToolStripMenuItem.Name = "modelEditorToolStripMenuItem";
+            this.modelEditorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.modelEditorToolStripMenuItem.Text = "Model Editor...";
+            this.modelEditorToolStripMenuItem.Click += new System.EventHandler(this.modelEditorToolStripMenuItem_Click);
+            // 
+            // tADCreatorToolStripMenuItem
+            // 
+            this.tADCreatorToolStripMenuItem.Name = "tADCreatorToolStripMenuItem";
+            this.tADCreatorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.tADCreatorToolStripMenuItem.Text = "Archiver...";
+            this.tADCreatorToolStripMenuItem.Click += new System.EventHandler(this.tADCreatorToolStripMenuItem_Click);
+            // 
+            // textureConvertToolStripMenuItem
+            // 
+            this.textureConvertToolStripMenuItem.Name = "textureConvertToolStripMenuItem";
+            this.textureConvertToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.textureConvertToolStripMenuItem.Text = "Texture Converter...";
+            this.textureConvertToolStripMenuItem.Click += new System.EventHandler(this.textureConvertToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(199, 6);
+            // 
+            // dEBUGNodeExplorerToolStripMenuItem
+            // 
+            this.dEBUGNodeExplorerToolStripMenuItem.Name = "dEBUGNodeExplorerToolStripMenuItem";
+            this.dEBUGNodeExplorerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.dEBUGNodeExplorerToolStripMenuItem.Text = "DEBUG_NodeExplorer";
+            this.dEBUGNodeExplorerToolStripMenuItem.Click += new System.EventHandler(this.dEBUGNodeExplorerToolStripMenuItem_Click);
+            // 
+            // dEBUGModelDumperToolStripMenuItem
+            // 
+            this.dEBUGModelDumperToolStripMenuItem.Name = "dEBUGModelDumperToolStripMenuItem";
+            this.dEBUGModelDumperToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.dEBUGModelDumperToolStripMenuItem.Text = "DEBUG_ModelDumper";
+            this.dEBUGModelDumperToolStripMenuItem.Click += new System.EventHandler(this.dEBUGModelDumperToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -250,6 +311,14 @@
             this.fileTreeView.Size = new System.Drawing.Size(331, 505);
             this.fileTreeView.TabIndex = 0;
             // 
+            // filePreview
+            // 
+            this.filePreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filePreview.Location = new System.Drawing.Point(0, 0);
+            this.filePreview.Name = "filePreview";
+            this.filePreview.Size = new System.Drawing.Size(659, 505);
+            this.filePreview.TabIndex = 0;
+            // 
             // tabPage_TAD
             // 
             this.tabPage_TAD.Controls.Add(this.tadDataTable1);
@@ -260,14 +329,6 @@
             this.tabPage_TAD.TabIndex = 1;
             this.tabPage_TAD.Text = "TAD Table";
             this.tabPage_TAD.UseVisualStyleBackColor = true;
-            // 
-            // filePreview
-            // 
-            this.filePreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filePreview.Location = new System.Drawing.Point(0, 0);
-            this.filePreview.Name = "filePreview";
-            this.filePreview.Size = new System.Drawing.Size(659, 505);
-            this.filePreview.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -305,7 +366,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filenameDatabaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mapFilenamesToTADToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem wulinshuRaymonfDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem packAllToolStripMenuItem;
@@ -321,5 +381,13 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private GUI.Controls.FileTreeView fileTreeView;
         private GUI.Controls.FilePreview filePreview;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem dEBUGNodeExplorerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dEBUGModelDumperToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modelEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tADCreatorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem textureConvertToolStripMenuItem;
     }
 }

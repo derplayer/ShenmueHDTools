@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ShenmueHDTools.Main.Files.Nodes;
+using ShenmueDKSharp.Files.Models;
 
 namespace ShenmueHDTools.GUI.Controls.FileExplorer.Files
 {
@@ -62,6 +63,19 @@ namespace ShenmueHDTools.GUI.Controls.FileExplorer.Files
         private void numericUpDown_ZFar_ValueChanged(object sender, EventArgs e)
         {
             view3D.SetZBuffer((float)numericUpDown_ZNear.Value, (float)numericUpDown_ZFar.Value);
+        }
+
+        private void button_Export_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Wavefront Obj (*.obj)|*.obj";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                BaseModel model = ((IModelNode)m_file).GetModel();
+                OBJ obj = new OBJ(model);
+                obj.FilePath = saveFileDialog.FileName;
+                obj.Write(saveFileDialog.FileName);
+            }
         }
     }
 }

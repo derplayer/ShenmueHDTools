@@ -20,10 +20,13 @@ namespace ShenmueHDTools.GUI.Controls.View3D
         private int m_drawMode = 0;
         private bool m_wireframe;
 
-        private BaseModel m_model;
+        private Vector3 m_modelCenter;
+        private ModelNode m_modelNode;
         private Camera m_camera;
         private Timer m_timer;
 
+        private bool m_isNode;
+        private bool m_handleDestoryed;
         private bool m_loaded;
         private int m_program;
         private int m_vertexArray;
@@ -35,10 +38,11 @@ namespace ShenmueHDTools.GUI.Controls.View3D
         private List<float[]> m_verticesFloat = new List<float[]>();
         private List<Matrix4> m_verticesMatrices = new List<Matrix4>();
         private List<Texture> m_verticesTextures = new List<Texture>();
+        private List<Color4> m_verticesColors = new List<Color4>();
         private List<TextureWrapMode> m_verticesWrapModes = new List<TextureWrapMode>();
         private List<bool> m_verticesTransparent = new List<bool>();
         private List<bool> m_verticesUnlit = new List<bool>();
-        private PrimitiveType m_primitiveType;
+        private PrimitiveType m_primitiveType = PrimitiveType.Triangles;
 
         public enum RenderMode
         {
@@ -57,6 +61,14 @@ namespace ShenmueHDTools.GUI.Controls.View3D
             m_timer.Interval = 20;
             m_timer.Tick += m_timer_Tick;
             m_camera = new Camera(this);
+
+            HandleDestroyed += View3D_HandleDestroyed;
+        }
+
+        private void View3D_HandleDestroyed(object sender, EventArgs e)
+        {
+            m_timer.Stop();
+            m_handleDestoryed = true;
         }
 
         public void SetZBuffer(float zNear, float zFar)
@@ -76,15 +88,27 @@ namespace ShenmueHDTools.GUI.Controls.View3D
             m_drawMode = (int)mode;
         }
 
-        public void SetModel(BaseModel model, PrimitiveType primType)
+        public void SetModelNode(ModelNode node, PrimitiveType primType)
         {
-            m_model = model;
+            m_isNode = true;
+            m_modelNode = node;
             m_primitiveType = primType;
             UpdateBuffer();
         }
 
+        public void SetModel(BaseModel model, PrimitiveType primType)
+        {
+            m_isNode = false;
+            m_modelNode = model.RootNode;
+            m_primitiveType = primType;
+
+            UpdateBuffer();
+            m_camera.SetTarget(m_modelCenter + Vector3.UnitX * 1.1f, m_modelCenter);
+        }
+
         private void m_timer_Tick(object sender, EventArgs e)
         {
+            if (m_handleDestoryed) return;
             if (IsIdle)
             {
                 m_camera.Update();
@@ -106,6 +130,11 @@ namespace ShenmueHDTools.GUI.Controls.View3D
         private Vector3 ToOpenTK(ShenmueDKSharp.Vector3 vec)
         {
             return new Vector3(vec.X, vec.Y, vec.Z);
+        }
+
+        private Color4 ToOpenTK(ShenmueDKSharp.Graphics.Color4 col)
+        {
+            return new Color4(col.R, col.G, col.B, col.A);
         }
 
         protected override void OnLoad(EventArgs args)
@@ -131,20 +160,25 @@ namespace ShenmueHDTools.GUI.Controls.View3D
             m_uniformLocations.Add("u_model", GL.GetUniformLocation(m_program, "u_model"));
             m_uniformLocations.Add("u_view", GL.GetUniformLocation(m_program, "u_view"));
             m_uniformLocations.Add("u_projection", GL.GetUniformLocation(m_program, "u_projection"));
-            m_uniformLocations.Add("u_color", GL.GetUniformLocation(m_program, "u_color"));
             m_uniformLocations.Add("u_texture", GL.GetUniformLocation(m_program, "u_texture"));
+            m_uniformLocations.Add("u_stripColor", GL.GetUniformLocation(m_program, "u_stripColor"));
             m_uniformLocations.Add("u_lightPos", GL.GetUniformLocation(m_program, "u_lightPos"));
             m_uniformLocations.Add("u_lightColor", GL.GetUniformLocation(m_program, "u_lightColor"));
             m_uniformLocations.Add("u_drawMode", GL.GetUniformLocation(m_program, "u_drawMode"));
 
+            int stride = 12 * sizeof(float);
+
             GL.EnableVertexAttribArray(0);
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 8 * 4, 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, stride, 0);
 
             GL.EnableVertexAttribArray(1);
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 8 * 4, 3 * 4);
+            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, stride, 3 * sizeof(float));
 
             GL.EnableVertexAttribArray(2);
-            GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, 8 * 4, 6 * 4);
+            GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, stride, 6 * sizeof(float));
+
+            GL.EnableVertexAttribArray(3);
+            GL.VertexAttribPointer(3, 4, VertexAttribPointerType.Float, false, stride, 8 * sizeof(float));
 
             m_camera.UpdateProjection();
 
@@ -185,16 +219,27 @@ namespace ShenmueHDTools.GUI.Controls.View3D
             m_verticesFloat.Clear();
             m_verticesMatrices.Clear();
             m_verticesTextures.Clear();
+            m_verticesColors.Clear();
             m_verticesTransparent.Clear();
             m_verticesWrapModes.Clear();
             m_verticesUnlit.Clear();
-
-            if (m_model == null) return;
+    
+            if (m_modelNode == null) return;
 
             Vector3 center = Vector3.Zero;
             float radius = 0;
 
-            foreach (ModelNode node in m_model.GetAllNodes())
+            List<ModelNode> nodes = null;
+            if (m_isNode)
+            {
+                nodes = m_modelNode.GetAllNodes(false);
+            }
+            else
+            {
+                nodes = m_modelNode.GetAllNodes();
+            }
+
+            foreach (ModelNode node in nodes)
             {
                 Matrix4 modelMatrix = new Matrix4();
                 ToOpenTK(ref modelMatrix, node.GetTransformMatrix());
@@ -210,16 +255,17 @@ namespace ShenmueHDTools.GUI.Controls.View3D
                 if (node.Faces.Count == 0) continue;
                 foreach (MeshFace entry in node.Faces)
                 {
-                    m_verticesFloat.Add(entry.GetFloatArray(node, Vertex.VertexFormat.VertexNormalUV));
+                    m_verticesFloat.Add(entry.GetFloatArray(node, Vertex.VertexFormat.VertexNormalUVColor));
                     m_verticesMatrices.Add(modelMatrix);
                     m_verticesTextures.Add(entry.Material.Texture);
+                    m_verticesColors.Add(Color4.White); //ToOpenTK(entry.StripColor)
                     m_verticesTransparent.Add(entry.Transparent);
                     m_verticesWrapModes.Add((TextureWrapMode)entry.Wrap);
                     m_verticesUnlit.Add(entry.Unlit);
                 }
 
             }
-            m_camera.SetTarget(center + Vector3.UnitX * 1.1f, center);
+            m_modelCenter = center;
             CreateTextures();
         }
 
@@ -250,7 +296,7 @@ namespace ShenmueHDTools.GUI.Controls.View3D
                     GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ref wrapMode);
 
                     GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)tex.Width, (int)tex.Height,
-                                                           0, PixelFormat.Rgba, PixelType.Float, tex.Pixels);
+                                                           0, PixelFormat.Rgba, PixelType.Float, tex.GetPixels());
                 }
             }
         }
@@ -278,8 +324,8 @@ namespace ShenmueHDTools.GUI.Controls.View3D
             int loc_model = m_uniformLocations["u_model"];
             int loc_view = m_uniformLocations["u_view"];
             int loc_projection = m_uniformLocations["u_projection"];
-            int loc_color = m_uniformLocations["u_color"];
             int loc_texture = m_uniformLocations["u_texture"];
+            int loc_stripColor = m_uniformLocations["u_stripColor"];
             int loc_lightPos = m_uniformLocations["u_lightPos"];
             int loc_lightColor = m_uniformLocations["u_lightColor"];
             int loc_drawMode = m_uniformLocations["u_drawMode"];
@@ -327,6 +373,7 @@ namespace ShenmueHDTools.GUI.Controls.View3D
                     GL.ActiveTexture(TextureUnit.Texture0);
                     GL.BindTexture(TextureTarget.Texture2D, m_textures[i]);
                     GL.Uniform1(loc_texture, 0);
+                    GL.Uniform4(loc_stripColor, m_verticesColors[i]);
 
                     if (m_verticesUnlit[i])
                     {
@@ -346,12 +393,12 @@ namespace ShenmueHDTools.GUI.Controls.View3D
                     GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ref wrapMode);
 
                     float[] vertices = m_verticesFloat[i];
-                    GL.BufferData(BufferTarget.ArrayBuffer, 4 * vertices.Length, vertices, BufferUsageHint.StaticDraw);
+                    GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * vertices.Length, vertices, BufferUsageHint.StaticDraw);
 
                     Matrix4 model = m_verticesMatrices[i];
                     GL.UniformMatrix4(loc_model, false, ref model);
 
-                    GL.DrawArrays(m_primitiveType, 0, vertices.Length / 8);
+                    GL.DrawArrays(m_primitiveType, 0, vertices.Length / 12);
                 }
 
                 //TRANSPARENT PASS
@@ -365,6 +412,7 @@ namespace ShenmueHDTools.GUI.Controls.View3D
                     GL.ActiveTexture(TextureUnit.Texture0);
                     GL.BindTexture(TextureTarget.Texture2D, m_textures[i]);
                     GL.Uniform1(loc_texture, 0);
+                    GL.Uniform4(loc_stripColor, m_verticesColors[i]);
 
                     if (m_verticesUnlit[i])
                     {
@@ -384,12 +432,12 @@ namespace ShenmueHDTools.GUI.Controls.View3D
                     GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, ref wrapMode);
 
                     float[] vertices = m_verticesFloat[i];
-                    GL.BufferData(BufferTarget.ArrayBuffer, 4 * vertices.Length, vertices, BufferUsageHint.StaticDraw);
+                    GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * vertices.Length, vertices, BufferUsageHint.StaticDraw);
 
                     Matrix4 model = m_verticesMatrices[i];
                     GL.UniformMatrix4(loc_model, false, ref model);
 
-                    GL.DrawArrays(m_primitiveType, 0, vertices.Length / 8);
+                    GL.DrawArrays(m_primitiveType, 0, vertices.Length / 12);
                 }
 
                 GL.DepthMask(true);

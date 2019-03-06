@@ -175,6 +175,9 @@
     <Compile Include="GUI\Controls\FileExplorer\FileTreeView.Designer.cs">
       <DependentUpon>FileTreeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\PictureBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\Controls\View3D\Camera.cs" />
     <Compile Include="GUI\Controls\View3D\View3D.cs">
       <SubType>UserControl</SubType>
@@ -212,16 +215,28 @@
     <Compile Include="GUI\Dialogs\LoadingDialog.Designer.cs">
       <DependentUpon>LoadingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Windows\FilenameDatabaseWindow.cs">
+    <Compile Include="GUI\Tools\DEBUG\ModelDumper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Windows\FilenameDatabaseWindow.Designer.cs">
+    <Compile Include="GUI\Tools\DEBUG\ModelDumper.Designer.cs">
+      <DependentUpon>ModelDumper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Tools\DEBUG\NodeExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\DEBUG\NodeExplorer.Designer.cs">
+      <DependentUpon>NodeExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Tools\FilenameDatabaseWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\FilenameDatabaseWindow.Designer.cs">
       <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Windows\RaymonfDatabaseWindow.cs">
+    <Compile Include="GUI\Tools\RaymonfDatabaseWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Windows\RaymonfDatabaseWindow.Designer.cs">
+    <Compile Include="GUI\Tools\RaymonfDatabaseWindow.Designer.cs">
       <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.cs">
@@ -329,10 +344,16 @@
     <EmbeddedResource Include="GUI\Dialogs\LoadingDialog.resx">
       <DependentUpon>LoadingDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Windows\FilenameDatabaseWindow.resx">
+    <EmbeddedResource Include="GUI\Tools\DEBUG\ModelDumper.resx">
+      <DependentUpon>ModelDumper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\DEBUG\NodeExplorer.resx">
+      <DependentUpon>NodeExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\FilenameDatabaseWindow.resx">
       <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Windows\RaymonfDatabaseWindow.resx">
+    <EmbeddedResource Include="GUI\Tools\RaymonfDatabaseWindow.resx">
       <DependentUpon>RaymonfDatabaseWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
@@ -388,7 +409,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GUI\Tools\" />
     <Folder Include="Main\Serialization\" />
     <Folder Include="Main\Utils\" />
     <Folder Include="Properties\DataSources\" />
@@ -437,6 +457,18 @@
     <ProjectReference Include="..\ShenmueDKSharp\ShenmueDKSharp.csproj">
       <Project>{68ca6fda-e029-4247-9229-c3a75dfa9f8d}</Project>
       <Name>ShenmueDKSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShenmueHDArchiver\ShenmueHDArchiver.csproj">
+      <Project>{6f104c55-b0a3-4501-a3c7-af1d65b370ea}</Project>
+      <Name>ShenmueHDArchiver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShenmueHDModelEditor\ShenmueHDModelEditor.csproj">
+      <Project>{5f06a6b9-d509-4039-940c-8bcc7bb76646}</Project>
+      <Name>ShenmueHDModelEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShenmueHDTextureConverter\ShenmueHDTextureConverter.csproj">
+      <Project>{f73c84cd-83b7-4cbc-8d81-4b0775146b0d}</Project>
+      <Name>ShenmueHDTextureConverter</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

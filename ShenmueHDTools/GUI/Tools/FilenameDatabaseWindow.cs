@@ -15,6 +15,7 @@ using System.Threading;
 using ShenmueHDTools.GUI.Dialogs;
 using System.Runtime.Serialization.Formatters.Binary;
 using ShenmueHDTools.Main;
+using Newtonsoft.Json;
 
 namespace ShenmueHDTools.GUI.Windows
 {
@@ -116,9 +117,95 @@ namespace ShenmueHDTools.GUI.Windows
             filenameDatabaseDataTable1.UpdateView(false);
         }
 
+        private void button_ExportJSON_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Filename Database JSON Dump (*.json)|*.json";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //Cleanup paths and stuff
+                List<JSONFilenameEntry> entries = new List<JSONFilenameEntry>();
+                foreach (FilenameDatabaseEntry entry in FilenameDatabase.Entries)
+                {
+                    if (String.IsNullOrEmpty(entry.Filename)) continue;
+                    string cleanFilename = entry.Filename;
+
+                    //Clean '.' starting paths
+                    if (cleanFilename[0] == '.')
+                    {
+                        cleanFilename = cleanFilename.Substring(1, cleanFilename.Length - 1);
+                    }
+
+                    //Convert slashes to unix
+                    cleanFilename = cleanFilename.Replace("\\", "/");
+
+                    //Clean double slash paths
+                    cleanFilename = cleanFilename.Replace("//", "/");
+
+                    //Add starting slash if not already there
+                    if (cleanFilename[0] != '/')
+                    {
+                        cleanFilename = "/" + cleanFilename;
+                    }
+
+                    //To lower because the filename hashing algorithm does it also.
+                    cleanFilename = cleanFilename.ToLower();
+
+                    //Check for duplicates
+                    bool duplicate = false;
+                    foreach (JSONFilenameEntry ent in entries)
+                    {
+                        if (ent.Path == cleanFilename)
+                        {
+                            duplicate = true;
+                            break;
+                        }
+                    }
+
+                    if (!duplicate)
+                    {
+                        Console.WriteLine(cleanFilename);
+                        JSONFilenameEntry jsonEntry = new JSONFilenameEntry
+                        {
+                            Path = cleanFilename,
+                            Hash = entry.FirstHash,
+                            HashPath = entry.SecondHash
+                        };
+                        entries.Add(jsonEntry);
+                    }
+                }
+
+                Console.WriteLine("Sorting List...");
+
+                //Sort by filename
+                List<JSONFilenameEntry> sortedEntries = entries.OrderBy(o => o.Path).ToList();
+
+                //Write json dump
+                using (FileStream stream = File.Create(saveFileDialog.FileName))
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        string json = JsonConvert.SerializeObject(sortedEntries, Formatting.Indented);
+                        writer.Write(json);
+                    }
+                }
+            }
+        }
+
         public void Abort()
         {
             throw new NotImplementedException();
         }
+
+    }
+
+    /// <summary>
+    /// Used for compatibility to the ShenmueDK
+    /// </summary>
+    public class JSONFilenameEntry
+    {
+        public uint Hash { get; set; }
+        public uint HashPath { get; set; }
+        public string Path { get; set; }
     }
 }

@@ -635,6 +635,8 @@ namespace ShenmueHDTools.Main.Files.Nodes
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
                 case FileType.WDT:
                     return new UnknownFile(cacheFile, parent, relativPath, newFile);
+                case FileType.TEXN:
+                    return new UnknownFile(cacheFile, parent, relativPath, newFile);
             }
             return null;
         }
@@ -707,7 +709,8 @@ namespace ShenmueHDTools.Main.Files.Nodes
             { FileType.SNF, "Subtitles Table" },
             { FileType.IWD, "LCD Table" },
             { FileType.WDT, "Weather Data" },
-            { FileType.IPAC, "PKS Container" }
+            { FileType.IPAC, "PKS Container" },
+            { FileType.TEXN, "Texture entry" }
         };
 
         /// <summary>
@@ -759,7 +762,8 @@ namespace ShenmueHDTools.Main.Files.Nodes
             SNF = 39,
             IWD = 40,
             WDT = 41,
-            IPAC = 42
+            IPAC = 42,
+            TEXN = 43
         }
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

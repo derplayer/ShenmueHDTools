@@ -10,9 +10,30 @@ and extract the "DL" folder so, that it is side by side with the Shenmue ModTool
 For more informations look at the: [Documentation](https://github.com/derplayer/ShenmueHDTools/wiki) & [FAQ](https://github.com/derplayer/ShenmueHDTools/wiki/FAQ)
 ![Alt text](https://github.com/derplayer/ShenmueHDTools/raw/master/other/example_1.png "Screenshot from v1.2")
 
-Other:
+## Tool Suite
+
+### ShenmueHD - Archiver
+* AFS/IDX
+* SPR
+* PKF
+* PKS
+* TAD/TAC
+    
+### ShenmueHD - Texture Converter
+* PVR
+* DDS
+* PNG
+* BMP
+* JPEG
+    
+### ShenmueHD - Model Editor
+* MT5
+* MT7
+* OBJ
+
+#### Links
+* [Documentation](https://github.com/derplayer/ShenmueHDTools/wiki)
+* [FAQ](https://github.com/derplayer/ShenmueHDTools/wiki/FAQ)
 * [Shenmuedojo.com Thread](https://www.shenmuedojo.com/forum/index.php?threads/shenmue-hd-unpacker-tool.366/)
 * [Changelog](https://github.com/derplayer/ShenmueHDTools/releases)
 
-License:
-MIT

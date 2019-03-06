@@ -35,6 +35,7 @@
             this.numericUpDown_ZFar = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_ZNear = new System.Windows.Forms.NumericUpDown();
             this.comboBox_RenderMode = new System.Windows.Forms.ComboBox();
+            this.button_Export = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ZFar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ZNear)).BeginInit();
             this.SuspendLayout();
@@ -47,7 +48,7 @@
             this.view3D.BackColor = System.Drawing.Color.Black;
             this.view3D.Location = new System.Drawing.Point(0, 30);
             this.view3D.Name = "view3D";
-            this.view3D.Size = new System.Drawing.Size(494, 259);
+            this.view3D.Size = new System.Drawing.Size(567, 259);
             this.view3D.TabIndex = 0;
             this.view3D.VSync = false;
             // 
@@ -149,10 +150,21 @@
             this.comboBox_RenderMode.TabIndex = 7;
             this.comboBox_RenderMode.SelectedIndexChanged += new System.EventHandler(this.comboBox_RenderMode_SelectedIndexChanged);
             // 
+            // button_Export
+            // 
+            this.button_Export.Location = new System.Drawing.Point(484, 3);
+            this.button_Export.Name = "button_Export";
+            this.button_Export.Size = new System.Drawing.Size(75, 23);
+            this.button_Export.TabIndex = 13;
+            this.button_Export.Text = "Export...";
+            this.button_Export.UseVisualStyleBackColor = true;
+            this.button_Export.Click += new System.EventHandler(this.button_Export_Click);
+            // 
             // MT5Control
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_Export);
             this.Controls.Add(this.checkBox_Wireframe);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -161,7 +173,7 @@
             this.Controls.Add(this.comboBox_RenderMode);
             this.Controls.Add(this.view3D);
             this.Name = "MT5Control";
-            this.Size = new System.Drawing.Size(494, 292);
+            this.Size = new System.Drawing.Size(567, 292);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ZFar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ZNear)).EndInit();
             this.ResumeLayout(false);
@@ -178,5 +190,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_ZFar;
         private System.Windows.Forms.NumericUpDown numericUpDown_ZNear;
         private System.Windows.Forms.ComboBox comboBox_RenderMode;
+        private System.Windows.Forms.Button button_Export;
     }
 }

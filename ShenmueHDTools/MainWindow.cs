@@ -19,6 +19,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 using ShenmueHDTools.Main.DataStructure;
 using ShenmueHDTools.Main;
 using System.Threading;
+using ShenmueHDTools.GUI.Tools;
+using ShenmueHDModelEditor;
+using ShenmueHDArchiver;
+using ShenmueHDTextureConverter;
 
 namespace ShenmueHDTools
 {
@@ -26,6 +30,10 @@ namespace ShenmueHDTools
     {
         private TADFile m_tadFile;
         private CacheFile m_cacheFile;
+
+        public static ModelEditor ModelEditor;
+        public static Archiver Archiver;
+        public static TextureConverter TextureConverter;
 
         public MainWindow()
         {
@@ -200,6 +208,79 @@ namespace ShenmueHDTools
             {
                 m_cacheFile.Write(saveFileDialog.FileName);
             }
+        }
+
+        private void dEBUGNodeExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NodeExplorer explorer = new NodeExplorer();
+            explorer.ShowDialog();
+        }
+
+        private void dEBUGModelDumperToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_cacheFile == null) return;
+            ModelDumper dumper = new ModelDumper(m_cacheFile);
+            dumper.ShowDialog();
+        }
+
+        private void modelEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ModelEditor == null)
+            {
+                ModelEditor = new ModelEditor();
+                ModelEditor.FormClosed += ModelEditor_FormClosed;
+                ModelEditor.Show();
+            }
+            else
+            {
+                ModelEditor.Show();
+                ModelEditor.Focus();
+            }
+        }
+
+        private void ModelEditor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ModelEditor = null;
+        }
+
+        private void tADCreatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Archiver == null)
+            {
+                Archiver = new Archiver();
+                Archiver.FormClosed += TADCreator_FormClosed;
+                Archiver.Show();
+            }
+            else
+            {
+                Archiver.Show();
+                Archiver.Focus();
+            }
+        }
+
+        private void TADCreator_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Archiver = null;
+        }
+
+        private void textureConvertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TextureConverter == null)
+            {
+                TextureConverter = new TextureConverter();
+                TextureConverter.FormClosed += TextureConverter_FormClosed;
+                TextureConverter.Show();
+            }
+            else
+            {
+                TextureConverter.Show();
+                TextureConverter.Focus();
+            }
+        }
+
+        private void TextureConverter_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            TextureConverter = null;
         }
     }
 }
