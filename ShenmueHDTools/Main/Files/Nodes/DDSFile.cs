@@ -4,7 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using ShenmueDKSharp;
+using ShenmueDKSharp.Files.Images;
+using ShenmueDKSharp.Files.Images._DDS;
 
 namespace ShenmueHDTools.Main.Files.Nodes
 {
@@ -17,7 +19,8 @@ namespace ShenmueHDTools.Main.Files.Nodes
 
         public Bitmap GetImage()
         {
-            throw new NotImplementedException();
+            DDS dds = new DDS(FullPath);
+            return dds.CreateBitmap();
         }
 
     }

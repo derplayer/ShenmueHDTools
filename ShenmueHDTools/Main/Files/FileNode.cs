@@ -176,7 +176,15 @@ namespace ShenmueHDTools.Main.Files.Nodes
                 return String.Format("{0} ({1})", Path.GetFileName(RelativPath), Description);
             }
         }
+        public long Size
+        {
+            get
+            {
+                return new FileInfo(FullPath).Length;
+            }
+        }
         public string FullPath => CacheFile.GetFullPath(RelativPath);
+        public string RootPath => CacheFile.OutputFolder;
         public FileNode Parent { get; private set; }
         public List<FileNode> Children { get; private set; } = new List<FileNode>();
         public CacheFile CacheFile { get; private set; }

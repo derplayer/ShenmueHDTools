@@ -48,6 +48,7 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tADCreatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.upscaleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textureConvertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.dEBUGNodeExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -170,7 +171,7 @@
             // mapFilenamesToTADToolStripMenuItem
             // 
             this.mapFilenamesToTADToolStripMenuItem.Name = "mapFilenamesToTADToolStripMenuItem";
-            this.mapFilenamesToTADToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.mapFilenamesToTADToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.mapFilenamesToTADToolStripMenuItem.Text = "Map filenames to TAD";
             this.mapFilenamesToTADToolStripMenuItem.Click += new System.EventHandler(this.mapFilenamesToTADToolStripMenuItem_Click);
             // 
@@ -182,70 +183,78 @@
             this.toolStripMenuItem4,
             this.modelEditorToolStripMenuItem,
             this.tADCreatorToolStripMenuItem,
+            this.upscaleMenuItem,
             this.textureConvertToolStripMenuItem,
             this.toolStripMenuItem5,
             this.dEBUGNodeExplorerToolStripMenuItem,
             this.dEBUGModelDumperToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // filenameDatabaseToolStripMenuItem
             // 
             this.filenameDatabaseToolStripMenuItem.Name = "filenameDatabaseToolStripMenuItem";
-            this.filenameDatabaseToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.filenameDatabaseToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.filenameDatabaseToolStripMenuItem.Text = "Filename Database...";
             this.filenameDatabaseToolStripMenuItem.Click += new System.EventHandler(this.filenameDatabaseToolStripMenuItem_Click);
             // 
             // wulinshuRaymonfDBToolStripMenuItem
             // 
             this.wulinshuRaymonfDBToolStripMenuItem.Name = "wulinshuRaymonfDBToolStripMenuItem";
-            this.wulinshuRaymonfDBToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.wulinshuRaymonfDBToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.wulinshuRaymonfDBToolStripMenuItem.Text = "Wulinshu Raymonf DB...";
             this.wulinshuRaymonfDBToolStripMenuItem.Click += new System.EventHandler(this.wulinshuRaymonfDBToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(199, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(200, 6);
             // 
             // modelEditorToolStripMenuItem
             // 
             this.modelEditorToolStripMenuItem.Name = "modelEditorToolStripMenuItem";
-            this.modelEditorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.modelEditorToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.modelEditorToolStripMenuItem.Text = "Model Editor...";
             this.modelEditorToolStripMenuItem.Click += new System.EventHandler(this.modelEditorToolStripMenuItem_Click);
             // 
             // tADCreatorToolStripMenuItem
             // 
             this.tADCreatorToolStripMenuItem.Name = "tADCreatorToolStripMenuItem";
-            this.tADCreatorToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.tADCreatorToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.tADCreatorToolStripMenuItem.Text = "Archiver...";
             this.tADCreatorToolStripMenuItem.Click += new System.EventHandler(this.tADCreatorToolStripMenuItem_Click);
+            // 
+            // upscaleMenuItem
+            // 
+            this.upscaleMenuItem.Name = "upscaleMenuItem";
+            this.upscaleMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.upscaleMenuItem.Text = "Deep Learning Upscale...";
+            this.upscaleMenuItem.Click += new System.EventHandler(this.upscaleMenuItem_Click);
             // 
             // textureConvertToolStripMenuItem
             // 
             this.textureConvertToolStripMenuItem.Name = "textureConvertToolStripMenuItem";
-            this.textureConvertToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.textureConvertToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.textureConvertToolStripMenuItem.Text = "Texture Converter...";
             this.textureConvertToolStripMenuItem.Click += new System.EventHandler(this.textureConvertToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(199, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(200, 6);
             // 
             // dEBUGNodeExplorerToolStripMenuItem
             // 
             this.dEBUGNodeExplorerToolStripMenuItem.Name = "dEBUGNodeExplorerToolStripMenuItem";
-            this.dEBUGNodeExplorerToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.dEBUGNodeExplorerToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.dEBUGNodeExplorerToolStripMenuItem.Text = "DEBUG_NodeExplorer";
             this.dEBUGNodeExplorerToolStripMenuItem.Click += new System.EventHandler(this.dEBUGNodeExplorerToolStripMenuItem_Click);
             // 
             // dEBUGModelDumperToolStripMenuItem
             // 
             this.dEBUGModelDumperToolStripMenuItem.Name = "dEBUGModelDumperToolStripMenuItem";
-            this.dEBUGModelDumperToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.dEBUGModelDumperToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.dEBUGModelDumperToolStripMenuItem.Text = "DEBUG_ModelDumper";
             this.dEBUGModelDumperToolStripMenuItem.Click += new System.EventHandler(this.dEBUGModelDumperToolStripMenuItem_Click);
             // 
@@ -310,6 +319,7 @@
             this.fileTreeView.Name = "fileTreeView";
             this.fileTreeView.Size = new System.Drawing.Size(331, 505);
             this.fileTreeView.TabIndex = 0;
+            this.fileTreeView.Load += new System.EventHandler(this.fileTreeView_Load);
             // 
             // filePreview
             // 
@@ -389,5 +399,6 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tADCreatorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem textureConvertToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem upscaleMenuItem;
     }
 }

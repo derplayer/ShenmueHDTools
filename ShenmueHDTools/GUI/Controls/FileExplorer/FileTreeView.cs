@@ -51,6 +51,12 @@ namespace ShenmueHDTools.GUI.Controls
             UpdateTree(FileNode.TreeType.FilePath);
         }
 
+        public CacheFile GetCache()
+        {
+            if (m_cacheFile == null) throw new NullReferenceException();
+            return m_cacheFile;
+        }
+
         private void UpdateTree(FileNode.TreeType treeType)
         {
             if (m_cacheFile == null) return;

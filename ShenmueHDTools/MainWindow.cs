@@ -19,10 +19,15 @@ using System.Runtime.Serialization.Formatters.Binary;
 using ShenmueHDTools.Main.DataStructure;
 using ShenmueHDTools.Main;
 using System.Threading;
-using ShenmueHDTools.GUI.Tools;
 using ShenmueHDModelEditor;
 using ShenmueHDArchiver;
 using ShenmueHDTextureConverter;
+using ShenmueHDTools.Main.Files.Nodes;
+using ShenmueHDTools.Main.Utils;
+using ShenmueDKSharp.Files;
+using ShenmueDKSharp.Files.Images;
+using ShenmueDKSharp.Files.Misc;
+using ShenmueDKSharp.Files.Images._DDS;
 
 namespace ShenmueHDTools
 {
@@ -210,17 +215,27 @@ namespace ShenmueHDTools
             }
         }
 
+        /// <summary>
+        /// TODO: Deprecated (to delete)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dEBUGNodeExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NodeExplorer explorer = new NodeExplorer();
-            explorer.ShowDialog();
+            //NodeExplorer explorer = new NodeExplorer();
+            //explorer.ShowDialog();
         }
 
+        /// <summary>
+        /// TODO: Deprecated (to delete)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dEBUGModelDumperToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (m_cacheFile == null) return;
-            ModelDumper dumper = new ModelDumper(m_cacheFile);
-            dumper.ShowDialog();
+            //ModelDumper dumper = new ModelDumper(m_cacheFile);
+            //dumper.ShowDialog();
         }
 
         private void modelEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -281,6 +296,48 @@ namespace ShenmueHDTools
         private void TextureConverter_FormClosed(object sender, FormClosedEventArgs e)
         {
             TextureConverter = null;
+        }
+
+        //TODO: Own UI widget
+        private void upscaleMenuItem_Click(object sender, EventArgs e)
+        {
+            //TODO: Check if DL Folder is there, when not Show MessageBox that asks you to download it from a link
+            CacheFile cacheFiles = fileTreeView.GetCache();
+
+            foreach (FileNode fileNode in cacheFiles.Files)
+            {
+                if(fileNode.Type == FileNode.FileType.DDS || fileNode.Type == FileNode.FileType.PVR)
+                {
+                    if (fileNode.Size >= 33000) continue;
+                    //TODO: Separate Alpha channel and convert into greyscale and upscale and merge back
+                    string dlPath = "\\DL\\" + fileNode.RelativPath;
+                    DeepLearningUtil.UpscaleImage(((IImageNode)fileNode).GetImage(), 4);
+                    
+                        object image = Activator.CreateInstance(typeof(PNG), new object[] { AppDomain.CurrentDomain.BaseDirectory + "DL\\data\\shenmue_tmp\\shdtst.png" });
+                        BaseImage entry = (BaseImage)image;
+
+                        if (fileNode.Type == FileNode.FileType.DDS) {
+                            //TODO: Fake png vs real dds
+                            DDS upscaledImage = new DDS(entry);
+                            DDS oldImage = new DDS(fileNode.FullPath);
+                            //Copy old FormatDetails into new resized file
+                            upscaledImage.FormatDetails = new DDSFormats.DDSFormatDetails(oldImage.FormatDetails.Format);
+                            upscaledImage.Write(fileNode.RootPath + dlPath);
+                        }
+
+                        if (fileNode.Type == FileNode.FileType.PVR)
+                        {
+                            PVRT upscaledImage = new PVRT(entry);
+                            upscaledImage.Write(fileNode.RootPath + dlPath);
+                        }
+                    
+                }
+            }
+        }
+
+        private void fileTreeView_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

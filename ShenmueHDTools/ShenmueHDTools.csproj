@@ -215,18 +215,6 @@
     <Compile Include="GUI\Dialogs\LoadingDialog.Designer.cs">
       <DependentUpon>LoadingDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\DEBUG\ModelDumper.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\DEBUG\ModelDumper.Designer.cs">
-      <DependentUpon>ModelDumper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\DEBUG\NodeExplorer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\DEBUG\NodeExplorer.Designer.cs">
-      <DependentUpon>NodeExplorer.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Tools\FilenameDatabaseWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -304,6 +292,7 @@
     <Compile Include="Main\MurmurHash2.cs" />
     <Compile Include="Main\Helper.cs" />
     <Compile Include="Main\ShellContextMenu.cs" />
+    <Compile Include="Main\Utils\DeepLearningUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />
@@ -343,12 +332,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Dialogs\LoadingDialog.resx">
       <DependentUpon>LoadingDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\DEBUG\ModelDumper.resx">
-      <DependentUpon>ModelDumper.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\DEBUG\NodeExplorer.resx">
-      <DependentUpon>NodeExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\FilenameDatabaseWindow.resx">
       <DependentUpon>FilenameDatabaseWindow.cs</DependentUpon>
@@ -410,7 +393,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Main\Serialization\" />
-    <Folder Include="Main\Utils\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
