@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShenmueHDTextureConverter",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShenmueHDModelEditor", "ShenmueHDModelEditor\ShenmueHDModelEditor.csproj", "{5F06A6B9-D509-4039-940C-8BCC7BB76646}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShenmueHDMapEditor", "ShenmueHDMapEditor\ShenmueHDMapEditor.csproj", "{4AA205FB-A29A-4974-814D-E825A83BCBE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5F06A6B9-D509-4039-940C-8BCC7BB76646}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F06A6B9-D509-4039-940C-8BCC7BB76646}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F06A6B9-D509-4039-940C-8BCC7BB76646}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AA205FB-A29A-4974-814D-E825A83BCBE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AA205FB-A29A-4974-814D-E825A83BCBE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AA205FB-A29A-4974-814D-E825A83BCBE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AA205FB-A29A-4974-814D-E825A83BCBE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

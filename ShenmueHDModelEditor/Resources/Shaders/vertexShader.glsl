@@ -18,7 +18,7 @@ uniform mat4 u_projection;
 void main(void)
 {
 	v_norm = normal;
-	v_mv = /* u_view *  */ u_model;
+	v_mv = u_view * u_model;
 	v_uv = uv;
 	v_color = color;
 	v_fragPos = vec3(u_model * vec4(position, 1.0));

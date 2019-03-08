@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5F06A6B9-D509-4039-940C-8BCC7BB76646}</ProjectGuid>
+    <ProjectGuid>{4AA205FB-A29A-4974-814D-E825A83BCBE4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ShenmueHDModelEditor</RootNamespace>
-    <AssemblyName>ShenmueHDModelEditor</AssemblyName>
+    <RootNamespace>ShenmueHDMapEditor</RootNamespace>
+    <AssemblyName>ShenmueHDMapEditor</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,11 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.GLControl.3.0.1\lib\net20\OpenTK.GLControl.dll</HintPath>
+    <Reference Include="Be.Windows.Forms.HexBox, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Be.Windows.Forms.HexBox.1.6.1\lib\net40\Be.Windows.Forms.HexBox.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,74 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\MT5Control.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\MT5Control.Designer.cs">
-      <DependentUpon>MT5Control.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\MT7Control.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\MT7Control.Designer.cs">
-      <DependentUpon>MT7Control.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\NodeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\NodeControl.Designer.cs">
-      <DependentUpon>NodeControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PictureBoxExt.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\TextureControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TextureControl.Designer.cs">
-      <DependentUpon>TextureControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\VertexControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\VertexControl.Designer.cs">
-      <DependentUpon>VertexControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\View3D\Camera.cs" />
-    <Compile Include="Controls\View3D\View3D.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\View3D\View3D.Designer.cs">
-      <DependentUpon>View3D.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ModelEditor.cs">
+    <Compile Include="MapEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ModelEditor.Designer.cs">
-      <DependentUpon>ModelEditor.cs</DependentUpon>
+    <Compile Include="MapEditor.Designer.cs">
+      <DependentUpon>MapEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\MT5Control.resx">
-      <DependentUpon>MT5Control.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\MT7Control.resx">
-      <DependentUpon>MT7Control.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\NodeControl.resx">
-      <DependentUpon>NodeControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TextureControl.resx">
-      <DependentUpon>TextureControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\VertexControl.resx">
-      <DependentUpon>VertexControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\View3D\View3D.resx">
-      <DependentUpon>View3D.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModelEditor.resx">
-      <DependentUpon>ModelEditor.cs</DependentUpon>
+    <EmbeddedResource Include="MapEditor.resx">
+      <DependentUpon>MapEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -129,9 +68,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -142,8 +79,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\Shaders\fragmentShader.glsl" />
-    <None Include="Resources\Shaders\vertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

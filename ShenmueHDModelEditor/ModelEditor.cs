@@ -53,6 +53,7 @@ namespace ShenmueHDModelEditor
                 {
                     m_model = new MT5(openFileDialog.FileName);
                     m_primitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType.TriangleStrip;
+                    view3D.SetTextures(m_model.Textures);
                     view3D.SetModel(m_model, m_primitiveType);
                     m_modelType = ModelType.MT5;
                 }
@@ -60,6 +61,7 @@ namespace ShenmueHDModelEditor
                 {
                     m_model = new MT7(openFileDialog.FileName);
                     m_primitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType.Triangles;
+                    view3D.SetTextures(m_model.Textures);
                     view3D.SetModel(m_model, m_primitiveType);
                     m_modelType = ModelType.MT7;
                 }
@@ -72,6 +74,7 @@ namespace ShenmueHDModelEditor
                 {
                     m_model = new OBJ(openFileDialog.FileName);
                     m_primitiveType = OpenTK.Graphics.OpenGL4.PrimitiveType.Triangles;
+                    view3D.SetTextures(m_model.Textures);
                     view3D.SetModel(m_model, m_primitiveType);
                 }
                 else
@@ -89,6 +92,7 @@ namespace ShenmueHDModelEditor
 
                 foreach (Texture texture in m_model.Textures)
                 {
+                    if (texture == null) continue;
                     listBox_Textures.Items.Add(texture);
                 }
             }
@@ -164,11 +168,11 @@ namespace ShenmueHDModelEditor
             view3D.SetModelNode((ModelNode)node.Tag, m_primitiveType);
             nodeControl.SetNode((ModelNode)node.Tag);
 
-            if (m_modelType == ModelType.MT5)
+            if (m_modelType == ModelType.MT5 && typeof(MT5Node).IsAssignableFrom(node.Tag.GetType()))
             {
                 mt5Control.SetMT5Node((MT5Node)node.Tag);
             }
-            if (m_modelType == ModelType.MT7)
+            if (m_modelType == ModelType.MT7 && typeof(MT7Node).IsAssignableFrom(node.Tag.GetType()))
             {
                 mt7Control.SetMT7Node((MT7Node)node.Tag);
             }
@@ -183,6 +187,7 @@ namespace ShenmueHDModelEditor
 
         private void textureControl_OnTextureChanged(object sender, EventArgs e)
         {
+            view3D.SetTextures(m_model.Textures);
             TreeNode node = treeView_MeshNodes.SelectedNode;
             if (node == null || node.Level == 0) return;
             view3D.SetModelNode((ModelNode)node.Tag, m_primitiveType);
@@ -207,6 +212,30 @@ namespace ShenmueHDModelEditor
             {
                 listBox_Textures.Items.Add(texture);
             }
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Wavefront OBJ (*.obj)|*.obj";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                OBJ obj = new OBJ(m_model);
+                obj.FilePath = saveFileDialog.FileName;
+                obj.Write(saveFileDialog.FileName);
+            }
+        }
+
+        private void mt5Control_OnSelectedVertexChanged(object sender, Vertex e)
+        {
+            TreeNode node = treeView_MeshNodes.SelectedNode;
+            if (node == null || node.Level == 0) return;
+            ModelNode modelNode = (ModelNode)node.Tag;
+            ShenmueDKSharp.Matrix4 matrix = modelNode.GetTransformMatrix();
+            Vertex vert = new Vertex(e);
+            vert.Position = ShenmueDKSharp.Vector3.TransformPosition(vert.Position, matrix);
+            view3D.SetSelectedVertex(vert);
         }
     }
 }

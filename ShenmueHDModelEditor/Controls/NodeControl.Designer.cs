@@ -371,8 +371,8 @@
             // 
             this.numericUpDown_NodeID.Location = new System.Drawing.Point(61, 7);
             this.numericUpDown_NodeID.Maximum = new decimal(new int[] {
-            65536,
             0,
+            1,
             0,
             0});
             this.numericUpDown_NodeID.Name = "numericUpDown_NodeID";
@@ -388,6 +388,7 @@
             this.button_Export.TabIndex = 40;
             this.button_Export.Text = "Export...";
             this.button_Export.UseVisualStyleBackColor = true;
+            this.button_Export.Click += new System.EventHandler(this.button_Export_Click);
             // 
             // button_Import
             // 
@@ -397,6 +398,7 @@
             this.button_Import.TabIndex = 41;
             this.button_Import.Text = "Import...";
             this.button_Import.UseVisualStyleBackColor = true;
+            this.button_Import.Click += new System.EventHandler(this.button_Import_Click);
             // 
             // NodeControl
             // 

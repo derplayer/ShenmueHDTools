@@ -12,6 +12,7 @@ uniform sampler2D u_texture;
 uniform vec4 u_stripColor;
 uniform vec3 u_lightPos;
 uniform vec3 u_lightColor;
+uniform vec4 u_colorOverride;
 
 // 0 = shaded
 // 1 = flat
@@ -91,6 +92,11 @@ void main(void)
 	{
 		color.rgb = v_color.rgb * u_stripColor.rgb;
 		color.a = v_color.a;
+		return;
+	}
+	if (u_drawMode == 5)
+	{
+		color = u_colorOverride;
 		return;
 	}
 }

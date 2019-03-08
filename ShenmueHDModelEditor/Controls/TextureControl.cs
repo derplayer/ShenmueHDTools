@@ -46,7 +46,7 @@ namespace ShenmueHDModelEditor.Controls
             {
                 string extension = Path.GetExtension(saveFileDialog.FileName);
                 Type fileType = FileHelper.GetFileTypeFromExtension(extension.Substring(1, extension.Length - 1).ToUpper());
-                BaseImage baseImage = (BaseImage)Activator.CreateInstance(fileType, new object[] { m_texture });
+                BaseImage baseImage = (BaseImage)Activator.CreateInstance(fileType, new object[] { m_texture.Image });
                 baseImage.Write(saveFileDialog.FileName);
             }
         }

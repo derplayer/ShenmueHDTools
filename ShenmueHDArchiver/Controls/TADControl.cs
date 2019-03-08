@@ -12,6 +12,7 @@ using System.IO;
 using Ookii.Dialogs;
 using System.Threading;
 using ShenmueHDArchiver.Dialogs;
+using ShenmueDKSharp.Utils;
 
 namespace ShenmueHDArchiver.Controls
 {
@@ -185,6 +186,12 @@ namespace ShenmueHDArchiver.Controls
             {
                 textBox_ModelFolder.Text = folderDialog.SelectedPath;
             }
+        }
+
+        private void textBox_MurmurHash_TextChanged(object sender, EventArgs e)
+        {
+            byte[] buffer = Encoding.ASCII.GetBytes(textBox_MurmurHash.Text);
+            textBox_MurmurHash2.Text = String.Format("{0:X8}", MurmurHash2.Hash(buffer, (uint)buffer.Length));
         }
     }
 }
