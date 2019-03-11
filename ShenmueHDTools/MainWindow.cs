@@ -306,31 +306,38 @@ namespace ShenmueHDTools
 
             foreach (FileNode fileNode in cacheFiles.Files)
             {
-                if(fileNode.Type == FileNode.FileType.DDS || fileNode.Type == FileNode.FileType.PVR)
+                if (fileNode.Type == FileNode.FileType.DDS || fileNode.Type == FileNode.FileType.PVR)
                 {
-                    if (fileNode.Size >= 33000) continue;
+                    if (fileNode.Size >= 33000) continue; //Debug check because of cpu usage
                     //TODO: Separate Alpha channel and convert into greyscale and upscale and merge back
                     string dlPath = "\\DL\\" + fileNode.RelativPath;
                     DeepLearningUtil.UpscaleImage(((IImageNode)fileNode).GetImage(), 4);
-                    
-                        object image = Activator.CreateInstance(typeof(PNG), new object[] { AppDomain.CurrentDomain.BaseDirectory + "DL\\data\\shenmue_tmp\\shdtst.png" });
-                        BaseImage entry = (BaseImage)image;
 
-                        if (fileNode.Type == FileNode.FileType.DDS) {
-                            //TODO: Fake png vs real dds
-                            DDS upscaledImage = new DDS(entry);
-                            DDS oldImage = new DDS(fileNode.FullPath);
-                            //Copy old FormatDetails into new resized file
-                            upscaledImage.FormatDetails = new DDSFormats.DDSFormatDetails(oldImage.FormatDetails.Format);
-                            upscaledImage.Write(fileNode.RootPath + dlPath);
-                        }
+                    object image = Activator.CreateInstance(typeof(PNG), new object[] { AppDomain.CurrentDomain.BaseDirectory + "DL\\data\\shenmue_tmp\\shdtst.png" });
+                    BaseImage entry = (BaseImage)image;
 
-                        if (fileNode.Type == FileNode.FileType.PVR)
-                        {
-                            PVRT upscaledImage = new PVRT(entry);
-                            upscaledImage.Write(fileNode.RootPath + dlPath);
-                        }
-                    
+                    if (fileNode.Type == FileNode.FileType.DDS)
+                    {
+                        //TODO: Fake png vs real dds
+                        //TODO: Whitelist for some "hacky" dds files that abuse mipmaps or the sdk is broken on few of those
+                        DDS upscaledImage = new DDS(entry);
+                        DDS oldImage = new DDS(fileNode.FullPath);
+
+                        //upscaledImage.FormatDetails = new DDSFormats.DDSFormatDetails(oldImage.FormatDetails.Format);
+                        //Workaround for broken sdk for now, game "should" read that format without any problems
+                        upscaledImage.FormatDetails = new DDSFormats.DDSFormatDetails(DDSFormat.DDS_DXT5);
+                        upscaledImage.AlphaSettings = oldImage.AlphaSettings;
+                        upscaledImage.MipHandling = oldImage.MipHandling;
+                        upscaledImage.HasTransparency = oldImage.HasTransparency;
+                        oldImage.Write(fileNode.RootPath + dlPath);
+                    }
+
+                    if (fileNode.Type == FileNode.FileType.PVR)
+                    {
+                        PVRT upscaledImage = new PVRT(entry);
+                        upscaledImage.Write(fileNode.RootPath + dlPath);
+                    }
+
                 }
             }
         }

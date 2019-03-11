@@ -40,7 +40,7 @@ namespace ShenmueHDTools.Main.Utils
 
                 var orig = (Image)ResizeBitmap(image, resizeMultiplier);
 
-                orig.Save(AppDomain.CurrentDomain.BaseDirectory + "\\DL\\data\\shenmue_tmp\\shdtst.png", ImageFormat.Png);
+                orig.Save(AppDomain.CurrentDomain.BaseDirectory + "\\DL\\data\\shenmue_tmp\\shdtst.png", ImageFormat.Png); //TODO: Encoder params
 
                 Process process = new Process();
                 process.StartInfo.FileName = AppDomain.CurrentDomain.BaseDirectory + "\\DL\\test\\test.exe";

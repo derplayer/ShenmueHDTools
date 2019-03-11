@@ -267,7 +267,7 @@ namespace ShenmueHDModelEditor.Controls.View3D
             }
             else
             {
-                nodes = m_modelNode.GetAllNodes(false, false);
+                nodes = m_modelNode.GetAllNodes(false);
             }
 
             foreach (ModelNode node in nodes)
